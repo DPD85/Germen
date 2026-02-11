@@ -108,8 +108,8 @@ NOTA: Conan potrebbe installare dei pacchetti nel sistema tramite il gestore dei
 delle dipendenze, in tal caso Conan utilizzerà sudo per eseguire il gestore dei pacchetti e di conseguenza potrebbe
 esser necessario digitare la password sul terminale.
 
-
-## Sono stati svolti dei test di funzionamento del programma nelle seguenti condizioni
+## Test
+Sono stati svolti dei test di funzionamento del programma nelle seguenti condizioni.
 
 ### Windows
 
@@ -122,9 +122,3 @@ esser necessario digitare la password sul terminale.
 * Debian 13 (trixie) tramite WSL 2 su Windows 11;
 * X11 tramite Xlib;
 * llvmpipe (LLVM 19.1.7, 256 bits) software driver;
-
-
-## Internazionalizzazione
-
-Il programma implementa le funzionalità principali per l'internazionalizzazione disponibili tramite la libreria Boost.Locale.
-Le lingue disponibili sono l'italiano dell'Italia e l'inglese dell'Inghilterra.
