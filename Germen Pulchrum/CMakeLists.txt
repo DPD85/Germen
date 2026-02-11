@@ -26,13 +26,13 @@ IncorporazioneFile(
     COMMENT "Incorporazione di IBM Plex Sans italico.ttf"
 )
 
-# Babel Stone Flags PUA.ttf
+# BabelStone Flags PUA.ttf
 IncorporazioneFile(
-    INPUT_FILE "${CMAKE_SOURCE_DIR}/Terze parti/Fonts/Babel Stone Flags/Babel Stone Flags PUA.ttf"
+    INPUT_FILE "${CMAKE_SOURCE_DIR}/Terze parti/Fonts/BabelStone Flags/BabelStone Flags PUA.ttf"
     OUTPUT_NAME "${CMAKE_CURRENT_BINARY_DIR}/Generated/Fonts/BabelStoneFlags"
     NAMESPACE Fonts
     SYMBOL_NAME BabelStoneFlags
-    COMMENT "Incorporazione di Babel Stone Flags PUA.ttf"
+    COMMENT "Incorporazione di BabelStone Flags PUA.ttf"
 )
 
 # Noto Color Emoji - Regular.ttf

@@ -17,8 +17,6 @@ CPMAddPackage(
     DOWNLOAD_ONLY ON
 )
 
-message(STATUS "ImGui_SOURCE_DIR = ${ImGui_SOURCE_DIR}")
-
 # Libreria principale
 
 add_library(ImGui STATIC)
