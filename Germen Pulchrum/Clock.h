@@ -101,11 +101,16 @@ class Clock
     }
 
   private:
-    // Se il tempo restante prima del prossimo ticchettio supera questo valore allora sarà usata la funzione Sleep()
+    // Se il tempo restante prima del prossimo ticchettio supera questo valore allora sarà usata la funzione sleep()
     // altrimenti verrà effettuato un busy wait.
+#ifdef WIN32
     // Attenzione: la soglia deve essere superiore o uguale al minimo periodo supportato per i timer dal S.O. ed alla
     // precisione configurata per questo processo.
     static const constexpr double sogliaSleep = 3.0; // [ms]
+#else
+    // Su Linux la funzione sleep() è più precisa ed il tempo massimo del busy wait può essere ridotto.
+    static const constexpr double sogliaSleep = 0.5; // [ms]
+#endif
 
     double periodo; // [ms]
     hrc::time_point tStart;
