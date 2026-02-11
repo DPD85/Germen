@@ -1,0 +1,113 @@
+﻿# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-25 "
+"17:45+0100\n"
+"PO-Revision-Date: 2026-01-25 "
+"17:45+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; "
+"charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; "
+"plural=(n != 1);\n"
+"X-Generator: Poedit 3.8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"translate:1,1t;translate:1c,2,2t;translate:1,2,3t;translate:1c,2,3,4t;t:1,2t\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: GUI.cpp:28
+msgid "Esci"
+msgstr "Exit"
+
+#: GUI.cpp:29 GUI.cpp:92
+msgid "Impostazioni"
+msgstr "Settings"
+
+#: GUI.cpp:30
+msgid "Debug"
+msgstr "Debug"
+
+#: GUI.cpp:32 GUI.cpp:45
+msgid "Demo"
+msgstr "Demo"
+
+#: GUI.cpp:33 GUI.cpp:46 GUI.cpp:84
+msgid "Editor stile"
+msgstr "Style editor"
+
+#: GUI.cpp:34 GUI.cpp:48
+msgid "Metriche ImGui"
+msgstr "ImGui metrics"
+
+#: GUI.cpp:35 GUI.cpp:50
+msgid "Debug log"
+msgstr "Log debug"
+
+#: GUI.cpp:94
+msgid "Lingua"
+msgstr "Language"
+
+#: GUI.cpp:111
+msgid "Tema"
+msgstr "Theme"
+
+#: GUI.cpp:129
+msgid "Zoom IU"
+msgstr "UI zoom"
+
+#: GUI.cpp:148
+msgid "Default"
+msgstr "Default"
+
+#: GUI.cpp:167
+msgid "Annulla"
+msgstr "Cancel"
+
+#: Internazionalizzazione.cpp:45
+msgid "Lingua di sistema"
+msgstr "System language"
+
+#: Internazionalizzazione.cpp:47
+msgid "Italiano"
+msgstr "Italian"
+
+#: Internazionalizzazione.cpp:50
+msgid "Inglese (Inghilterra)"
+msgstr "English (England)"
+
+#: Temi.cpp:42
+msgctxt "Temi"
+msgid "Arancione scuro"
+msgstr "Dark orange"
+
+#: Temi.cpp:43
+msgctxt "Temi"
+msgid "Arancione chiaro"
+msgstr "Light orange"
+
+#: Temi.cpp:44
+msgctxt "Temi"
+msgid "Scuro"
+msgstr "Dark"
+
+#: Temi.cpp:45
+msgctxt "Temi"
+msgid "Chiaro"
+msgstr "Light"
+
+#: Temi.cpp:46
+msgctxt "Temi"
+msgid "Classico ImGui"
+msgstr "ImGui classic"
