@@ -1,0 +1,19 @@
+﻿[settings]
+arch=x86_64
+build_type=Release
+compiler=gcc
+compiler.cstd=17
+compiler.cppstd=20
+compiler.libcxx=libstdc++11
+compiler.version=13
+os=Linux
+
+# Il pacchetto libtool non compila con versioni dello standard C superiori alla 17, in oltre necessita delle estensioni
+# di GCC.
+libtool/*:compiler.cstd=gnu17
+
+[conf]
+# Conan invocherà il gestore dei pacchetti per installare i pacchetti necessari.
+tools.system.package_manager:mode=install
+# Il gestore dei pacchetti verrà eseguito tramite sudo.
+tools.system.package_manager:sudo=true
