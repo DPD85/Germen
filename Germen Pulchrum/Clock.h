@@ -80,7 +80,7 @@ class Clock
     /// @brief Aspetta per un certo tempo.
     /// @param durata Il tempo per il quale attendere. [s]
     /// @return Il tempo corrispondente alla durata dell'attesa appena effettuata [s].
-    double Aspetta(double durata)
+    static double Aspetta(double durata)
     {
         hrc::time_point tStart = hrc::now();
 
@@ -97,7 +97,7 @@ class Clock
             attesa = duration_cast<DurataMillisecondi>(hrc::now() - tStart).count();
         while (attesa <= durata);
 
-        return attesa * 1000.0;
+        return attesa / 1000.0;
     }
 
   private:
