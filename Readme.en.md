@@ -8,7 +8,7 @@
 [![SDL3](https://img.shields.io/badge/SDL-3-green.svg)](https://www.libsdl.org/)
 [![Boost](https://img.shields.io/badge/Boost-Locale-purple.svg)](https://www.boost.org/)
 
-[🇮🇹 Italiano](README.md) | [🇬🇧 English](README.en.md)
+[🇮🇹 Italiano](Readme.md) | [🇬🇧 English](Readme.en.md)
 
 ## English
 
