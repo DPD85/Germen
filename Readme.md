@@ -8,6 +8,8 @@
 [![SDL3](https://img.shields.io/badge/SDL-3-green.svg)](https://www.libsdl.org/)
 [![Boost](https://img.shields.io/badge/Boost-Locale-purple.svg)](https://www.boost.org/)
 
+[🇮🇹 Italiano](README.md) | [🇬🇧 English](README.en.md)
+
 ## Italiano
 
 **Germen Pulchrum** è un template di alta qualità, pronto per la produzione, per costruire applicazioni GUI
@@ -45,43 +47,6 @@ Il template include anche supporto per i temi, fornendoti una base completa per 
 
 ---
 
-## English
-
-**Germen Pulchrum** is a high-quality, production-ready template for building cross-platform GUI applications with
-Dear ImGui and Vulkan. Designed as a solid starting point for developers at any experience level, it combines technical
-excellence with attention to user experience.
-
-### Key features
-
-**🌍 Full internationalization**
-Built from the ground up with UTF-8 encoding and Boost.Locale integration. Ships with English (GB) and Italian
-translations, plus carefully selected fonts: IBM Plex Sans for crisp, scalable text in multiple languages,
-Noto Color Emoji for vibrant emoji support and BabelStone for country flag icons.
-
-**🪟 Flexible window docking**
-ImGui's docking system lets you create professional, customizable layouts. Attach tool windows together or snap them to
-screen edges, just like Visual Studio or other professional IDEs. Layouts persist automatically between sessions.
-
-**📐 DPI scaling**
-Automatic display scaling adapts to your screen's DPI on both Windows and Linux, ensuring crisp rendering on any monitor.
-Manual override available in settings for fine-tuned control.
-
-**⚡ Optimized rendering**
-VSync-limited rendering (capped at 60 Hz) keeps resource usage low and extends laptop battery life without sacrificing
-responsiveness.
-
-**🖥️ Cross-platform**
-Runs on Windows 10/11 and Debian 13 (and likely other modern Linux distributions). Compiles with Visual Studio 2022 or
-GCC 12/13/14.
-
-**📦 Single-File Deployment**
-All resources—fonts, translations, and assets—are embedded in the executable. One file, zero dependencies, maximum
-portability.
-
-The template also includes theme support, giving you a complete foundation for building polished desktop applications.
-
----
-
 ## Requisiti per la compilazione
 
 ### Windows
@@ -104,7 +69,7 @@ The template also includes theme support, giving you a complete foundation for b
 * SDK Vulkan 1.4.309.0 (libvulkan-dev e vulkan-utility-libraries-dev):
     * nota: il programma utilizza le Vulkan 1.1 quindi probabilmente anche una versione del SDK più vecchia va bene).
 
-NOTA: Conan potrebbe installare dei pacchetti nel sistema tramite il gestore dei pacchetti per poter compilare alcune
+NOTA: Conan potrebbe installare dei pacchetti tramite il gestore dei pacchetti di sistema al fine di compilare alcune
 delle dipendenze, in tal caso Conan utilizzerà sudo per eseguire il gestore dei pacchetti e di conseguenza potrebbe
 esser necessario digitare la password sul terminale.
 
