@@ -65,6 +65,7 @@ add_custom_target(SolutionItems SOURCES
     "Profili Conan/Windows v143 x64 release"
 
     "Terze parti/CMakeLists.txt"
+    "Terze parti/Readme.en.md"
     "Terze parti/Readme.md"
 
     "Germen Pulchrum/Internazionalizzazione/en_GB/LC_MESSAGES/Lingua.po"
@@ -74,9 +75,10 @@ add_custom_target(SolutionItems SOURCES
     CMakeLists.txt
     CMakePresets.json
     conanfile.py
-    Description.md
+    Descrizione.md
     Directory.Build.props.in
     LICENSE
+    Readme.en.md
     Readme.md
 )
 
