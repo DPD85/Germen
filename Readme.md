@@ -12,9 +12,9 @@
 
 ## Italiano
 
-**Germen Pulchrum** è un template di alta qualità, pronto per la produzione, per costruire applicazioni GUI
-cross-platform con Dear ImGui e Vulkan. Progettato come punto di partenza solido per sviluppatori di qualsiasi livello
-di esperienza, combina eccellenza tecnica e attenzione all'esperienza utente.
+**Germen Pulchrum** è un template di alta qualità, per costruire applicazioni GUI cross-platform con Dear ImGui e
+Vulkan. Progettato come punto di partenza solido per sviluppatori di qualsiasi livello di esperienza, combina eccellenza
+tecnica e attenzione all'esperienza utente.
 
 ### Caratteristiche principali
 
