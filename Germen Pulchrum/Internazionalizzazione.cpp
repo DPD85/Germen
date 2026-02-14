@@ -46,6 +46,21 @@ void ImpostaLingua(size_t indice)
 {
     std::locale locale = GeneratoreMultiLingua(Lingue[indice].codice);
 
+    // Se va impostata la lingua di sistema allora ignoro la nazione per l'italiano ed l'inglese.
+    if(Lingue[indice].codice[0] == '\0')
+    {
+        const info &localeProp = std::use_facet<info>(locale);
+
+        if (localeProp.language() == "it")
+        {
+            locale = GeneratoreMultiLingua("it_IT.UTF-8");
+        }
+        else if (localeProp.language() == "en")
+        {
+            locale = GeneratoreMultiLingua("en_GB.UTF-8");
+        }
+    }
+
     const info &proprietà = std::use_facet<info>(locale);
 
     infoMsg.language = proprietà.language();
