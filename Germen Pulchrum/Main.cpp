@@ -1,4 +1,6 @@
-﻿#include "CodaCancellazione.h"
+﻿#include "IntestazionePrecompilata.h"
+
+#include "CodaCancellazione.h"
 #include "Disegnatore.h"
 #include "Internazionalizzazione.h"
 

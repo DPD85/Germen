@@ -1,4 +1,6 @@
-﻿#include "CostantiEdAltro.h"
+﻿#include "IntestazionePrecompilata.h"
+
+#include "CostantiEdAltro.h"
 #include "Disegnatore.h"
 #include "Estensioni ImGui/Estensioni.h"
 #include "Icone bandiere.h"

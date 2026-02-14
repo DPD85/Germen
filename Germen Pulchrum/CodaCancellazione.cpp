@@ -1,3 +1,5 @@
+#include "IntestazionePrecompilata.h"
+
 #include "CodaCancellazione.h"
 
 CodaCancellazione::~CodaCancellazione()
@@ -22,5 +24,6 @@ void CodaCancellazione::Ripulisci()
 
 void CodaCancellazione::Svuota()
 {
-    while (!coda.empty()) coda.pop();
+    while (!coda.empty())
+        coda.pop();
 }

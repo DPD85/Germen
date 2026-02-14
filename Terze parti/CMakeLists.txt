@@ -14,6 +14,8 @@ CPMAddPackage(
     NAME ImGui
     VERSION 1.92.5-docking
     GITHUB_REPOSITORY ocornut/imgui
+    # Include il file "ImGui-Config.h" quando la macro IMGUI_USER_CONFIG è definita ignorando il contenuto della macro.
+    PATCHES ImGui-Config.patch
     DOWNLOAD_ONLY ON
 )
 
@@ -39,10 +41,14 @@ target_sources(ImGui
 
 target_compile_definitions(ImGui
     PUBLIC
-        IMGUI_USER_CONFIG="${CMAKE_CURRENT_SOURCE_DIR}/ImGui-Config.h"
+        IMGUI_USER_CONFIG
 )
 
-target_include_directories(ImGui PUBLIC ${ImGui_SOURCE_DIR})
+target_include_directories(ImGui
+    PUBLIC
+        ${ImGui_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 if(MSVC)
     target_compile_options(ImGui PRIVATE "/utf-8")
@@ -170,4 +176,3 @@ endif()
 target_link_libraries(ImPlot PUBLIC ImGui)
 
 make_source_group(TARGET ImPlot ADDITIONAL_SOURCE_DIR ${ImPlot_SOURCE_DIR})
-

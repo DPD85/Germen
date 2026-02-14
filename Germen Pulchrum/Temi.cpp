@@ -1,4 +1,6 @@
-﻿#include "Disegnatore.h"
+﻿#include "IntestazionePrecompilata.h"
+
+#include "Disegnatore.h"
 
 using namespace boost::locale;
 
