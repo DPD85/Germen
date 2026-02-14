@@ -95,6 +95,7 @@ target_precompile_headers(Germen
 
 target_include_directories(Germen
     PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}"
         "${CMAKE_CURRENT_BINARY_DIR}/Generated"
 )
 

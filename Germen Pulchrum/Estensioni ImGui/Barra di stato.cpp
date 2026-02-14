@@ -1,3 +1,5 @@
+#include "IntestazionePrecompilata.h"
+
 #include "Estensioni.h"
 
 bool ImGui::BeginMainStatusBar()

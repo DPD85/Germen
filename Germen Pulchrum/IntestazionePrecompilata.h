@@ -1,6 +1,8 @@
 ﻿#pragma once
 
-#define _CRT_SECURE_NO_WARNINGS
+#ifdef WIN32
+#    define _CRT_SECURE_NO_WARNINGS
+#endif
 
 // C++ standard library
 

@@ -1,4 +1,6 @@
-﻿#include "Internazionalizzazione.h"
+﻿#include "IntestazionePrecompilata.h"
+
+#include "Internazionalizzazione.h"
 
 #include "CostantiEdAltro.h"
 #include "Disegnatore.h"

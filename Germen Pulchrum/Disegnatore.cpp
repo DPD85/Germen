@@ -1,4 +1,6 @@
-﻿#include "Disegnatore.h"
+﻿#include "IntestazionePrecompilata.h"
+
+#include "Disegnatore.h"
 
 #include "Clock.h"
 #include "CodaCancellazione.h"

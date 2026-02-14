@@ -65,6 +65,7 @@ add_custom_target(SolutionItems SOURCES
     "Profili Conan/Windows v143 x64 release"
 
     "Terze parti/CMakeLists.txt"
+    "Terze parti/ImGui-Config.patch"
     "Terze parti/Readme.en.md"
     "Terze parti/Readme.md"
 
