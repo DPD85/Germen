@@ -7,10 +7,18 @@
   },
   "configurePresets": [
     {
+      "name": "base-preset",
+      "hidden": true,
+      "binaryDir": "${sourceParentDir}/build/${presetName}",
+      "cacheVariables": {
+        "CPM_SOURCE_CACHE": "${sourceParentDir}/build/cpm-cache"
+      }
+    },
+    {
       "name": "windows-base-preset",
       "hidden": true,
+      "inherits": [ "base-preset" ],
       "cmakeExecutable": "C:\\Program Files\\CMake\\bin\\cmake.exe",
-      "binaryDir": "${sourceParentDir}/build/${presetName}",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -43,7 +51,7 @@
     {
       "name": "linux-base-preset",
       "hidden": true,
-      "binaryDir": "${sourceParentDir}/build/${presetName}",
+      "inherits": [ "base-preset" ],
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
           "hostOS": "Linux"
