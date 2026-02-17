@@ -46,7 +46,7 @@ IncorporazioneFile(
 
 # Lingua.mo
 IncorporazioneFile(
-    INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Internazionalizzazione/en_GB/LC_MESSAGES/Lingua.mo"
+    INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Lingue/en_GB/LC_MESSAGES/Lingua.mo"
     OUTPUT_NAME "${CMAKE_CURRENT_BINARY_DIR}/Generated/Lingue/en_GB"
     NAMESPACE CatalogoLingue
     SYMBOL_NAME en_GB

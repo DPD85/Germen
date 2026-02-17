@@ -69,7 +69,7 @@ add_custom_target(SolutionItems SOURCES
     "Terze parti/Readme.en.md"
     "Terze parti/Readme.md"
 
-    "Germen Pulchrum/Internazionalizzazione/en_GB/LC_MESSAGES/Lingua.po"
+    "Germen Pulchrum/Lingue/en_GB/LC_MESSAGES/Lingua.po"
 
     .clang-format
     .gitignore
