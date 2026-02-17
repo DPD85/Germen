@@ -17,9 +17,10 @@ class ConanApplication(ConanFile):
         cmake.generate();
 
     def requirements(self):
-        self.requires("sdl/3.2.20")
+        self.requires("boost/1.88.0")
         # 'force' serve a far si che PlutoSVG usi questa versione invece della 2.13.2
         self.requires("freetype/2.14.1", force=True)
+        self.requires("nlohmann_json/3.12.0")
+        self.requires("platformfolders/4.3.0")
         self.requires("plutosvg/0.0.7")
-        self.requires("boost/1.88.0")
-        #self.requires("nlohmann_json/3.12.0")
+        self.requires("sdl/3.2.20")

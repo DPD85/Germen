@@ -16,15 +16,7 @@ int Disegnatore();
 
 // ----- GUI -----
 
-struct Impostazioni
-{
-    size_t temaSelezionato;
-    float scalaGUI;
-    size_t linguaSelezionata;
-};
-
-extern struct Impostazioni Impostazioni;
-
+void InizializzaGUI();
 void GUI();
 void AggiornaScalaGUI();
 

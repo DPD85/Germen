@@ -13,6 +13,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <filesystem>
+#include <fstream>
 #include <iomanip>
 #include <ios>
 #include <iostream>
@@ -56,9 +58,13 @@
 
 #include <boost/locale.hpp>
 
-// nlohmann JSON
+// platform_folders
 
-// #include <nlohmann/json.hpp>
+#include <sago/platform_folders.h>
+
+// JSON for Modern C++ (nlohmann JSON)
+
+#include <nlohmann/json.hpp>
 
 // O.S. API ed altro
 

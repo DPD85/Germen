@@ -5,6 +5,7 @@
 #include "CostantiEdAltro.h"
 #include "Disegnatore.h"
 #include "Icone bandiere.h"
+#include "Impostazioni.h"
 #include "Lingue/en_GB.h"
 
 using namespace boost::locale;
@@ -20,6 +21,12 @@ static void AggiornaNomiLingue();
 
 void InizializzaInternazionalizzazione()
 {
+    infoMsg.paths.push_back("");
+    infoMsg.domains.push_back(gnu_gettext::messages_info::domain("Lingua"));
+    infoMsg.callback = CaricaCatalogoMessaggi;
+
+    // ----- -----
+
     size_t index = 0;
 
     Lingue[index].bandiera = nullptr;
@@ -33,21 +40,19 @@ void InizializzaInternazionalizzazione()
     Lingue[index].bandiera = Fonts::ICON_GB;
     Lingue[index].codice   = "en_GB.UTF-8";
 
-    AggiornaNomiLingue();
-
     // ----- -----
 
-    infoMsg.paths.push_back("");
-    infoMsg.domains.push_back(gnu_gettext::messages_info::domain("Lingua"));
-    infoMsg.callback = CaricaCatalogoMessaggi;
+    ImpostaLingua(Impostazioni.linguaSelezionata);
 }
 
 void ImpostaLingua(size_t indice)
 {
-    std::locale locale = GeneratoreMultiLingua(Lingue[indice].codice);
+    const char *codice = Lingue[indice].codice;
+
+    std::locale locale = GeneratoreMultiLingua(codice);
 
     // Se va impostata la lingua di sistema allora ignoro la nazione per l'italiano ed l'inglese.
-    if(Lingue[indice].codice[0] == '\0')
+    if (codice[0] == '\0')
     {
         const info &localeProp = std::use_facet<info>(locale);
 
@@ -74,7 +79,7 @@ void ImpostaLingua(size_t indice)
     locale = std::locale(locale, gnu_gettext::create_messages_facet<char8_t>(infoMsg));
 
     // Imposta per il C
-    std::setlocale(LC_ALL, Lingue[indice].codice);
+    std::setlocale(LC_ALL, codice);
 
     // Imposta per il C++
     std::locale::global(locale);

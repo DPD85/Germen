@@ -3,7 +3,7 @@
 #include "CostantiEdAltro.h"
 #include "Disegnatore.h"
 #include "Estensioni ImGui/Estensioni.h"
-#include "Icone bandiere.h"
+#include "Impostazioni.h"
 #include "Internazionalizzazione.h"
 
 // ----- -----
@@ -17,13 +17,16 @@ static bool finestraDebugLogAperta      = false;
 static bool finestraDemoPlotAperta      = false;
 static int ScalaGUIPercentuale          = 100; // [%]
 
-struct Impostazioni Impostazioni = { .temaSelezionato = 0, .scalaGUI = 1.0f, .linguaSelezionata = 0 };
-
 #define t(testo, id) (boost::locale::translate(testo).str() + "###" + (id)).data()
 
-static void LinguaSelezionabile(const size_t i);
+static bool LinguaSelezionabile(const size_t i);
 
 // ----- -----
+
+void InizializzaGUI()
+{
+    ScalaGUIPercentuale = static_cast<int>(Impostazioni.scalaGUI * 100); // [%]
+}
 
 void GUI()
 {
@@ -99,12 +102,14 @@ void GUI()
 
     if (finestraImpostazioniAperta)
     {
+        bool impostazioniModificate = false;
+
         if (ImGui::Begin(
                 t("Impostazioni", "Impostazioni"), &finestraImpostazioniAperta, ImGuiWindowFlags_AlwaysAutoResize))
         {
             if (ImGui::BeginCombo(t("Lingua", "Lingua"), Lingue[Impostazioni.linguaSelezionata].nome.data()))
             {
-                LinguaSelezionabile(0);
+                if (LinguaSelezionabile(0)) impostazioniModificate = true;
 
                 if (ImGui::BeginTable("", 2))
                 {
@@ -113,7 +118,8 @@ void GUI()
                         ImGui::TableNextColumn();
                         ImGui::TextAligned(0.5f, -FLT_MIN, Lingue[i].bandiera);
                         ImGui::TableNextColumn();
-                        LinguaSelezionabile(i);
+
+                        if (LinguaSelezionabile(i)) impostazioniModificate = true;
                     }
 
                     ImGui::EndTable();
@@ -131,6 +137,7 @@ void GUI()
                     {
                         Impostazioni.temaSelezionato = i;
                         ImGui::GetStyle()            = Temi[i].stile;
+                        impostazioniModificate       = true;
                     }
                     else if (i == Impostazioni.temaSelezionato) ImGui::SetItemDefaultFocus();
 
@@ -143,10 +150,11 @@ void GUI()
                     t("Zoom IU", "Zoom IU"), ImGuiDataType_S32, &ScalaGUIPercentuale, &incremento, nullptr, "%d %%");
                 if (ImGui::IsItemDeactivatedAfterEdit())
                 {
-                    Impostazioni.scalaGUI = ScalaGUIPercentuale / 100.0f;
-                    Impostazioni.scalaGUI = std::max(Impostazioni.scalaGUI, 0.3f);
-                    Impostazioni.scalaGUI = std::min(Impostazioni.scalaGUI, 2.0f);
-                    ScalaGUIPercentuale   = static_cast<int>(Impostazioni.scalaGUI * 100.0f);
+                    Impostazioni.scalaGUI  = ScalaGUIPercentuale / 100.0f;
+                    Impostazioni.scalaGUI  = std::max(Impostazioni.scalaGUI, 0.3f);
+                    Impostazioni.scalaGUI  = std::min(Impostazioni.scalaGUI, 2.0f);
+                    ScalaGUIPercentuale    = static_cast<int>(Impostazioni.scalaGUI * 100.0f);
+                    impostazioniModificate = true;
                     AggiornaScalaGUI();
                 }
             }
@@ -170,6 +178,8 @@ void GUI()
                 }
                 // AggiornaScalaGUI() provvede già a re-impostare il tema.
                 else ImGui::GetStyle() = Temi[0].stile;
+
+                impostazioniModificate = true;
             }
 
             ImGui::SameLine();
@@ -177,6 +187,8 @@ void GUI()
             if (ImGui::Button(t("Annulla", "Annulla"))) finestraImpostazioniAperta = false;
         }
         ImGui::End();
+
+        if (impostazioniModificate) SalvaImpostazioni();
     }
 
     if (finestraDemoPlotAperta) ImPlot::ShowDemoWindow(&finestraDemoPlotAperta);
@@ -184,15 +196,14 @@ void GUI()
 
 void AggiornaScalaGUI()
 {
-    // ----- Temi
-
     InizializzaTemi();
     ImGui::GetStyle() = Temi[Impostazioni.temaSelezionato].stile;
 }
 
 // ----- -----
 
-static void LinguaSelezionabile(const size_t i)
+// Restituisce True se viene cambiata la lingua.
+static bool LinguaSelezionabile(const size_t i)
 {
     if (ImGui::Selectable(
             Lingue[i].nome.data(),
@@ -202,6 +213,9 @@ static void LinguaSelezionabile(const size_t i)
     {
         Impostazioni.linguaSelezionata = i;
         ImpostaLingua(i);
+        return true;
     }
     else if (i == Impostazioni.linguaSelezionata) ImGui::SetItemDefaultFocus();
+
+    return false;
 }

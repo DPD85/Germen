@@ -9,6 +9,7 @@
 #include "Fonts/IBMPlexSans.h"
 #include "Fonts/IBMPlexSansItalic.h"
 #include "Fonts/NotoColorEmoji.h"
+#include "Impostazioni.h"
 #include "Internazionalizzazione.h"
 
 // ----- -----
@@ -400,6 +401,8 @@ int Disegnatore()
         io.ConfigDebugIsDebuggerPresent = AbilitaImGuiDebugPresent;
         io.ConfigWindowsResizeFromEdges = true;
 
+        io.IniFilename = PERCORSO_IMGUI_INI_FILE.data();
+
         // io.IniFilename = nullptr;
     }
 
@@ -407,7 +410,7 @@ int Disegnatore()
 
     {
         InizializzaTemi();
-        ImGui::GetStyle() = Temi[0].stile;
+        ImGui::GetStyle() = Temi[Impostazioni.temaSelezionato].stile;
     }
 
     // ----- ImGui fonts -----
@@ -726,6 +729,10 @@ int Disegnatore()
 
         std::cout << std::dec;
     }
+
+    // ----- Inizializzazione GUI -----
+
+    InizializzaGUI();
 
     // ----- Conclusione inizializzazione -----
 

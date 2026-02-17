@@ -1,7 +1,8 @@
 ﻿find_package(Vulkan REQUIRED)
 find_package(SDL3 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS locale)
-#find_package(nlohmann_json REQUIRED)
+find_package(platform_folders REQUIRED)
+find_package(nlohmann_json REQUIRED)
 
 # Creazione delle cartelle di output per i file generati poiché non tutti i generatori di CMake la creano automaticamente.
 # Per esempio Ninja le crea mentre Unix Makefiles non lo fa.
@@ -61,6 +62,8 @@ target_sources(Germen
         "Clock.h"
         "CodaCancellazione.cpp"
         "CodaCancellazione.h"
+        "Impostazioni.cpp"
+        "Impostazioni.h"
         "CostantiEdAltro.h"
         "Disegnatore.cpp"
         "Disegnatore.h"
@@ -107,10 +110,11 @@ target_link_libraries(Germen
         ImGui-SDL3
         ImGui-Vulkan
         ImPlot
+        nlohmann_json::nlohmann_json
+        sago::platform_folders
         SDL3::SDL3
-        Vulkan::Vulkan
         vk-bootstrap::vk-bootstrap
-        #nlohmann_json::nlohmann_json
+        Vulkan::Vulkan
 )
 
 if(MSVC)

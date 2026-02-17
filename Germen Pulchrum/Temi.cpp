@@ -1,6 +1,7 @@
 ﻿#include "IntestazionePrecompilata.h"
 
 #include "Disegnatore.h"
+#include "Impostazioni.h"
 
 using namespace boost::locale;
 
