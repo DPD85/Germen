@@ -12,7 +12,7 @@ CPMAddPackage(
 
 CPMAddPackage(
     NAME ImGui
-    VERSION 1.92.5-docking
+    VERSION 1.92.6-docking
     GITHUB_REPOSITORY ocornut/imgui
     # Include il file "ImGui-Config.h" quando la macro IMGUI_USER_CONFIG è definita ignorando il contenuto della macro.
     PATCHES ImGui-Config.patch
