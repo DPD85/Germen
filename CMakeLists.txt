@@ -72,6 +72,7 @@ add_custom_target(SolutionItems SOURCES
     "Germen Pulchrum/Lingue/en_GB/LC_MESSAGES/Lingua.po"
 
     .clang-format
+    .gitattributes
     .gitignore
     CMakeLists.txt
     CMakePresets.json
