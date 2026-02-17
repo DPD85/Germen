@@ -1,4 +1,3 @@
-﻿# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -7,10 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-25 "
-"17:45+0100\n"
-"PO-Revision-Date: 2026-01-25 "
-"17:45+0100\n"
+"POT-Creation-Date: 2026-02-17 "
+"17:15+0100\n"
+"PO-Revision-Date: 2026-02-17 "
+"17:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -27,87 +26,91 @@ msgstr ""
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: GUI.cpp:28
+#: GUI.cpp:40
 msgid "Esci"
 msgstr "Exit"
 
-#: GUI.cpp:29 GUI.cpp:92
+#: GUI.cpp:41 GUI.cpp:108
 msgid "Impostazioni"
 msgstr "Settings"
 
-#: GUI.cpp:30
+#: GUI.cpp:42
 msgid "Debug"
 msgstr "Debug"
 
-#: GUI.cpp:32 GUI.cpp:45
+#: GUI.cpp:44 GUI.cpp:58
 msgid "Demo"
 msgstr "Demo"
 
-#: GUI.cpp:33 GUI.cpp:46 GUI.cpp:84
+#: GUI.cpp:45 GUI.cpp:59
+msgid "Demo plot"
+msgstr "Plot demo"
+
+#: GUI.cpp:46 GUI.cpp:60 GUI.cpp:98
 msgid "Editor stile"
 msgstr "Style editor"
 
-#: GUI.cpp:34 GUI.cpp:48
+#: GUI.cpp:47 GUI.cpp:62
 msgid "Metriche ImGui"
 msgstr "ImGui metrics"
 
-#: GUI.cpp:35 GUI.cpp:50
+#: GUI.cpp:48 GUI.cpp:64
 msgid "Debug log"
 msgstr "Log debug"
 
-#: GUI.cpp:94
+#: GUI.cpp:110
 msgid "Lingua"
 msgstr "Language"
 
-#: GUI.cpp:111
+#: GUI.cpp:131
 msgid "Tema"
 msgstr "Theme"
 
-#: GUI.cpp:129
+#: GUI.cpp:150
 msgid "Zoom IU"
 msgstr "UI zoom"
 
-#: GUI.cpp:148
+#: GUI.cpp:166
 msgid "Default"
 msgstr "Default"
 
-#: GUI.cpp:167
+#: GUI.cpp:187
 msgid "Annulla"
 msgstr "Cancel"
 
-#: Internazionalizzazione.cpp:45
+#: Internazionalizzazione.cpp:120
 msgid "Lingua di sistema"
 msgstr "System language"
 
-#: Internazionalizzazione.cpp:47
+#: Internazionalizzazione.cpp:121
 msgid "Italiano"
 msgstr "Italian"
 
-#: Internazionalizzazione.cpp:50
+#: Internazionalizzazione.cpp:122
 msgid "Inglese (Inghilterra)"
 msgstr "English (England)"
 
-#: Temi.cpp:42
+#: Temi.cpp:47
 msgctxt "Temi"
 msgid "Arancione scuro"
 msgstr "Dark orange"
 
-#: Temi.cpp:43
+#: Temi.cpp:48
 msgctxt "Temi"
 msgid "Arancione chiaro"
 msgstr "Light orange"
 
-#: Temi.cpp:44
+#: Temi.cpp:49
 msgctxt "Temi"
 msgid "Scuro"
 msgstr "Dark"
 
-#: Temi.cpp:45
+#: Temi.cpp:50
 msgctxt "Temi"
 msgid "Chiaro"
 msgstr "Light"
 
-#: Temi.cpp:46
+#: Temi.cpp:51
 msgctxt "Temi"
 msgid "Classico ImGui"
 msgstr "ImGui classic"
