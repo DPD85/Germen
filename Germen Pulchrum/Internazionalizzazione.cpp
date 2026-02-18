@@ -90,13 +90,17 @@ void ImpostaLingua(size_t indice)
     std::wcout.imbue(locale);
     std::wcerr.imbue(locale);
 
+    // Imposta per ImGui
+    if (ImGui::GetCurrentContext() != nullptr)
+        ImGui::GetPlatformIO().Platform_LocaleDecimalPoint = *std::localeconv()->decimal_point;
+
     // -----
 
     AggiornaNomiLingue();
     AggiornaNomiTemi();
 }
 
-// Load message catalogue files
+// Carica il file con il catalogo dei messaggi tradotti.
 std::vector<char> CaricaCatalogoMessaggi(const std::string &nomeFile, const std::string & /*codifica*/)
 {
     const constexpr char prefisso[] = "/en_GB/";

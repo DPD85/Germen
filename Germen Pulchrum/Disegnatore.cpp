@@ -403,7 +403,7 @@ int Disegnatore()
 
         io.IniFilename = PERCORSO_IMGUI_INI_FILE.data();
 
-        // io.IniFilename = nullptr;
+        ImGui::GetPlatformIO().Platform_LocaleDecimalPoint = *std::localeconv()->decimal_point;
     }
 
     // ----- ImGui temi -----
