@@ -12,10 +12,12 @@ using namespace boost::locale;
 
 generator GeneratoreMultiLingua;
 std::array<Lingua, 3> Lingue;
+struct TestiGUI TestiGUI;
 
 static gnu_gettext::messages_info infoMsg;
 
 static void AggiornaNomiLingue();
+static void AggiornaTestiGUI();
 
 // ----- -----
 
@@ -97,6 +99,7 @@ void ImpostaLingua(size_t indice)
     // -----
 
     AggiornaNomiLingue();
+    AggiornaTestiGUI();
     AggiornaNomiTemi();
 }
 
@@ -120,4 +123,11 @@ static void AggiornaNomiLingue()
     Lingue[index++].nome = translate("Lingua di sistema");
     Lingue[index++].nome = translate("Italiano");
     Lingue[index++].nome = translate("Inglese (Inghilterra)");
+}
+
+static void AggiornaTestiGUI()
+{
+#define TESTO_GUI(var, testo) TestiGUI.var = translate(testo).str() + "###" testo
+#include "TestiGUI.h"
+#undef TESTO_GUI
 }

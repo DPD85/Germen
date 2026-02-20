@@ -996,7 +996,8 @@ int Disegnatore()
         // configurazione ma poi non lo onorano (per esempio llvmpipe), per tanto utilizzo un clock per assicurarmi di
         // non superare la frequenza massima di disegno.
         if (AbilitàVSync) DurataFotogramma = clock.AspettaTicchettioSuccessivo() * 1000.0;
-        else {
+        else
+        {
             high_resolution_clock::time_point tempoFine = high_resolution_clock::now();
             DurataFotogramma = duration_cast<DurataMillisecondi>(tempoFine - tempoInizio).count();
             tempoInizio      = tempoFine;

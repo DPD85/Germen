@@ -16,10 +16,6 @@ static bool finestraDebugLogAperta      = false;
 static bool finestraDemoPlotAperta      = false;
 static int ScalaGUIPercentuale          = 100; // [%]
 
-// Macro utile a rendere il codice più corto e compatto. Il parametro testo verrà tradotto nella lingua corrente ed allo
-// stesso tempo, in versione originale, è usato come identificativo di ImGui.
-#define t(testo) (boost::locale::translate(testo).str() + "###" + (testo)).data()
-
 static bool LinguaSelezionabile(const size_t i);
 
 // ----- -----
@@ -27,6 +23,8 @@ static bool LinguaSelezionabile(const size_t i);
 void InizializzaGUI()
 {
     ScalaGUIPercentuale = static_cast<int>(Impostazioni.scalaGUI * 100); // [%]
+
+    ImGui::GetPlatformIO().Platform_LocaleDecimalPoint = '.';
 }
 
 void GUI()
@@ -38,15 +36,15 @@ void GUI()
 
     if (ImGui::BeginMainMenuBar())
     {
-        if (ImGui::MenuItem(t("Esci"))) Esci = true;
-        if (ImGui::MenuItem(t("Impostazioni"))) finestraImpostazioniAperta = true;
-        if (ImGui::BeginMenu(t("Debug")))
+        if (ImGui::MenuItem(TestiGUI.menuEsci.data())) Esci = true;
+        if (ImGui::MenuItem(TestiGUI.impostazioni.data())) finestraImpostazioniAperta = true;
+        if (ImGui::BeginMenu(TestiGUI.menuDebug.data()))
         {
-            ImGui::MenuItem(t("Demo"), nullptr, &finestraDemoAperta);
-            ImGui::MenuItem(t("Demo plot"), nullptr, &finestraDemoPlotAperta);
-            ImGui::MenuItem(t("Editor stile"), nullptr, &finestraEditorStileAperta);
-            ImGui::MenuItem(t("Metriche ImGui"), nullptr, &finestraMetricheImGuiAperta);
-            ImGui::MenuItem(t("Debug log"), nullptr, &finestraDebugLogAperta);
+            ImGui::MenuItem(TestiGUI.demo.data(), nullptr, &finestraDemoAperta);
+            ImGui::MenuItem(TestiGUI.demoPlot.data(), nullptr, &finestraDemoPlotAperta);
+            ImGui::MenuItem(TestiGUI.editorStile.data(), nullptr, &finestraEditorStileAperta);
+            ImGui::MenuItem(TestiGUI.metricheImGui.data(), nullptr, &finestraMetricheImGuiAperta);
+            ImGui::MenuItem(TestiGUI.debugLog.data(), nullptr, &finestraDebugLogAperta);
 
             ImGui::EndMenu();
         }
@@ -56,11 +54,12 @@ void GUI()
 
     if (ImGui::BeginMainStatusBar())
     {
-        if (ImGui::SmallButton(t("Demo"))) finestraDemoAperta = !finestraDemoAperta;
-        if (ImGui::SmallButton(t("Demo plot"))) finestraDemoPlotAperta = !finestraDemoPlotAperta;
-        if (ImGui::SmallButton(t("Editor stile"))) finestraEditorStileAperta = !finestraEditorStileAperta;
-        if (ImGui::SmallButton(t("Metriche ImGui"))) finestraMetricheImGuiAperta = !finestraMetricheImGuiAperta;
-        if (ImGui::SmallButton(t("Debug log"))) finestraDebugLogAperta = !finestraDebugLogAperta;
+        if (ImGui::SmallButton(TestiGUI.demo.data())) finestraDemoAperta = !finestraDemoAperta;
+        if (ImGui::SmallButton(TestiGUI.demoPlot.data())) finestraDemoPlotAperta = !finestraDemoPlotAperta;
+        if (ImGui::SmallButton(TestiGUI.editorStile.data())) finestraEditorStileAperta = !finestraEditorStileAperta;
+        if (ImGui::SmallButton(TestiGUI.metricheImGui.data()))
+            finestraMetricheImGuiAperta = !finestraMetricheImGuiAperta;
+        if (ImGui::SmallButton(TestiGUI.debugLog.data())) finestraDebugLogAperta = !finestraDebugLogAperta;
 
         ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
 
@@ -94,7 +93,7 @@ void GUI()
 
     if (finestraEditorStileAperta)
     {
-        if (ImGui::Begin(t("Editor stile"), &finestraEditorStileAperta))
+        if (ImGui::Begin(TestiGUI.editorStile.data(), &finestraEditorStileAperta))
             ImGui::ShowStyleEditor(&Temi[Impostazioni.temaSelezionato].stile);
         ImGui::End();
     }
@@ -103,9 +102,9 @@ void GUI()
     {
         bool impostazioniModificate = false;
 
-        if (ImGui::Begin(t("Impostazioni"), &finestraImpostazioniAperta, ImGuiWindowFlags_AlwaysAutoResize))
+        if (ImGui::Begin(TestiGUI.impostazioni.data(), &finestraImpostazioniAperta, ImGuiWindowFlags_AlwaysAutoResize))
         {
-            if (ImGui::BeginCombo(t("Lingua"), Lingue[Impostazioni.linguaSelezionata].nome.data()))
+            if (ImGui::BeginCombo(TestiGUI.lingua.data(), Lingue[Impostazioni.linguaSelezionata].nome.data()))
             {
                 if (LinguaSelezionabile(0)) impostazioniModificate = true;
 
@@ -114,7 +113,7 @@ void GUI()
                     for (size_t i = 1; i < Lingue.size(); ++i)
                     {
                         ImGui::TableNextColumn();
-                        ImGui::TextAligned(0.5f, -FLT_MIN, Lingue[i].bandiera);
+                        ImGui::TextAligned(0.5f, -std::numeric_limits<float>::min(), Lingue[i].bandiera);
                         ImGui::TableNextColumn();
 
                         if (LinguaSelezionabile(i)) impostazioniModificate = true;
@@ -126,7 +125,7 @@ void GUI()
                 ImGui::EndCombo();
             }
 
-            if (ImGui::BeginCombo(t("Tema"), Temi[Impostazioni.temaSelezionato].nome.data()))
+            if (ImGui::BeginCombo(TestiGUI.tema.data(), Temi[Impostazioni.temaSelezionato].nome.data()))
             {
                 for (size_t i = 0; i < Temi.size(); ++i)
                     if (ImGui::Selectable(
@@ -145,7 +144,7 @@ void GUI()
             {
                 const int incremento = 10;
                 ImGui::InputScalar(
-                    t("Zoom IU"), ImGuiDataType_S32, &ScalaGUIPercentuale, &incremento, nullptr, "%d %%");
+                    TestiGUI.zoomIU.data(), ImGuiDataType_S32, &ScalaGUIPercentuale, &incremento, nullptr, "%d %%");
                 if (ImGui::IsItemDeactivatedAfterEdit())
                 {
                     Impostazioni.scalaGUI  = ScalaGUIPercentuale / 100.0f;
@@ -161,7 +160,7 @@ void GUI()
             ImGui::Separator();
             ImGui::Spacing();
 
-            if (ImGui::Button(t("Default")))
+            if (ImGui::Button(TestiGUI.default_.data()))
             {
                 Impostazioni.linguaSelezionata = 0;
                 ImpostaLingua(0);
@@ -182,7 +181,7 @@ void GUI()
 
             ImGui::SameLine();
 
-            if (ImGui::Button(t("Annulla"))) finestraImpostazioniAperta = false;
+            if (ImGui::Button(TestiGUI.annulla.data())) finestraImpostazioniAperta = false;
         }
         ImGui::End();
 
