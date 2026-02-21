@@ -16,6 +16,7 @@ static ImGuiStyle TemaArancioneScuro();
 static ImGuiStyle TemaArancioneChiaro();
 
 static void ModificaColore(float tonalitàAccento, float saturazioneAccento, ImVec4 &colore);
+static void ModificaColore(float tonalitàAccento, ImVec4 &colore);
 
 // ----- -----
 
@@ -136,7 +137,7 @@ static ImGuiStyle TemaArancioneScuro()
     ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_SliderGrab]);
     ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_SliderGrabActive]);
     ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_Button]);
-    ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_ButtonHovered]);
+    ModificaColore(tonalitàArancione, colori[ImGuiCol_ButtonHovered]);
     ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_ButtonActive]);
     ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_Header]);
     ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_HeaderHovered]);
@@ -200,8 +201,8 @@ static ImGuiStyle TemaArancioneChiaro()
     ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_SliderGrab]);
     ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_SliderGrabActive]);
     ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_Button]);
-    ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_ButtonHovered]);
-    ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_ButtonActive]);
+    ModificaColore(tonalitàArancione, colori[ImGuiCol_ButtonHovered]);
+    ModificaColore(tonalitàArancione, colori[ImGuiCol_ButtonActive]);
     ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_Header]);
     ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_HeaderHovered]);
     ModificaColore(tonalitàArancione, saturazioneArancione, colori[ImGuiCol_HeaderActive]);
@@ -238,11 +239,26 @@ static ImGuiStyle TemaArancioneChiaro()
 /// @param colore Il colore da modificare.
 static void ModificaColore(float tonalitàAccento, float saturazioneAccento, ImVec4 &colore)
 {
-    float spare1, spare2, luminosità;
+    float spare1, saturazione, luminosità;
 
     // Estraggo la luminosità del colore da modificare. Ignoro le sue tonalità e saturazione.
-    ImGui::ColorConvertRGBtoHSV(colore.x, colore.y, colore.z, spare1, spare2, luminosità);
+    ImGui::ColorConvertRGBtoHSV(colore.x, colore.y, colore.z, spare1, saturazione, luminosità);
 
     // Monto insieme il nuovo colore.
     ImGui::ColorConvertHSVtoRGB(tonalitàAccento, saturazioneAccento, luminosità, colore.x, colore.y, colore.z);
+}
+
+/// @brief Sostituisce la tonalità del colore specificato lasciando invariata la saturazione, la luminosità e la
+///        trasparenza.
+/// @param tonalitàAccento Tonalità con cui modificare il colore specificato.
+/// @param colore Il colore da modificare.
+static void ModificaColore(float tonalitàAccento, ImVec4 &colore)
+{
+    float spare1, saturazione, luminosità;
+
+    // Estraggo la luminosità del colore da modificare. Ignoro le sue tonalità e saturazione.
+    ImGui::ColorConvertRGBtoHSV(colore.x, colore.y, colore.z, spare1, saturazione, luminosità);
+
+    // Monto insieme il nuovo colore.
+    ImGui::ColorConvertHSVtoRGB(tonalitàAccento, saturazione, luminosità, colore.x, colore.y, colore.z);
 }
