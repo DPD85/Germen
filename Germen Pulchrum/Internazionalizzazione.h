@@ -1,4 +1,4 @@
-struct Lingua
+﻿struct Lingua
 {
     std::string nome;
     const char *bandiera;

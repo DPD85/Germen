@@ -1,4 +1,4 @@
-TESTO_GUI(menuEsci, "Esci");
+﻿TESTO_GUI(menuEsci, "Esci");
 TESTO_GUI(impostazioni, "Impostazioni");
 TESTO_GUI(menuDebug, "Debug");
 TESTO_GUI(demo, "Demo");

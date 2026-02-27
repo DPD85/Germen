@@ -1,4 +1,4 @@
-diff --git a/imgui.h b/imgui.h
+﻿diff --git a/imgui.h b/imgui.h
 index e42d702..1683d22 100644
 --- a/imgui.h
 +++ b/imgui.h

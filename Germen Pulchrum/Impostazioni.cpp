@@ -1,4 +1,4 @@
-#include "IntestazionePrecompilata.h"
+﻿#include "IntestazionePrecompilata.h"
 
 #include "Impostazioni.h"
 

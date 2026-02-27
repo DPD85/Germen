@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 // API pubbliche delle estensioni ad ImGui create da me.
 // -------------------------------------------------------
