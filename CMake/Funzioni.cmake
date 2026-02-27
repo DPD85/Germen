@@ -29,6 +29,8 @@ function(IncorporazioneFile)
 
     if(ARG_NO_COMPRESS)
         set(parametriAggiuntivi "-nocompress")
+    else()
+        set(parametriAggiuntivi "")
     endif()
 
     add_custom_command(
