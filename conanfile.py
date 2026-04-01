@@ -1,8 +1,6 @@
-﻿import os
-
-from conan import ConanFile
+﻿from conan import ConanFile
 from conan.tools.cmake import cmake_layout, CMakeDeps
-from conan.tools.files import copy
+from conan.tools.system.package_manager import Apt
 
 class ConanApplication(ConanFile):
     package_type = "application"
@@ -14,7 +12,18 @@ class ConanApplication(ConanFile):
 
     def generate(self):
         cmake = CMakeDeps(self)
-        cmake.generate();
+        cmake.generate()
+
+    def system_requirements(self):
+        packages = [
+            # Vulkan
+            "libvulkan-dev",
+            "vulkan-utility-libraries-dev"
+        ]
+        apt = Apt(self)
+        result = apt.install(packages)
+        if result is not None and result != 0:
+            apt.install(packages, update=True)
 
     def requirements(self):
         self.requires("boost/1.88.0")
