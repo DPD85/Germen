@@ -10,7 +10,6 @@
 #include "Fonts/IBMPlexSansItalic.h"
 #include "Fonts/NotoColorEmoji.h"
 #include "Impostazioni.h"
-#include "Internazionalizzazione.h"
 
 // ----- -----
 
@@ -99,7 +98,7 @@ int Disegnatore()
     // ----- Inizializzazione SDL -----
 
     {
-        if (!SDL_Init(SDL_INIT_VIDEO))
+        if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
         {
             std::cout << "Inizializzazione SDL3 fallita: " << SDL_GetError() << '\n';
             return EXIT_FAILURE;
@@ -754,7 +753,7 @@ int Disegnatore()
 
     while (!Esci)
     {
-        // ----- Processazione eventi S.O. ed eventualmente sospensione operazioni di disegno -----
+        // ----- Processamento eventi S.O. ed eventualmente sospensione operazioni di disegno -----
 
         {
             SDL_Event evento;
@@ -996,8 +995,7 @@ int Disegnatore()
         // configurazione ma poi non lo onorano (per esempio llvmpipe), per tanto utilizzo un clock per assicurarmi di
         // non superare la frequenza massima di disegno.
         if (AbilitàVSync) DurataFotogramma = clock.AspettaTicchettioSuccessivo() * 1000.0;
-        else
-        {
+        else {
             high_resolution_clock::time_point tempoFine = high_resolution_clock::now();
             DurataFotogramma = duration_cast<DurataMillisecondi>(tempoFine - tempoInizio).count();
             tempoInizio      = tempoFine;
