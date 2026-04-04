@@ -35,8 +35,8 @@ function(IncorporazioneFile)
 
     add_custom_command(
         OUTPUT
-            "${ARG_OUTPUT_NAME}.cpp"
-            "${ARG_OUTPUT_NAME}.h"
+        "${ARG_OUTPUT_NAME}.cpp"
+        "${ARG_OUTPUT_NAME}.h"
         COMMAND $<TARGET_FILE:BinaryToCompressedC> ${parametriAggiuntivi} -nostatic "${ARG_INPUT_FILE}" ${ARG_NAMESPACE} ${ARG_SYMBOL_NAME} "${ARG_OUTPUT_NAME}"
         MAIN_DEPENDENCY "${ARG_INPUT_FILE}"
         DEPENDS BinaryToCompressedC

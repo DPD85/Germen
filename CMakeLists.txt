@@ -30,7 +30,6 @@ endif()
 include(CMake/Piattaforma.cmake)
 include(CMake/Conan.cmake)
 include(CMake/Funzioni.cmake)
-include(CMake/Impostazioni.cmake)
 include(CMake/CPM.cmake)
 
 # ----- IDE configuration -----
@@ -46,46 +45,48 @@ add_subdirectory("Germen Pulchrum")
 
 # ----- Solution Items -----
 
-add_custom_target(SolutionItems SOURCES
-    CMake/Compilatori/GCC/Funzioni.cmake
-    CMake/Compilatori/GCC/Impostazioni.cmake
-    CMake/Compilatori/MSVC/Funzioni.cmake
-    CMake/Compilatori/MSVC/Impostazioni.cmake
-    CMake/Conan.cmake
-    CMake/Funzioni.cmake
-    CMake/CPM.cmake
-    CMake/Impostazioni.cmake
-    CMake/Piattaforma.cmake
-    CMake/Piattaforme/Linux/Impostazioni.cmake
-    CMake/Piattaforme/Windows/Impostazioni.cmake
+if(WIN32)
+    add_custom_target(SolutionItems SOURCES
+        CMake/Compilatori/GCC/Funzioni.cmake
+        CMake/Compilatori/GCC/Impostazioni.cmake
+        CMake/Compilatori/MSVC/Funzioni.cmake
+        CMake/Compilatori/MSVC/Impostazioni.cmake
+        CMake/Conan.cmake
+        CMake/Funzioni.cmake
+        CMake/CPM.cmake
+        CMake/Piattaforma.cmake
+        CMake/Piattaforme/Linux/Impostazioni.cmake
+        CMake/Piattaforme/Windows/Impostazioni.cmake
 
-    "Profili Conan/Linux GCC 12 x64 debug"
-    "Profili Conan/Linux GCC 12 x64 release"
-    "Profili Conan/Linux GCC 13 x64 debug"
-    "Profili Conan/Linux GCC 13 x64 release"
-    "Profili Conan/Linux GCC 14 x64 debug"
-    "Profili Conan/Linux GCC 14 x64 release"
-    "Profili Conan/Windows v143 x64 debug"
-    "Profili Conan/Windows v143 x64 release"
+        "Profili Conan/Linux GCC 12 x64 debug"
+        "Profili Conan/Linux GCC 12 x64 release"
+        "Profili Conan/Linux GCC 13 x64 debug"
+        "Profili Conan/Linux GCC 13 x64 release"
+        "Profili Conan/Linux GCC 14 x64 debug"
+        "Profili Conan/Linux GCC 14 x64 release"
+        "Profili Conan/Windows v143 x64 debug"
+        "Profili Conan/Windows v143 x64 release"
 
-    "Terze parti/CMakeLists.txt"
-    "Terze parti/ImGui-Config.patch"
-    "Terze parti/Readme.en.md"
-    "Terze parti/Readme.md"
+        "Terze parti/CMakeLists.txt"
+        "Terze parti/ImGui-Config.patch"
+        "Terze parti/Readme.en.md"
+        "Terze parti/Readme.md"
 
-    "Germen Pulchrum/Lingue/en_GB/LC_MESSAGES/Lingua.po"
+        "Germen Pulchrum/Lingue/en_GB/LC_MESSAGES/Lingua.po"
 
-    .clang-format
-    .gitattributes
-    .gitignore
-    CMakeLists.txt
-    CMakePresets.json
-    conanfile.py
-    Descrizione.md
-    Directory.Build.props.in
-    LICENSE
-    Readme.en.md
-    Readme.md
-)
+        .clang-format
+        .clang-tidy
+        .gitattributes
+        .gitignore
+        CMakeLists.txt
+        CMakePresets.json
+        conanfile.py
+        Descrizione.md
+        Directory.Build.props.in
+        LICENSE
+        Readme.en.md
+        Readme.md
+    )
 
-make_source_group(TARGET SolutionItems)
+    make_source_group(TARGET SolutionItems)
+endif()

@@ -11,7 +11,7 @@ add_compile_options("/MP")
 message(STATUS "MSVC: abilito modalità di conformità")
 add_compile_options("/permissive-")
 
-message(STATUS "MSVC: abilito le funzioni intriseche")
+message(STATUS "MSVC: abilito le funzioni intrinsic")
 add_compile_options("/Oi")
 
 message(STATUS "MSVC: linker genera informazioni di debug in configurazione release")

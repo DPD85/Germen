@@ -1,6 +1,6 @@
 ﻿# ----- Cerco Conan nel sistema -----
 
-if (WIN32)
+if(WIN32)
     find_program(CONAN_PATH
         NAMES conan
         REQUIRED
@@ -10,14 +10,14 @@ elseif(LINUX)
         NAMES conan
         HINTS /home/user/.local/bin
         REQUIRED
-)
+    )
 endif()
 
 # ----- Profilo di Conan -----
 
 set(CONAN_PROFILE_DIR "${CMAKE_SOURCE_DIR}/Profili Conan")
 
-if (WIN32)
+if(WIN32)
     set(CONAN_PROFILE_NAME              "Windows ${CMAKE_GENERATOR_TOOLSET} x64")
     set(CONAN_PROFILE_DEBUG             "${CONAN_PROFILE_DIR}/${CONAN_PROFILE_NAME} debug")
     set(CONAN_PROFILE_RELEASE           "${CONAN_PROFILE_DIR}/${CONAN_PROFILE_NAME} release")

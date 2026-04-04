@@ -7,7 +7,7 @@ CodaCancellazione::~CodaCancellazione()
     Ripulisci();
 }
 
-void CodaCancellazione::Aggiungi(CodaCancellazione::Pulitore proc)
+void CodaCancellazione::Aggiungi(const Pulitore &proc)
 {
     coda.emplace(proc);
 }

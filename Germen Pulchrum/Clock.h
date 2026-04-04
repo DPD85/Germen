@@ -10,7 +10,7 @@ class Clock
   public:
     /// @brief Inizializza il clock col periodo specificato.
     /// @param periodo_ Il periodo del clock. [s]
-    Clock(double periodo_)
+    explicit Clock(const double periodo_)
     {
         periodo = periodo_ * 1000.0;
 
@@ -64,6 +64,7 @@ class Clock
     }
 
     /// @brief Restituisce il periodo del clock. [s]
+    [[nodiscard]]
     double Periodo() const
     {
         return periodo * 1000.0;
@@ -72,7 +73,7 @@ class Clock
     /// @brief Imposta il periodo del clock.
     /// @param periodo_ Il nuovo periodo del clock. [s]
     /// @warning Questo metodo non è sincronizzato con il metodo AspettaTicchettioSuccessivo()
-    void Periodo(double periodo_)
+    void Periodo(const double periodo_)
     {
         periodo = periodo_ * 1000.0;
     }
@@ -82,7 +83,7 @@ class Clock
     /// @return Il tempo corrispondente alla durata dell'attesa appena effettuata [s].
     static double Aspetta(double durata)
     {
-        hrc::time_point tStart = hrc::now();
+        const hrc::time_point tStart = hrc::now();
 
         durata = durata * 1000.0; // [ms]
 
@@ -106,10 +107,10 @@ class Clock
 #ifdef WIN32
     // Attenzione: la soglia deve essere superiore o uguale al minimo periodo supportato per i timer dal S.O. ed alla
     // precisione configurata per questo processo.
-    static const constexpr double sogliaSleep = 3.0; // [ms]
+    static constexpr double sogliaSleep = 3.0; // [ms]
 #else
     // Su Linux la funzione sleep() è più precisa ed il tempo massimo del busy wait può essere ridotto.
-    static const constexpr double sogliaSleep = 0.5; // [ms]
+    static constexpr double sogliaSleep = 0.5; // [ms]
 #endif
 
     double periodo; // [ms]

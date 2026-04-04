@@ -5,9 +5,11 @@ if(NOT "${CMAKE_SIZEOF_VOID_P}" MATCHES 8)
 endif()
 
 if(${CMAKE_C_COMPILER_ID} STREQUAL ${CMAKE_CXX_COMPILER_ID})
-    message(STATUS "Compilazione su sistema ${CMAKE_SYSTEM_NAME} con compilatore C/C++ ${CMAKE_CXX_COMPILER_ID}")
+    message(STATUS "Compilazione su sistema ${CMAKE_SYSTEM_NAME} con compilatore C/C++ ${CMAKE_CXX_COMPILER_ID}"
+        " versione ${CMAKE_CXX_COMPILER_VERSION}.")
 else()
-    message(STATUS "Compilazione su sistema ${CMAKE_SYSTEM_NAME} con compilatori C ${CMAKE_C_COMPILER_ID} e C++ ${CMAKE_CXX_COMPILER_ID}")
+    message(STATUS "Compilazione su sistema ${CMAKE_SYSTEM_NAME} con compilatori C ${CMAKE_C_COMPILER_ID} versione"
+        " ${CMAKE_C_COMPILER_VERSION} e C++ ${CMAKE_CXX_COMPILER_ID} versione ${CMAKE_CXX_COMPILER_VERSION}")
 endif()
 
 if(WIN32)

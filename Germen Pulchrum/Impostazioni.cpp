@@ -14,12 +14,12 @@ struct Impostazioni Impostazioni;
 
 // ----- -----
 
-static const constexpr char NOME_PROGRAMMA[]         = "Germen Pulchrum";
-static const constexpr char NOME_FILE_IMPOSTAZIONI[] = "Impostazioni.json";
+static constexpr char NOME_PROGRAMMA[]         = "Germen Pulchrum";
+static constexpr char NOME_FILE_IMPOSTAZIONI[] = "Impostazioni.json";
 
-const path DIRETTORIO_IMPOSTAZIONI          = path(sago::getConfigHome()) / NOME_PROGRAMMA;
-static const path PERCORSO_FILE_IMPOSTAIONI = DIRETTORIO_IMPOSTAZIONI / NOME_FILE_IMPOSTAZIONI;
-const std::string PERCORSO_IMGUI_INI_FILE   = (DIRETTORIO_IMPOSTAZIONI / "ImGui.ini").string();
+const path DIRETTORIO_IMPOSTAZIONI           = path(sago::getConfigHome()) / NOME_PROGRAMMA;
+static const path PERCORSO_FILE_IMPOSTAZIONI = DIRETTORIO_IMPOSTAZIONI / NOME_FILE_IMPOSTAZIONI;
+const std::string PERCORSO_IMGUI_INI_FILE    = (DIRETTORIO_IMPOSTAZIONI / "ImGui.ini").string();
 
 // ----- -----
 
@@ -33,7 +33,7 @@ bool CaricaImpostazioni()
 
     // ----- -----
 
-    if (!exists(PERCORSO_FILE_IMPOSTAIONI))
+    if (!exists(PERCORSO_FILE_IMPOSTAZIONI))
     {
         Impostazioni = {};
         return true;
@@ -41,15 +41,15 @@ bool CaricaImpostazioni()
 
     // ----- -----
 
-    std::ifstream file(PERCORSO_FILE_IMPOSTAIONI);
+    std::ifstream file(PERCORSO_FILE_IMPOSTAZIONI);
     if (!file.is_open())
     {
-        std::cout << "[Errore] Impossibile aprire il file '" << PERCORSO_FILE_IMPOSTAIONI.string()
+        std::cout << "[Errore] Impossibile aprire il file '" << PERCORSO_FILE_IMPOSTAZIONI.string()
                   << "' da cui leggere le impostazioni.\n";
         return false;
     }
     eliminatori.Aggiungi(
-        [&file]()
+        [&file]
         {
             file.close();
         });
@@ -84,7 +84,7 @@ bool SalvaImpostazioni()
     {
         create_directories(DIRETTORIO_IMPOSTAZIONI);
     }
-    catch (filesystem_error ex)
+    catch (filesystem_error &ex)
     {
         std::cout << "[Errore] Impossibile creare la cartella dove salvare le impostazioni. Eccezione: " << ex.what()
                   << '\n';
@@ -97,15 +97,15 @@ bool SalvaImpostazioni()
 
     // ----- -----
 
-    std::ofstream file(PERCORSO_FILE_IMPOSTAIONI, std::ios_base::trunc);
+    std::ofstream file(PERCORSO_FILE_IMPOSTAZIONI, std::ios_base::trunc);
     if (!file.is_open())
     {
-        std::cout << "[Errore] Impossibile aprire il file '" << PERCORSO_FILE_IMPOSTAIONI.string()
+        std::cout << "[Errore] Impossibile aprire il file '" << PERCORSO_FILE_IMPOSTAZIONI.string()
                   << "' in cui salvare le impostazioni.\n";
         return false;
     }
     eliminatori.Aggiungi(
-        [&file]()
+        [&file]
         {
             file.close();
         });
