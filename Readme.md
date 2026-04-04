@@ -101,6 +101,7 @@ Sono stati svolti dei test di funzionamento del programma nelle seguenti condizi
 
 * Debian 13 (trixie) tramite WSL 2 su Windows 11;
 * X11 tramite Xlib;
+* Wayland;
 * llvmpipe (LLVM 19.1.7, 256 bits) software driver;
 
 ## Struttura del progetto

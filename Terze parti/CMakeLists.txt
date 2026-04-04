@@ -19,7 +19,7 @@ CPMAddPackage(
     DOWNLOAD_ONLY ON
 )
 
-# Libreria principale
+# ----- ImGui - Libreria principale
 
 add_library(ImGui STATIC)
 
@@ -56,7 +56,7 @@ endif()
 
 make_source_group(TARGET ImGui ADDITIONAL_SOURCE_DIR ${ImGui_SOURCE_DIR})
 
-# Backend SDL3
+# ----- ImGui - Backend SDL3
 
 find_package(SDL3 REQUIRED)
 
@@ -82,7 +82,7 @@ endif()
 
 make_source_group(TARGET ImGui-SDL3 ADDITIONAL_SOURCE_DIR ${ImGui_SOURCE_DIR}/backends)
 
-# Backend Vulkan
+# ----- ImGui - Backend Vulkan
 
 find_package(Vulkan REQUIRED)
 
@@ -108,7 +108,7 @@ endif()
 
 make_source_group(TARGET ImGui-Vulkan ADDITIONAL_SOURCE_DIR ${ImGui_SOURCE_DIR}/backends)
 
-# FreeType
+# ----- ImGui - FreeType
 
 find_package(Freetype REQUIRED)
 find_package(plutosvg REQUIRED)
@@ -132,7 +132,7 @@ target_include_directories(ImGui-FreeType PUBLIC ${ImGui_SOURCE_DIR}/misc/freety
 
 make_source_group(TARGET ImGui-FreeType ADDITIONAL_SOURCE_DIR ${ImGui_SOURCE_DIR}/misc/freetype)
 
-# Aiuti debuggers
+# ----- ImGui - Aiuti debuggers
 
 if(MSVC)
     add_library(ImGui-Debuggers INTERFACE)

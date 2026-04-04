@@ -99,6 +99,7 @@ The program was tested for functionality under the following conditions.
 
 * Debian 13 (trixie) through WSL 2 in Windows 11;
 * X11 through Xlib;
+* Wayland;
 * llvmpipe (LLVM 19.1.7, 256 bits) software driver;
 
 ## Project structure
