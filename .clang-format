@@ -1,9 +1,8 @@
-﻿---
-# Per clang-format versione 21.1.2
+---
+# Per clang-format versione 22.1.2
 Language:        Cpp
-BasedOnStyle:    ''
+AlignAfterOpenBracket: true
 AccessModifierOffset: -2
-AlignAfterOpenBracket: AlwaysBreak
 AlignArrayOfStructures: None
 AlignConsecutiveAssignments:
   Enabled:         true
@@ -70,11 +69,13 @@ AlignConsecutiveTableGenDefinitionColons:
 AlignEscapedNewlines: Left
 AlignOperands:   AlignAfterOperator
 AlignTrailingComments:
+  AlignPPAndNotPP: true
   Kind:            Always
   OverEmptyLines:  0
 AllowAllArgumentsOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
 AllowBreakBeforeNoexceptSpecifier: Never
+AllowBreakBeforeQtProperty: false
 AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseExpressionOnASingleLine: true
 AllowShortCaseLabelsOnASingleLine: false
@@ -116,9 +117,19 @@ BraceWrapping:
 BreakAdjacentStringLiterals: true
 BreakAfterAttributes: Always
 BreakAfterJavaFieldAnnotations: false
+BreakAfterOpenBracketBracedList: true
+BreakAfterOpenBracketFunction: true
+BreakAfterOpenBracketIf: true
+BreakAfterOpenBracketLoop: false
+BreakAfterOpenBracketSwitch: false
 BreakAfterReturnType: Automatic
 BreakArrays:     false
 BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeCloseBracketBracedList: true
+BreakBeforeCloseBracketFunction: false
+BreakBeforeCloseBracketIf: false
+BreakBeforeCloseBracketLoop: false
+BreakBeforeCloseBracketSwitch: false
 BreakBeforeConceptDeclarations: Always
 BreakBeforeBraces: Custom
 BreakBeforeInlineASMColon: OnlyMultiline
@@ -129,13 +140,13 @@ BreakConstructorInitializers: BeforeComma
 BreakFunctionDefinitionParameters: false
 BreakInheritanceList: BeforeComma
 BreakStringLiterals: true
-BreakTemplateDeclarations: MultiLine
+BreakTemplateDeclarations: Yes
 ColumnLimit:     120
 CommentPragmas:  '^ IWYU pragma:'
 CompactNamespaces: false
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
-Cpp11BracedListStyle: false
+Cpp11BracedListStyle: Block
 DerivePointerAlignment: false
 DisableFormat:   false
 EmptyLineAfterAccessModifier: Never
@@ -184,11 +195,14 @@ InsertNewlineAtEOF: true
 InsertTrailingCommas: None
 IntegerLiteralSeparator:
   Binary:          0
-  BinaryMinDigits: 0
+  BinaryMinDigitsInsert: 0
+  BinaryMaxDigitsRemove: 0
   Decimal:         3
-  DecimalMinDigits: 4
+  DecimalMinDigitsInsert: 4
+  DecimalMaxDigitsRemove: 0
   Hex:             2
-  HexMinDigits:    5
+  HexMinDigitsInsert: 5
+  HexMaxDigitsRemove: 0
 JavaScriptQuotes: Leave
 JavaScriptWrapImports: true
 KeepEmptyLines:
@@ -203,6 +217,11 @@ MacroBlockEnd:   ''
 MainIncludeChar: Quote
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
+NumericLiteralCase:
+  ExponentLetter:  Lower
+  HexDigit:        Upper
+  Prefix:          Lower
+  Suffix:          Lower
 ObjCBinPackProtocolList: Auto
 ObjCBlockIndentWidth: 2
 ObjCBreakBeforeNestedBlockParam: true
@@ -239,6 +258,7 @@ SkipMacroDefinitionBody: false
 SortIncludes:
   Enabled:         true
   IgnoreCase:      false
+  IgnoreExtension: false
 SortJavaStaticImport: Before
 SortUsingDeclarations: LexicographicNumeric
 SpaceAfterCStyleCast: false
@@ -267,7 +287,7 @@ SpaceBeforeParensOptions:
   BeforeNonEmptyParentheses: false
 SpaceBeforeRangeBasedForLoopColon: true
 SpaceBeforeSquareBrackets: false
-SpaceInEmptyBlock: false
+SpaceInEmptyBraces: Never
 SpacesBeforeTrailingComments: 1
 SpacesInAngles:  Never
 SpacesInContainerLiterals: true
@@ -300,3 +320,4 @@ WhitespaceSensitiveMacros:
   - STRINGIZE
 WrapNamespaceBodyWithEmptyLines: Leave
 ...
+

@@ -30,7 +30,7 @@ using DurataMillisecondi = std::chrono::duration<double, std::milli>;
 /// @return Un oggetto std::string con lo stesso contenuto dell'oggetto std::u8string specificato.
 constexpr std::string da_u8string(const std::u8string &stringa)
 {
-    return {stringa.begin(), stringa.end()};
+    return { stringa.begin(), stringa.end() };
 }
 
 /// @brief Copia una stringa dentro un altra, la lunghezza della stringa sorgente sia maggiore della lunghezza massima
@@ -49,7 +49,7 @@ inline void CopiaStringa(char *destinazione, const char *sorgente, const size_t 
 /// @param [out] destinazione Puntatore alla stringa dentro cui copiare.
 /// @param [in] sorgente Puntatore alla stringa da copiare.
 template<int Dimensione>
-void CopiaStringa(char (& destinazione) [Dimensione], const char *sorgente)
+void CopiaStringa(char (&destinazione)[Dimensione], const char *sorgente)
 {
     CopiaStringa(destinazione, sorgente, Dimensione);
 }
