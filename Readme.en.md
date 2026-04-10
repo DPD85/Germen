@@ -18,7 +18,7 @@ attention to user experience.
 
 ### Key features
 
-**🌍 Full internationalization**
+**🌍 Full internationalisation**
 Built from the ground up with UTF-8 encoding and Boost.Locale integration. Ships with English (GB) and Italian
 translations, plus carefully selected fonts:
 * **IBM Plex Sans** for crisp, scalable text in multiple languages;
@@ -26,7 +26,7 @@ translations, plus carefully selected fonts:
 * **BabelStone Flags** for country flag icons.
 
 **🪟 Flexible window docking**
-ImGui's docking system lets you create professional, customizable layouts. Attach tool windows together or snap them to
+ImGui's docking system lets you create professional, customisable layouts. Attach tool windows together or snap them to
 screen edges, just like Visual Studio or other professional IDEs. Layouts persist automatically between sessions.
 
 **📐 DPI scaling**
@@ -54,8 +54,8 @@ represents the project's philosophy: a fertile starting point (*germen*) with ca
 from which modern desktop applications can grow.
 
 Just as a quality seed produces excellent fruit, this template provides a solid foundation for developing elegant and
-functional graphical interfaces. The attention to user experience quality — from internationalization to carefully
-selected fonts, from optimized rendering to interface design — is built in from the very beginning.
+functional graphical interfaces. The attention to user experience quality — from internationalisation to carefully
+selected fonts, from optimised rendering to interface design — is built in from the very beginning.
 
 In everyday use, the project is simply called **Germen**.
 
@@ -68,7 +68,7 @@ In everyday use, the project is simply called **Germen**.
 * CMake 4.x;
 * Conan 2.x;
 * SDK Vulkan 1.4.309.0:
-    * note: the program use Vulkan 1.1 so probably an oldest SDK version will also works;
+    * note: the program use Vulkan 1.1 so probably one oldest SDK version will also work;
 * video card and drivers compatible with Vulkan 1.1.
 
 ### Linux
@@ -80,7 +80,7 @@ In everyday use, the project is simply called **Germen**.
 * Ninja build system if you use GCC 12 or GCC 13;
 * make if you use GCC 14;
 * SDK Vulkan 1.4.309.0 (packages libvulkan-dev and vulkan-utility-libraries-dev):
-    * note: the program use Vulkan 1.1 so probably an oldest SDK version will also works;
+    * note: the program use Vulkan 1.1 so probably one oldest SDK version will also work;
 * video card and drivers compatible with Vulkan 1.1.
 
 NOTE: Conan could install packages via the system package manager to build some dependencies, in this case Conan will
@@ -127,10 +127,10 @@ Contributions are welcome! If you'd like to contribute to Germen Pulchrum:
 2. create a feature branch (`git checkout -b feature/NewFeature`);
 3. commit your changes (`git commit -m 'Add NewFeature'`);
 4. push to GitHub (`git push origin feature/NewFeature`);
-5. ppen a pull request.
+5. open a pull request.
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT Licence. See the [LICENCE](LICENSE) file for details.
 
 ## Acknowledgments
 
@@ -139,7 +139,7 @@ Germen Pulchrum is built on top of these excellent open source libraries:
 - [Dear ImGui](https://github.com/ocornut/imgui): immediate Mode GUI;
 - [SDL3](https://www.libsdl.org/): Simple DirectMedia Layer;
 - [Vulkan](https://www.vulkan.org/): cross-platform graphics API;
-- [Boost.Locale](https://www.boost.org/): internationalization library;
+- [Boost.Locale](https://www.boost.org/): internationalisation library;
 - [IBM Plex](https://github.com/IBM/plex): IBM Plex font family;
 - [Noto Color Emoji](https://github.com/googlefonts/noto-emoji): Google's emoji font;
 - [BabelStone Flags](https://www.babelstone.co.uk/Fonts/): special flags symbols font.

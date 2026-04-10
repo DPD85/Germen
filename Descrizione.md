@@ -1,4 +1,4 @@
-﻿DESCRIZIONE REPOSITORY GITHUB - GERMEN PULCHRUM
+﻿Descrizione repository GitHub - GERMEN PULCHRUM
 
 === ITALIANO (350 caratteri max) ===
 Template professionale per applicazioni GUI cross-platform con Dear ImGui e Vulkan. Include internazionalizzazione
