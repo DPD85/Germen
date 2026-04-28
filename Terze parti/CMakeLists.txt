@@ -132,6 +132,25 @@ target_include_directories(ImGui-FreeType PUBLIC ${ImGui_SOURCE_DIR}/misc/freety
 
 make_source_group(TARGET ImGui-FreeType ADDITIONAL_SOURCE_DIR ${ImGui_SOURCE_DIR}/misc/freetype)
 
+# ----- ImGui - StdLib
+
+add_library(ImGui-StdLib STATIC)
+
+target_sources(ImGui-StdLib
+    PRIVATE
+    ${ImGui_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp
+    ${ImGui_SOURCE_DIR}/misc/cpp/imgui_stdlib.h
+)
+
+target_link_libraries(ImGui-StdLib
+    PUBLIC
+    ImGui
+)
+
+target_include_directories(ImGui-StdLib PUBLIC ${ImGui_SOURCE_DIR}/misc/cpp)
+
+make_source_group(TARGET ImGui-StdLib ADDITIONAL_SOURCE_DIR ${ImGui_SOURCE_DIR}/misc/cpp)
+
 # ----- ImGui - Aiuti debuggers
 
 if(MSVC)
@@ -176,3 +195,19 @@ endif()
 target_link_libraries(ImPlot PUBLIC ImGui)
 
 make_source_group(TARGET ImPlot ADDITIONAL_SOURCE_DIR ${ImPlot_SOURCE_DIR})
+
+# ----- ImGui Markdown -----
+
+add_library(ImGui-Markdown INTERFACE)
+
+target_sources(ImGui-Markdown
+    PUBLIC
+    imgui-markdown/imgui_markdown.h
+)
+
+target_include_directories(ImGui-Markdown
+    INTERFACE
+    imgui-markdown
+)
+
+target_link_libraries(ImGui-Markdown INTERFACE ImGui)

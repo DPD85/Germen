@@ -51,6 +51,14 @@
 #include <imgui_impl_sdl3.h>
 #include <imgui_impl_vulkan.h>
 
+// ImGui StdLib
+
+#include <imgui_stdlib.h>
+
+// ImGui Markdown
+
+#include <imgui_markdown.h>
+
 // ImPlot
 
 #define IMPLOT_DISABLE_OBSOLETE_FUNCTIONS
