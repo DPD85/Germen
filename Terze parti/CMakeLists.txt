@@ -176,3 +176,17 @@ endif()
 target_link_libraries(ImPlot PUBLIC ImGui)
 
 make_source_group(TARGET ImPlot ADDITIONAL_SOURCE_DIR ${ImPlot_SOURCE_DIR})
+
+# ----- imgui_markdown -----
+
+add_library(ImGui-Markdown INTERFACE)
+
+target_sources(ImGui-Markdown
+    PUBLIC
+        imgui_markdown/imgui_markdown.h
+)
+
+target_include_directories(ImGui-Markdown
+    INTERFACE
+        imgui_markdown
+)

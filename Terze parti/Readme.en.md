@@ -8,6 +8,7 @@
 | FreeType                            |    2.14.1 | https://conan.io/center/recipes/freetype?version=2.14.1       |
 | IBM Plex Sans font                  |       N/A | https://fonts.google.com/specimen/IBM+Plex+Sans               |
 | ImGui (docking)                     |    1.92.6 | https://github.com/ocornut/imgui.git                          |
+| ImGui Markdown                      | 7f88a689f | https://github.com/enkisoftware/imgui_markdown                |
 | ImPlot                              |      0.17 | https://github.com/epezent/implot.git                         |
 | JSON for Modern C++ (nlohmann JSON) |    3.12.0 | https://conan.io/center/recipes/nlohmann_json?version=3.12.0  |
 | Noto Color Emoji - Regular font     |       N/A | https://fonts.google.com/noto/specimen/Noto+Color+Emoji       |
