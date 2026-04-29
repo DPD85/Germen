@@ -15,11 +15,13 @@
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <iomanip>
 #include <ios>
 #include <iostream>
 #include <limits>
 #include <sstream>
+#include <stack>
 #include <string>
 #include <thread>
 #include <vector>
@@ -116,7 +118,7 @@
 
 #else
 
-#    include <signal.h>
+#    include <csignal>
 
 #endif
 

@@ -1,4 +1,6 @@
-﻿struct Lingua
+﻿#pragma once
+
+struct Lingua
 {
     std::string nome;
     const char *bandiera;
@@ -14,7 +16,7 @@ struct TestiGUI
 
 extern std::array<Lingua, 3> Lingue;
 extern boost::locale::generator GeneratoreMultiLingua;
-extern struct TestiGUI TestiGUI;
+extern TestiGUI TestiGUI;
 
 void InizializzaInternazionalizzazione();
 void ImpostaLingua(size_t indice);

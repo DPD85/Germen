@@ -90,7 +90,8 @@ int Disegnatore()
         if (info.available_layers.empty()) std::cout << " nessuno\n";
         else std::cout << '\n';
         for (const VkLayerProperties &p : info.available_layers)
-            std::cout << "  " << std::left << std::setw(masLun) << p.layerName << ": " << p.description << '\n';
+            std::cout << "  " << std::left << std::setw(static_cast<int>(masLun)) << p.layerName << ": "
+                      << p.description << '\n';
 
         std::cout << "\n----- -----\n\n";
     }
@@ -105,7 +106,7 @@ int Disegnatore()
         }
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 SDL_Quit();
             });
@@ -126,7 +127,7 @@ int Disegnatore()
         }
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 SDL_DestroyWindow(finestra);
             });
@@ -180,7 +181,7 @@ int Disegnatore()
         istanza = risultato.value();
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 vkb::destroy_instance(istanza);
             });
@@ -196,7 +197,7 @@ int Disegnatore()
         }
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 SDL_Vulkan_DestroySurface(istanza, superficie, nullptr);
             });
@@ -311,7 +312,7 @@ int Disegnatore()
         dispositivo = risultato.value();
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 vkb::destroy_device(dispositivo);
             });
@@ -347,7 +348,7 @@ int Disegnatore()
         if (!CreaCatenaScambio()) return EXIT_FAILURE;
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 vkb::destroy_swapchain(catenaScambio);
             });
@@ -359,7 +360,7 @@ int Disegnatore()
         if (!RecuperaVisteImmagini()) return EXIT_FAILURE;
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 catenaScambio.destroy_image_views(visteImmagini);
             });
@@ -371,7 +372,7 @@ int Disegnatore()
         if (!CreaRenderPass()) return EXIT_FAILURE;
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 vkDestroyRenderPass(dispositivo, renderPass, nullptr);
             });
@@ -388,7 +389,7 @@ int Disegnatore()
 
         ImGui::CreateContext();
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 ImGui::DestroyContext();
             });
@@ -402,7 +403,8 @@ int Disegnatore()
 
         io.IniFilename = PERCORSO_IMGUI_INI_FILE.data();
 
-        ImGui::GetPlatformIO().Platform_LocaleDecimalPoint = *std::localeconv()->decimal_point;
+        ImGui::GetPlatformIO().Platform_LocaleDecimalPoint =
+            static_cast<unsigned char>(*std::localeconv()->decimal_point);
     }
 
     // ----- ImGui temi -----
@@ -422,7 +424,7 @@ int Disegnatore()
         {
             ImFontConfig configFont;
 
-            snprintf(configFont.Name, std::size(configFont.Name), Fonts::IBMPlexSans::Name);
+            CopiaStringa(configFont.Name, Fonts::IBMPlexSans::Name);
             configFont.Flags = ImFontFlags_NoLoadError;
 
             FontNormale = io.Fonts->AddFontFromMemoryCompressedTTF(
@@ -474,7 +476,7 @@ int Disegnatore()
         {
             ImFontConfig configFont;
 
-            snprintf(configFont.Name, std::size(configFont.Name), Fonts::IBMPlexSansItalic::Name);
+            CopiaStringa(configFont.Name, Fonts::IBMPlexSansItalic::Name);
             configFont.Flags = ImFontFlags_NoLoadError;
 
             FontItalico = io.Fonts->AddFontFromMemoryCompressedTTF(
@@ -533,7 +535,7 @@ int Disegnatore()
         ImGui_ImplSDL3_InitForVulkan(finestra);
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 ImGui_ImplSDL3_Shutdown();
             });
@@ -563,7 +565,7 @@ int Disegnatore()
         }
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 ImGui_ImplVulkan_Shutdown();
             });
@@ -574,7 +576,7 @@ int Disegnatore()
     {
         ImPlot::CreateContext();
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 ImPlot::DestroyContext();
             });
@@ -586,7 +588,7 @@ int Disegnatore()
         if (!CreaBuffersFotogrammi()) return EXIT_FAILURE;
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 for (const VkFramebuffer &frameBuffer : buffersFotogrammi)
                     vkDestroyFramebuffer(dispositivo, frameBuffer, nullptr);
@@ -610,7 +612,7 @@ int Disegnatore()
         }
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 vkDestroyCommandPool(dispositivo, commandPool, nullptr);
             });
@@ -653,16 +655,16 @@ int Disegnatore()
         }
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
-                for (const VkSemaphore &semforo : semaforiImmagineDisponibile)
-                    vkDestroySemaphore(dispositivo, semforo, nullptr);
+                for (const VkSemaphore &semaforo : semaforiImmagineDisponibile)
+                    vkDestroySemaphore(dispositivo, semaforo, nullptr);
             });
 
         // -----
 
         semaforiDisegnoUltimato.resize(catenaScambio.image_count);
-        std::fill(semaforiDisegnoUltimato.begin(), semaforiDisegnoUltimato.end(), VK_NULL_HANDLE);
+        std::ranges::fill(semaforiDisegnoUltimato, VK_NULL_HANDLE);
 
         for (size_t i = 0; i < semaforiDisegnoUltimato.size(); ++i)
         {
@@ -675,10 +677,10 @@ int Disegnatore()
         }
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
-                for (const VkSemaphore &semforo : semaforiDisegnoUltimato)
-                    vkDestroySemaphore(dispositivo, semforo, nullptr);
+                for (const VkSemaphore &semaforo : semaforiDisegnoUltimato)
+                    vkDestroySemaphore(dispositivo, semaforo, nullptr);
             });
     }
 
@@ -702,7 +704,7 @@ int Disegnatore()
         }
 
         eliminatori.Aggiungi(
-            []()
+            []
             {
                 for (const VkFence &recinto : recinti)
                     vkDestroyFence(dispositivo, recinto, nullptr);
@@ -723,8 +725,8 @@ int Disegnatore()
             std::cout << "  0x" << semaforo << '\n';
 
         std::cout << "Recinti[" << recinti.size() << "]:\n";
-        for (const VkFence &recento : recinti)
-            std::cout << "  0x" << recento << '\n';
+        for (const VkFence &recinto : recinti)
+            std::cout << "  0x" << recinto << '\n';
 
         std::cout << std::dec;
     }
@@ -794,6 +796,9 @@ int Disegnatore()
                     case SDL_EVENT_WINDOW_RESIZED:
                     case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
                         ricreareCatenaScambio = true;
+                        break;
+
+                    default:
                         break;
                 }
 
@@ -893,7 +898,7 @@ int Disegnatore()
             info.sType             = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
             info.renderPass        = renderPass;
             info.framebuffer       = buffersFotogrammi[indiceImmagine];
-            info.renderArea.offset = { 0, 0 };
+            info.renderArea.offset = { .x = 0, .y = 0 };
             info.renderArea.extent = catenaScambio.extent;
 
             vkCmdBeginRenderPass(buffersComandi[indiceFotogramma], &info, VK_SUBPASS_CONTENTS_INLINE);
@@ -931,7 +936,7 @@ int Disegnatore()
         // ----- Invio comandi di disegno alla scheda video -----
 
         {
-            const constexpr VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+            constexpr VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 
             VkSubmitInfo submitInfo = {};
 
@@ -1016,7 +1021,7 @@ int Disegnatore()
     return EXIT_SUCCESS;
 }
 
-static void CheckVkResultFn(VkResult err)
+static void CheckVkResultFn(const VkResult err)
 {
 #ifdef WIN32
     if (err != VK_SUCCESS) DebugBreak();
@@ -1034,7 +1039,7 @@ static bool CreaCatenaScambio()
         return false;
     }
 
-    const constexpr VkPresentModeKHR modalitàPresentazione =
+    constexpr VkPresentModeKHR modalitàPresentazione =
         AbilitàVSync ? VK_PRESENT_MODE_FIFO_KHR      // Tradizionale sincronizzazione con lo schermo (VSync).
                      : VK_PRESENT_MODE_IMMEDIATE_KHR // Nessuna sincronizzazione.
         ;
@@ -1043,10 +1048,10 @@ static bool CreaCatenaScambio()
     const vkb::Result<vkb::Swapchain> risultato =
         costruttore.set_desired_min_image_count(3)
             .set_desired_extent(larghezza, altezza)
-            .set_desired_format({ VK_FORMAT_B8G8R8A8_UNORM, VK_COLORSPACE_SRGB_NONLINEAR_KHR })
-            .add_fallback_format({ VK_FORMAT_R8G8B8A8_UNORM, VK_COLORSPACE_SRGB_NONLINEAR_KHR })
-            .add_fallback_format({ VK_FORMAT_B8G8R8_UNORM, VK_COLORSPACE_SRGB_NONLINEAR_KHR })
-            .add_fallback_format({ VK_FORMAT_R8G8B8_UNORM, VK_COLORSPACE_SRGB_NONLINEAR_KHR })
+            .set_desired_format({ .format = VK_FORMAT_B8G8R8A8_UNORM, .colorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR })
+            .add_fallback_format({ .format = VK_FORMAT_R8G8B8A8_UNORM, .colorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR })
+            .add_fallback_format({ .format = VK_FORMAT_B8G8R8_UNORM, .colorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR })
+            .add_fallback_format({ .format = VK_FORMAT_R8G8B8_UNORM, .colorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR })
             .set_image_usage_flags(VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT)
             .set_desired_present_mode(modalitàPresentazione)
             .set_old_swapchain(catenaScambio)
@@ -1153,7 +1158,7 @@ static bool CreaRenderPass()
 static bool CreaBuffersFotogrammi()
 {
     buffersFotogrammi.resize(visteImmagini.size());
-    std::fill(buffersFotogrammi.begin(), buffersFotogrammi.end(), VK_NULL_HANDLE);
+    std::ranges::fill(buffersFotogrammi, VK_NULL_HANDLE);
 
     for (size_t i = 0; i < visteImmagini.size(); i++)
     {
@@ -1190,12 +1195,12 @@ static bool RicreaCatenaScambio()
 
     // -----
 
-    for (VkFramebuffer frameBuffer : buffersFotogrammi)
+    for (const VkFramebuffer frameBuffer : buffersFotogrammi)
         vkDestroyFramebuffer(dispositivo, frameBuffer, nullptr);
 
     vkDestroyRenderPass(dispositivo, renderPass, nullptr);
 
-    for (VkImageView vistaImmagine : visteImmagini)
+    for (const VkImageView vistaImmagine : visteImmagini)
         vkDestroyImageView(dispositivo, vistaImmagine, nullptr);
 
     // -----
@@ -1251,7 +1256,10 @@ static void AggiornaScalaDPI()
         altezza   = 800;
     }
 
-    SDL_SetWindowSize(finestra, static_cast<int>(larghezza * ScalaDPI), static_cast<int>(altezza * ScalaDPI));
+    SDL_SetWindowSize(
+        finestra,
+        static_cast<int>(static_cast<float>(larghezza) * ScalaDPI),
+        static_cast<int>(static_cast<float>(altezza) * ScalaDPI));
 
     // ----- GUI
 
@@ -1263,12 +1271,12 @@ static bool AggiungiEmojiAlFont()
     {
         ImFontConfig configFont;
 
-        snprintf(configFont.Name, std::size(configFont.Name), Fonts::BabelStoneFlags::Name);
+        CopiaStringa(configFont.Name, Fonts::BabelStoneFlags::Name);
         configFont.Flags           = ImFontFlags_NoLoadError;
         configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_LoadColor;
         configFont.MergeMode       = true;
 
-        ImFont *font = ImGui::GetIO().Fonts->AddFontFromMemoryCompressedTTF(
+        const ImFont *font = ImGui::GetIO().Fonts->AddFontFromMemoryCompressedTTF(
             Fonts::BabelStoneFlags::CompressedData,
             std::size(Fonts::BabelStoneFlags::CompressedData),
             0.0f,
@@ -1285,12 +1293,12 @@ static bool AggiungiEmojiAlFont()
     {
         ImFontConfig configFont;
 
-        snprintf(configFont.Name, std::size(configFont.Name), Fonts::NotoColorEmoji::Name);
+        CopiaStringa(configFont.Name, Fonts::NotoColorEmoji::Name);
         configFont.Flags           = ImFontFlags_NoLoadError;
         configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_LoadColor;
         configFont.MergeMode       = true;
 
-        ImFont *font = ImGui::GetIO().Fonts->AddFontFromMemoryCompressedTTF(
+        const ImFont *font = ImGui::GetIO().Fonts->AddFontFromMemoryCompressedTTF(
             Fonts::NotoColorEmoji::CompressedData, std::size(Fonts::NotoColorEmoji::CompressedData), 0.0f, &configFont);
         if (font == nullptr)
         {

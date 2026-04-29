@@ -7,7 +7,7 @@ struct Impostazioni
     size_t linguaSelezionata = { 0 };
 };
 
-extern struct Impostazioni Impostazioni;
+extern Impostazioni Impostazioni;
 extern const std::filesystem::path DIRETTORIO_IMPOSTAZIONI;
 extern const std::string PERCORSO_IMGUI_INI_FILE;
 

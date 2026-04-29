@@ -1,6 +1,6 @@
 ﻿# Third-party list
 
-|                 Name                |  Version  |                           Web site                            |
+|                 Name                |   Version |                           Web site                            |
 |-------------------------------------|----------:|---------------------------------------------------------------|
 | Babel Stone Flags font              |      4.13 | https://babelstone.co.uk/Fonts/Flags.html                     |
 | Boost                               |    1.88.0 | https://conan.io/center/recipes/boost?version=1.88.0          |

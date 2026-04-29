@@ -1,6 +1,5 @@
 ﻿#include "IntestazionePrecompilata.h"
 
-#include "CodaCancellazione.h"
 #include "Disegnatore.h"
 #include "Impostazioni.h"
 #include "Internazionalizzazione.h"
@@ -22,13 +21,13 @@ int main(int, char **)
 
         std::cout << "----- Informazioni internazionalizzazione -----\n\n";
 
-        const localization_backend_manager gestoreBackEnd = localization_backend_manager::global();
+        const auto gestoreBackEnd = localization_backend_manager::global();
         std::cout << "Back-end disponibili:\n";
         for (std::string &name : gestoreBackEnd.get_all_backends())
             std::cout << "  " << name << '\n';
         std::cout << '\n';
 
-        const boost::locale::info &proprietà = std::use_facet<boost::locale::info>(std::locale());
+        const auto &proprietà = std::use_facet<info>(std::locale());
         std::cout << "Internazionalizzazione utilizzata:\n";
         std::cout << "  Lingua  : " << proprietà.language() << '\n'
                   << "  Stato   : " << proprietà.country() << '\n'
@@ -41,8 +40,8 @@ int main(int, char **)
         if (Impostazioni.linguaSelezionata == 0)
         {
             // Carica la informazioni in base alle impostazioni dell'ambiente e del S.O.
-            const std::locale localeDefault                   = GeneratoreMultiLingua("");
-            const boost::locale::info &proprietàLocaleDefault = std::use_facet<boost::locale::info>(localeDefault);
+            const std::locale localeDefault    = GeneratoreMultiLingua("");
+            const auto &proprietàLocaleDefault = std::use_facet<info>(localeDefault);
 
             if (proprietàLocaleDefault.language() == "it")
             {

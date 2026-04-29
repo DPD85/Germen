@@ -43,7 +43,7 @@ Funziona su Windows 10/11 e Debian 13 (e probabilmente altre distribuzioni Linux
 Visual Studio 2022 o GCC 12/13/14.
 
 **📦 Deploy a file singolo**
-Tutte le risorse — font, traduzioni, ecc.. — sono incorporate nell'eseguibile. Un file, zero dipendenze, massima
+Tutte le risorse — font, traduzioni, ecc... — sono incorporate nell'eseguibile. Un file, zero dipendenze, massima
 portabilità.
 
 Il template include anche supporto per i temi, fornendoti una base completa per costruire applicazioni desktop raffinate.
@@ -70,7 +70,7 @@ Nella pratica quotidiana il progetto viene chiamato semplicemente **Germen**.
 * Conan 2.x;
 * Vulkan SDK 1.4.309.0:
     * nota: il programma utilizza le Vulkan 1.1 quindi probabilmente anche una versione del SDK più vecchia va bene;
-* Scheda video e driver compatibili con Vulkan 1.1.
+* scheda video e driver compatibili con Vulkan 1.1.
 
 ### Linux
 
@@ -81,15 +81,15 @@ Nella pratica quotidiana il progetto viene chiamato semplicemente **Germen**.
 * Ninja build system se si usa GCC 12 o GCC 13;
 * make se si usa GCC 14;
 * Vulkan SDK 1.4.309.0 (libvulkan-dev e vulkan-utility-libraries-dev):
-    * nota: il programma utilizza le Vulkan 1.1 quindi probabilmente anche una versione del SDK più vecchia va bene).
-* Scheda video e driver compatibili con Vulkan 1.1.
+    * nota: il programma utilizza le Vulkan 1.1 quindi probabilmente anche una versione del SDK più vecchia va bene.
+* scheda video e driver compatibili con Vulkan 1.1.
 
 NOTA: Conan potrebbe installare dei pacchetti tramite il gestore dei pacchetti di sistema al fine di compilare alcune
 delle dipendenze, in tal caso Conan utilizzerà sudo per eseguire il gestore dei pacchetti e di conseguenza potrebbe
 esser necessario digitare la password sul terminale.
 
 ## Test
-Sono stati svolti dei test di funzionamento del programma nelle seguenti condizioni.
+Test di funzionamento del programma sono stati svolti nelle seguenti condizioni.
 
 ### Windows
 
@@ -123,7 +123,7 @@ Germen/
 
 ## Contribuire
 
-I contributi sono benvenuti! Se vuoi contribuire a Germen Pulchrum:
+I contributi sono benvenuti! Per contribuire a Germen Pulchrum:
 
 1. fai un fork del progetto;
 2. crea un branch per la tua funzionalità (`git checkout -b funzionalita/NuovaFunzionalita`);

@@ -1,8 +1,5 @@
 ﻿#pragma once
 
-#include <functional>
-#include <stack>
-
 class CodaCancellazione
 {
   public:
@@ -10,7 +7,7 @@ class CodaCancellazione
 
     ~CodaCancellazione();
 
-    void Aggiungi(Pulitore proc);
+    void Aggiungi(const Pulitore &proc);
     void Ripulisci();
     void Svuota();
 

@@ -136,7 +136,7 @@ void print_header(
     const char *namespace_)
 {
     // Firma per il formato UTF8 con BOM
-    const unsigned char BOM[] = { 0xEF, 0xBB, 0xBF };
+    constexpr unsigned char BOM[] = { 0xEF, 0xBB, 0xBF };
     fwrite(BOM, 1, 3, out);
 
     const char *encoding_str = source_encoding == SourceEncoding_Base85 ? "base85"

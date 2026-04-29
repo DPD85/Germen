@@ -2,7 +2,7 @@
     * CMake;
     * git;
     * GCC 12, 13 o 14;
-    * Ninjna per GCC 12 e 13;
+    * Ninja per GCC 12 e 13;
     * make per GCC 14;
     * libvulkan-dev;
     * vulkan-utility-libraries-dev;

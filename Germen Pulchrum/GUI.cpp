@@ -16,7 +16,7 @@ static bool finestraDebugLogAperta      = false;
 static bool finestraDemoPlotAperta      = false;
 static int ScalaGUIPercentuale          = 100; // [%]
 
-static bool LinguaSelezionabile(const size_t i);
+static bool LinguaSelezionabile(size_t i);
 
 // ----- -----
 
@@ -30,7 +30,7 @@ void InizializzaGUI()
 void GUI()
 {
     // Possibilità di fare il docking di una finestra sui bordi dello schermo e non solo su un'altra finestra.
-    ImGuiID idDockSpace = ImGui::DockSpaceOverViewport();
+    ImGui::DockSpaceOverViewport();
 
     // -----
 
@@ -64,7 +64,7 @@ void GUI()
         ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
 
         char testoStatistiche[512];
-        int lunghezzaTesto = ImFormatString(
+        const int lunghezzaTesto = ImFormatString(
             testoStatistiche,
             std::size(testoStatistiche),
             "%.3f ms (%*.3f FPS)",
@@ -142,12 +142,12 @@ void GUI()
             }
 
             {
-                const int incremento = 10;
+                constexpr int incremento = 10;
                 ImGui::InputScalar(
                     TestiGUI.zoomIU.data(), ImGuiDataType_S32, &ScalaGUIPercentuale, &incremento, nullptr, "%d %%");
                 if (ImGui::IsItemDeactivatedAfterEdit())
                 {
-                    Impostazioni.scalaGUI  = ScalaGUIPercentuale / 100.0f;
+                    Impostazioni.scalaGUI  = static_cast<float>(ScalaGUIPercentuale) / 100.0f;
                     Impostazioni.scalaGUI  = std::max(Impostazioni.scalaGUI, 0.3f);
                     Impostazioni.scalaGUI  = std::min(Impostazioni.scalaGUI, 2.0f);
                     ScalaGUIPercentuale    = static_cast<int>(Impostazioni.scalaGUI * 100.0f);
@@ -212,7 +212,8 @@ static bool LinguaSelezionabile(const size_t i)
         ImpostaLingua(i);
         return true;
     }
-    else if (i == Impostazioni.linguaSelezionata) ImGui::SetItemDefaultFocus();
+
+    if (i == Impostazioni.linguaSelezionata) ImGui::SetItemDefaultFocus();
 
     return false;
 }
