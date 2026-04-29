@@ -45,7 +45,6 @@ void ImGui::EndMainStatusBar()
 
     // When the user has left the menu layer (typically: closed menus through activation of an item), we restore focus
     // to the previous window
-    // FIXME: With this strategy we won't be able to restore a NULL focus.
     if (g.CurrentWindow == g.NavWindow && g.NavLayer == ImGuiNavLayer_Main && !g.NavAnyRequest && g.ActiveId == 0)
         FocusTopMostWindowUnderOne(
             g.NavWindow,
