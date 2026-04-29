@@ -212,7 +212,8 @@ static bool LinguaSelezionabile(const size_t i)
         ImpostaLingua(i);
         return true;
     }
-    else if (i == Impostazioni.linguaSelezionata) ImGui::SetItemDefaultFocus();
+
+    if (i == Impostazioni.linguaSelezionata) ImGui::SetItemDefaultFocus();
 
     return false;
 }
