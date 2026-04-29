@@ -1,6 +1,14 @@
 ﻿# ----- Impostazioni specifiche per Windows -----
 
 if(MSVC)
+    if(${CMAKE_VS_VERSION_BUILD_NUMBER} VERSION_GREATER_EQUAL "18" AND ${CMAKE_VS_VERSION_BUILD_NUMBER} VERSION_LESS "19")
+        set(VS_YEAR "2026")
+    elseif(${CMAKE_VS_VERSION_BUILD_NUMBER} VERSION_GREATER_EQUAL "17" AND ${CMAKE_VS_VERSION_BUILD_NUMBER} VERSION_LESS "18")
+        set(VS_YEAR "2022")
+    else()
+        message(FATAL_ERROR "La versione ${CMAKE_VS_VERSION_BUILD_NUMBER} di Visual Studio non è supportata.")
+    endif()
+
     include(CMake/Compilatori/MSVC/Funzioni.cmake)
     include(CMake/Compilatori/MSVC/Impostazioni.cmake)
 else()
