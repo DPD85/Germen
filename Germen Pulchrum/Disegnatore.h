@@ -26,6 +26,9 @@ extern ImFont *FontNormale;
 extern ImFont *FontGrassetto;
 extern ImFont *FontItalico;
 extern ImFont *FontItalicoGrassetto;
+extern ImFont *FontGrassettoH1;
+extern ImFont *FontGrassettoH2;
+extern ImFont *FontGrassettoH3;
 
 // ----- Temi -----
 

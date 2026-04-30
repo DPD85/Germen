@@ -14,9 +14,80 @@ static bool finestraEditorStileAperta   = false;
 static bool finestraMetricheImGuiAperta = false;
 static bool finestraDebugLogAperta      = false;
 static bool finestraDemoPlotAperta      = false;
+static bool finestraMarkdownAperta      = false;
 static int ScalaGUIPercentuale          = 100; // [%]
 
+static ImGui::MarkdownConfig configurazioneMarkdown;
+
+static std::string testoMarkdown = R"(# Aetate ego terras habebas
+
+## Esse pars gravi consule
+
+Lorem markdownum et neve meritis terrae festum, corpora quem Ampycides laudemque
+velamina Halesi nitidissimus. Fatebor his tetigit enim, est placare; o Pallas
+pro flammas. Spatio efferre, sonuere et nondum lugent plenos, verbis sit dictis
+crevit amor [rogari horrida auctoris](https://duckduckgo.com/) crine adflata. Et magna crescit Tritoniaca
+nec habere, non undas concutiens vaticinatus vixque.
+
+## Eadem lunaribus ad spectatas
+
+Atque ait quam possimne proceres; et mihi, est in voles. Scire temporis aliquid
+et nostra per **aequorea** umbra quondam fassusque utque intremuit. Profusis
+nostra gravis digitosque membra quicquid nostrae cum avem carpsit, est. Illa
+iugulata: ante videri altera Cadmeida ter.
+
+- Pereat Iovi signa invenit tepidique fessis veretur
+- Tura seque ut venit aeternum possim
+- Ereptas preces sole nostri superbia in sacro
+
+## Fulgura tendentemque notavi saepe
+
+Forma dolens tamen iuppiter veni circumspicit vidit; retinete satyri. Inquit
+suspiria litus notissima nomen, lapidosos, arreptum eripe? Est tardi ad usae;
+toto mors ira [vinaque cantare](https://www.example.com/), timidus nos dicta
+amplexas quaeras molle. Iunctoque desierat vero, inquirant scilicet Idaeo magnas
+feruntur augustae posse, Pelion? In pruinosas cunctantem, nostris **in qua**
+Tigris venire.
+
+1. Recursus fibris recessit geminum
+  1. Suspicit addere animum nec femineos sanguine luna
+  2. Aquoso aequales triceps ego
+2. Iam vera
+3. Ad detinet duo Erycina quod fores sic
+
+## Imbribus orbis ex ictus
+
+Harenis manes sua tempora? Bacchaeque sustinuere resoluta ardere nostrae frater,
+Calydonius saltus simulacra. Tacetve carpitur moveres.
+
+- Regi dentibus Liternum notum effecta
+  - Si aurea
+  - Sed ni qui parenti isdem meus carinas
+    - Vesana fremit domo meos pariter
+    - Suam pulcherrime mane studiosius Liber tumet
+  - Manu opus munus obtusum
+- Hylonome Danaas deprensum medullis coniunx inventa
+
+## Hector Alemonides
+
+Fluctus ille, enodisque defrenato partes mirabile Nycteus vixque clamantem
+tellus et. Perdidit membra comites serpentis Sabaea, illic hanc aevo negabo.
+Ante bis pectore futuri *et quid utque* ait exsul **nubibus**. Et erat ultimus,
+has habuere artis, movit tuos nisi relinqui *curis* dotatissima, mea annua.
+Defendit postquam hastas, ore ut cruor umida nescio: ubi miratur!
+
+- Ille comitem Phoebus ostia potentia gratare auxilium
+- Finemque vincula est nomen herbas adest
+- Hylonome Danaas deprensum medullis coniunx inventa
+- Manu opus munus obtusum
+- Dum ater
+- Ede feci Achille)";
+
 static bool LinguaSelezionabile(size_t i);
+
+static void CallbackApriCollegamentoMarkdown(ImGui::MarkdownLinkCallbackData data);
+static void CallbackSuggerimentoMarkdown(ImGui::MarkdownTooltipCallbackData data);
+static void CallbackFormattazioneMarkdown(const ImGui::MarkdownFormatInfo &infoFormattazione, bool inizio);
 
 // ----- -----
 
@@ -25,6 +96,17 @@ void InizializzaGUI()
     ScalaGUIPercentuale = static_cast<int>(Impostazioni.scalaGUI * 100); // [%]
 
     ImGui::GetPlatformIO().Platform_LocaleDecimalPoint = '.';
+
+    configurazioneMarkdown = { .linkCallback    = CallbackApriCollegamentoMarkdown,
+                               .tooltipCallback = CallbackSuggerimentoMarkdown, // opzionale
+                               .imageCallback   = nullptr,
+                               .linkIcon        = reinterpret_cast<const char *>(u8"🔗"),
+                               .headingFormats  = { { .font = FontGrassettoH1, .separator = true },
+                                                    { .font = FontGrassettoH2, .separator = true },
+                                                    { .font = FontGrassettoH3, .separator = false } },
+                               .userData        = nullptr,
+                               .formatCallback  = CallbackFormattazioneMarkdown,
+                               .formatFlags     = ImGuiMarkdownFormatFlags_CommonMarkAll };
 }
 
 void GUI()
@@ -45,6 +127,7 @@ void GUI()
             ImGui::MenuItem(TestiGUI.editorStile.data(), nullptr, &finestraEditorStileAperta);
             ImGui::MenuItem(TestiGUI.metricheImGui.data(), nullptr, &finestraMetricheImGuiAperta);
             ImGui::MenuItem(TestiGUI.debugLog.data(), nullptr, &finestraDebugLogAperta);
+            ImGui::MenuItem("Markdown", nullptr, &finestraMarkdownAperta);
 
             ImGui::EndMenu();
         }
@@ -60,6 +143,7 @@ void GUI()
         if (ImGui::SmallButton(TestiGUI.metricheImGui.data()))
             finestraMetricheImGuiAperta = !finestraMetricheImGuiAperta;
         if (ImGui::SmallButton(TestiGUI.debugLog.data())) finestraDebugLogAperta = !finestraDebugLogAperta;
+        if (ImGui::SmallButton("Markdown")) finestraMarkdownAperta = !finestraMarkdownAperta;
 
         ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
 
@@ -189,6 +273,32 @@ void GUI()
     }
 
     if (finestraDemoPlotAperta) ImPlot::ShowDemoWindow(&finestraDemoPlotAperta);
+
+    if (finestraMarkdownAperta)
+    {
+        if (ImGui::Begin("Markdown", &finestraMarkdownAperta))
+        {
+            constexpr bool OrientamentoVerticale = true;
+
+            ImVec2 dimensioneInputTesto = { -1, -1 };
+            if constexpr (OrientamentoVerticale) dimensioneInputTesto.x = ImGui::GetContentRegionAvail().x * 0.5f;
+            else dimensioneInputTesto.y = ImGui::GetContentRegionAvail().y * 0.4f;
+
+            ImGui::InputTextMultiline(
+                "###TestoMarkdown",
+                &testoMarkdown,
+                dimensioneInputTesto,
+                ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_WordWrap);
+
+            if constexpr (OrientamentoVerticale) ImGui::SameLine();
+            else ImGui::Spacing();
+
+            ImGui::BeginChild("###Anteprima", ImVec2(0, 0), ImGuiChildFlags_Borders);
+            ImGui::Markdown(testoMarkdown.data(), testoMarkdown.size(), configurazioneMarkdown);
+            ImGui::EndChild();
+        }
+        ImGui::End();
+    }
 }
 
 void AggiornaScalaGUI()
@@ -216,4 +326,86 @@ static bool LinguaSelezionabile(const size_t i)
     if (i == Impostazioni.linguaSelezionata) ImGui::SetItemDefaultFocus();
 
     return false;
+}
+
+// ----- Markdown -----
+
+static void CallbackApriCollegamentoMarkdown(ImGui::MarkdownLinkCallbackData data)
+{
+    const std::string url(data.link, data.linkLength);
+    if (!SDL_OpenURL(url.data()))
+        std::cout << "[Errore] Impossibile aprire il URL '" << url << "': " << SDL_GetError() << '\n';
+}
+
+/// @brief Invocata da ImGui Markdown quando è necessario mostrare un suggerimento (tooltip).
+/// Al momento è invocata quando il mouse si trova sopra un collegamento.
+static void CallbackSuggerimentoMarkdown(ImGui::MarkdownTooltipCallbackData data)
+{
+    if (data.linkData.isImage) ImGui::SetTooltip("%.*s", data.linkData.linkLength, data.linkData.link);
+    else ImGui::SetTooltip("%s %.*s", data.linkIcon, data.linkData.linkLength, data.linkData.link);
+}
+
+/// @brief Invocata da ImGui Markdown subito prima e subito dopo il rendering di un elemento così da poter
+/// personalizzare l'aspetto di quest'ultimo.
+/// @param infoFormattazione informazioni sull'elemento disegnato e sulla configurazione di ImGui Markdown.
+/// @param inizio value True prima del disegno dell'elemento e False dopo.
+static void CallbackFormattazioneMarkdown(const ImGui::MarkdownFormatInfo &infoFormattazione, const bool inizio)
+{
+    switch (infoFormattazione.type)
+    {
+        case ImGui::MarkdownFormatType::NORMAL_TEXT:
+            break;
+        case ImGui::MarkdownFormatType::EMPHASIS:
+            // Italico (enfasi normale)
+            if (infoFormattazione.level == 1)
+                if (inizio) ImGui::PushFont(FontItalico, 0.0f);
+                else ImGui::PopFont();
+            // Grassetto (enfasi forte)
+            else if (inizio) ImGui::PushFont(FontGrassetto, 0.0f);
+            else ImGui::PopFont();
+
+            break;
+        case ImGui::MarkdownFormatType::HEADING:
+        {
+            const ImGui::MarkdownHeadingFormat &formatoIntestazione =
+                infoFormattazione.level > ImGui::MarkdownConfig::NUMHEADINGS
+                    ? infoFormattazione.config->headingFormats[ImGui::MarkdownConfig::NUMHEADINGS - 1]
+                    : infoFormattazione.config->headingFormats[infoFormattazione.level - 1];
+
+            if (inizio)
+            {
+                if (!(infoFormattazione.config->formatFlags & ImGuiMarkdownFormatFlags_NoNewLineBeforeHeading))
+                    ImGui::NewLine();
+                if (formatoIntestazione.font)
+                    ImGui::PushFont(
+                        formatoIntestazione.font,
+                        formatoIntestazione.fontSize > 0.0f ? formatoIntestazione.fontSize
+                                                            : formatoIntestazione.font->LegacySize);
+            }
+            else
+            {
+                if (formatoIntestazione.separator)
+                {
+                    const ImVec2 cursor = ImGui::GetCursorPos();
+                    ImGui::Separator();
+                    if (infoFormattazione.config->formatFlags & ImGuiMarkdownFormatFlags_SeparatorDoesNotAdvance)
+                        ImGui::SetCursorPos(cursor);
+                }
+                if (formatoIntestazione.font) ImGui::PopFont();
+                ImGui::NewLine();
+            }
+            break;
+        }
+        case ImGui::MarkdownFormatType::UNORDERED_LIST:
+            break;
+        case ImGui::MarkdownFormatType::LINK:
+            if (inizio) ImGui::PushStyleColor(ImGuiCol_Text, ImGui::GetStyle().Colors[ImGuiCol_ButtonHovered]);
+            else
+            {
+                ImGui::PopStyleColor();
+                if (infoFormattazione.itemHovered) ImGui::UnderLine(ImGui::GetStyle().Colors[ImGuiCol_ButtonHovered]);
+                else ImGui::UnderLine(ImGui::GetStyle().Colors[ImGuiCol_Button]);
+            }
+            break;
+    }
 }

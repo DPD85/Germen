@@ -42,6 +42,9 @@ ImFont *FontNormale          = nullptr;
 ImFont *FontGrassetto        = nullptr;
 ImFont *FontItalico          = nullptr;
 ImFont *FontItalicoGrassetto = nullptr;
+ImFont *FontGrassettoH1      = nullptr;
+ImFont *FontGrassettoH2      = nullptr;
+ImFont *FontGrassettoH3      = nullptr;
 
 static void CheckVkResultFn(VkResult err);
 static bool CreaCatenaScambio();
@@ -449,7 +452,6 @@ int Disegnatore()
         {
             ImFontConfig configFont;
 
-            configFont.Name[0] = '\0';
             snprintf(configFont.Name, std::size(configFont.Name), "%s %s", Fonts::IBMPlexSans::Name, "grassetto");
             configFont.Flags           = ImFontFlags_NoLoadError;
             configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_Bold;
@@ -524,6 +526,63 @@ int Disegnatore()
             if (!AggiungiEmojiAlFont())
             {
                 std::cout << "Impossible caricare il font con le emoji colorate.\n";
+                return EXIT_FAILURE;
+            }
+        }
+
+        // ----- Grassetto H1
+
+        {
+            ImFontConfig configFont;
+
+            snprintf(configFont.Name, std::size(configFont.Name), "%s %s", Fonts::IBMPlexSans::Name, "grassetto H1");
+            configFont.Flags           = ImFontFlags_NoLoadError;
+            configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_Bold;
+            configFont.SizePixels      = 30.0f;
+
+            FontGrassettoH1 = io.Fonts->AddFontFromMemoryCompressedTTF(
+                Fonts::IBMPlexSans::CompressedData, std::size(Fonts::IBMPlexSans::CompressedData), 0.0f, &configFont);
+            if (FontGrassettoH1 == nullptr)
+            {
+                std::cout << "Impossible caricare il font per lo stile grassetto H1.\n";
+                return EXIT_FAILURE;
+            }
+        }
+
+        // ----- Grassetto H2
+
+        {
+            ImFontConfig configFont;
+
+            snprintf(configFont.Name, std::size(configFont.Name), "%s %s", Fonts::IBMPlexSans::Name, "grassetto H2");
+            configFont.Flags           = ImFontFlags_NoLoadError;
+            configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_Bold;
+            configFont.SizePixels      = 22.5f;
+
+            FontGrassettoH2 = io.Fonts->AddFontFromMemoryCompressedTTF(
+                Fonts::IBMPlexSans::CompressedData, std::size(Fonts::IBMPlexSans::CompressedData), 0.0f, &configFont);
+            if (FontGrassettoH2 == nullptr)
+            {
+                std::cout << "Impossible caricare il font per lo stile grassetto H2.\n";
+                return EXIT_FAILURE;
+            }
+        }
+
+        // ----- Grassetto H3
+
+        {
+            ImFontConfig configFont;
+
+            snprintf(configFont.Name, std::size(configFont.Name), "%s %s", Fonts::IBMPlexSans::Name, "grassetto H3");
+            configFont.Flags           = ImFontFlags_NoLoadError;
+            configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_Bold;
+            configFont.SizePixels      = 17.55f;
+
+            FontGrassettoH3 = io.Fonts->AddFontFromMemoryCompressedTTF(
+                Fonts::IBMPlexSans::CompressedData, std::size(Fonts::IBMPlexSans::CompressedData), 0.0f, &configFont);
+            if (FontGrassettoH3 == nullptr)
+            {
+                std::cout << "Impossible caricare il font per lo stile grassetto H3.\n";
                 return EXIT_FAILURE;
             }
         }
@@ -1000,7 +1059,8 @@ int Disegnatore()
         // configurazione ma poi non lo onorano (per esempio llvmpipe), per tanto utilizzo un clock per assicurarmi di
         // non superare la frequenza massima di disegno.
         if (AbilitàVSync) DurataFotogramma = clock.AspettaTicchettioSuccessivo() * 1000.0;
-        else {
+        else
+        {
             high_resolution_clock::time_point tempoFine = high_resolution_clock::now();
             DurataFotogramma = duration_cast<DurataMillisecondi>(tempoFine - tempoInizio).count();
             tempoInizio      = tempoFine;
