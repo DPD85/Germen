@@ -5,7 +5,7 @@
 bool ImGui::BeginMainStatusBar()
 {
     const ImGuiContext &g = *GImGui;
-    auto *viewport        = reinterpret_cast<ImGuiViewportP *>(GetMainViewport());
+    auto *viewport        = static_cast<ImGuiViewportP *>(GetMainViewport());
 
     constexpr ImGuiWindowFlags window_flags =
         ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_MenuBar;
