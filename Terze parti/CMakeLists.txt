@@ -202,12 +202,12 @@ add_library(ImGui-Markdown INTERFACE)
 
 target_sources(ImGui-Markdown
     PUBLIC
-    imgui-markdown/imgui_markdown.h
+    "ImGui Markdown/imgui_markdown.h"
 )
 
 target_include_directories(ImGui-Markdown
     INTERFACE
-    imgui-markdown
+    "ImGui Markdown"
 )
 
 target_link_libraries(ImGui-Markdown INTERFACE ImGui)

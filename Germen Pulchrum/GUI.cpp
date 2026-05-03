@@ -106,7 +106,8 @@ void InizializzaGUI()
                                                     { .font = FontGrassettoH3, .separator = false } },
                                .userData        = nullptr,
                                .formatCallback  = CallbackFormattazioneMarkdown,
-                               .formatFlags     = ImGuiMarkdownFormatFlags_CommonMarkAll };
+                               .formatFlags     = ImGuiMarkdownFormatFlags_DiscardExtraNewLines
+                                                | ImGuiMarkdownFormatFlags_SeparatorDoesNotAdvance };
 }
 
 void GUI()
