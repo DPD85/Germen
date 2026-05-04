@@ -254,7 +254,7 @@ int Disegnatore()
             vkb::CustomQueueDescription(0, 1, &priorità)  // presentazione
         };
 
-        size_t numeroCode;
+        size_t numeroDescrizioniCode;
 
         // Seleziono la prima famiglia di code di tipo grafico che trovo in modo da creare una sola coda di tale tipo.
         {
@@ -301,11 +301,12 @@ int Disegnatore()
 
             // Evito di duplicare le informazioni se la stessa famiglia di code supporta sia la grafica che la
             // presentazione.
-            numeroCode = descrizioneCode[0].index == descrizioneCode[1].index ? 1 : 2;
+            numeroDescrizioniCode = descrizioneCode[0].index == descrizioneCode[1].index ? 1 : 2;
         }
 
         vkb::DeviceBuilder costruttore(dispositivoFisico);
-        const vkb::Result<vkb::Device> risultato = costruttore.custom_queue_setup(numeroCode, descrizioneCode).build();
+        const vkb::Result<vkb::Device> risultato =
+            costruttore.custom_queue_setup(numeroDescrizioniCode, descrizioneCode).build();
         if (!risultato)
         {
             std::cout << "Creazione dispositivo di rendering fallita: " << risultato.error().message() << '\n';
