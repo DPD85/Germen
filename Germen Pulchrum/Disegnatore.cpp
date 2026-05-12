@@ -42,9 +42,9 @@ ImFont *FontNormale          = nullptr;
 ImFont *FontGrassetto        = nullptr;
 ImFont *FontItalico          = nullptr;
 ImFont *FontItalicoGrassetto = nullptr;
-ImFont *FontGrassettoH1      = nullptr;
-ImFont *FontGrassettoH2      = nullptr;
-ImFont *FontGrassettoH3      = nullptr;
+const float DimensioneFontH1 = 30.0f;
+const float DimensioneFontH2 = 22.5f;
+const float DimensioneFontH3 = 17.55f;
 
 static void CheckVkResultFn(VkResult err);
 static bool CreaCatenaScambio();
@@ -527,63 +527,6 @@ int Disegnatore()
             if (!AggiungiEmojiAlFont())
             {
                 std::cout << "Impossible caricare il font con le emoji colorate.\n";
-                return EXIT_FAILURE;
-            }
-        }
-
-        // ----- Grassetto H1
-
-        {
-            ImFontConfig configFont;
-
-            snprintf(configFont.Name, std::size(configFont.Name), "%s %s", Fonts::IBMPlexSans::Name, "grassetto H1");
-            configFont.Flags           = ImFontFlags_NoLoadError;
-            configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_Bold;
-            configFont.SizePixels      = 30.0f;
-
-            FontGrassettoH1 = io.Fonts->AddFontFromMemoryCompressedTTF(
-                Fonts::IBMPlexSans::CompressedData, std::size(Fonts::IBMPlexSans::CompressedData), 0.0f, &configFont);
-            if (FontGrassettoH1 == nullptr)
-            {
-                std::cout << "Impossible caricare il font per lo stile grassetto H1.\n";
-                return EXIT_FAILURE;
-            }
-        }
-
-        // ----- Grassetto H2
-
-        {
-            ImFontConfig configFont;
-
-            snprintf(configFont.Name, std::size(configFont.Name), "%s %s", Fonts::IBMPlexSans::Name, "grassetto H2");
-            configFont.Flags           = ImFontFlags_NoLoadError;
-            configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_Bold;
-            configFont.SizePixels      = 22.5f;
-
-            FontGrassettoH2 = io.Fonts->AddFontFromMemoryCompressedTTF(
-                Fonts::IBMPlexSans::CompressedData, std::size(Fonts::IBMPlexSans::CompressedData), 0.0f, &configFont);
-            if (FontGrassettoH2 == nullptr)
-            {
-                std::cout << "Impossible caricare il font per lo stile grassetto H2.\n";
-                return EXIT_FAILURE;
-            }
-        }
-
-        // ----- Grassetto H3
-
-        {
-            ImFontConfig configFont;
-
-            snprintf(configFont.Name, std::size(configFont.Name), "%s %s", Fonts::IBMPlexSans::Name, "grassetto H3");
-            configFont.Flags           = ImFontFlags_NoLoadError;
-            configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_Bold;
-            configFont.SizePixels      = 17.55f;
-
-            FontGrassettoH3 = io.Fonts->AddFontFromMemoryCompressedTTF(
-                Fonts::IBMPlexSans::CompressedData, std::size(Fonts::IBMPlexSans::CompressedData), 0.0f, &configFont);
-            if (FontGrassettoH3 == nullptr)
-            {
-                std::cout << "Impossible caricare il font per lo stile grassetto H3.\n";
                 return EXIT_FAILURE;
             }
         }

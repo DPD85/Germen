@@ -55,9 +55,9 @@
 
 #include <imgui_stdlib.h>
 
-// ImGui Markdown
+// ImGui MD
 
-#include <imgui_markdown.h>
+#include <imgui_md.h>
 
 // ImPlot
 

@@ -86,6 +86,7 @@ if(WIN32)
         LICENSE
         Readme.en.md
         Readme.md
+        TODO.md
     )
 
     make_source_group(TARGET SolutionItems)

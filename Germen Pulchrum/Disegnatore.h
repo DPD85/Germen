@@ -26,11 +26,13 @@ extern ImFont *FontNormale;
 extern ImFont *FontGrassetto;
 extern ImFont *FontItalico;
 extern ImFont *FontItalicoGrassetto;
-extern ImFont *FontGrassettoH1;
-extern ImFont *FontGrassettoH2;
-extern ImFont *FontGrassettoH3;
+extern const float DimensioneFontH1;
+extern const float DimensioneFontH2;
+extern const float DimensioneFontH3;
 
 // ----- Temi -----
+
+constexpr float DimensioneDefaultFont = 15.0f;
 
 struct Tema
 {

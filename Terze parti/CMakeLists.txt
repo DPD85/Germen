@@ -196,18 +196,68 @@ target_link_libraries(ImPlot PUBLIC ImGui)
 
 make_source_group(TARGET ImPlot ADDITIONAL_SOURCE_DIR ${ImPlot_SOURCE_DIR})
 
-# ----- ImGui Markdown -----
+# ----- MD4C -----
 
-add_library(ImGui-Markdown INTERFACE)
+CPMAddPackage(
+    NAME MD4C
+    VERSION 0.5.3
+    GIT_TAG release-0.5.3
+    GITHUB_REPOSITORY mity/md4c
+    DOWNLOAD_ONLY ON
+)
 
-target_sources(ImGui-Markdown
+add_library(MD4C STATIC)
+
+target_sources(MD4C
+    PRIVATE
+        ${MD4C_SOURCE_DIR}/src/md4c.c
+        ${MD4C_SOURCE_DIR}/src/md4c.h
+)
+
+target_include_directories(MD4C PUBLIC ${MD4C_SOURCE_DIR}/src)
+
+if(MSVC)
+    target_compile_options(MD4C PRIVATE "/utf-8")
+endif()
+
+target_link_libraries(MD4C PUBLIC ImGui)
+
+make_source_group(TARGET MD4C ADDITIONAL_SOURCE_DIR ${MD4C_SOURCE_DIR})
+
+# ----- ImGui MD -----
+
+#CPMAddPackage(
+#    NAME ImGui-MD
+#    GIT_TAG b9f86beda0cd657b4d07bd9ce88dd05c9088384f
+#    GITHUB_REPOSITORY mekhontsev/imgui_md
+#    DOWNLOAD_ONLY ON
+#)
+
+CPMAddPackage(
+    NAME ImGui-MD
+    GIT_TAG main
+    GIT_REPOSITORY "C:/Projects/Miei Programmi/Germen Pulchrum/imgui_md"
+    DOWNLOAD_ONLY ON
+)
+
+add_library(ImGui-MD STATIC)
+
+target_sources(ImGui-MD
+    PRIVATE
+        ${ImGui-MD_SOURCE_DIR}/imgui_md.cpp
+        ${ImGui-MD_SOURCE_DIR}/imgui_md.h
+)
+
+target_include_directories(ImGui-MD PUBLIC ${ImGui-MD_SOURCE_DIR})
+
+if(MSVC)
+    target_compile_options(ImGui-MD PRIVATE "/utf-8")
+endif()
+
+target_link_libraries(ImGui-MD
     PUBLIC
-    "ImGui Markdown/imgui_markdown.h"
+        MD4C
+        ImGui
 )
 
-target_include_directories(ImGui-Markdown
-    INTERFACE
-    "ImGui Markdown"
-)
-
-target_link_libraries(ImGui-Markdown INTERFACE ImGui)
+make_source_group(TARGET ImGui-MD ADDITIONAL_SOURCE_DIR ${ImGui-MD_SOURCE_DIR})

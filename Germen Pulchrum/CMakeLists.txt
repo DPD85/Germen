@@ -108,9 +108,9 @@ target_link_libraries(Germen
         Boost::locale
         ImGui
         ImGui-FreeType
-    ImGui-Markdown
+        ImGui-MD
         ImGui-SDL3
-    ImGui-StdLib
+        ImGui-StdLib
         ImGui-Vulkan
         ImPlot
         nlohmann_json::nlohmann_json

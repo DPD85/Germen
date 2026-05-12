@@ -17,8 +17,6 @@ static bool finestraDemoPlotAperta      = false;
 static bool finestraMarkdownAperta      = false;
 static int ScalaGUIPercentuale          = 100; // [%]
 
-static ImGui::MarkdownConfig configurazioneMarkdown;
-
 static std::string testoMarkdown = R"(# Aetate ego terras habebas
 
 ## Esse pars gravi consule
@@ -85,9 +83,7 @@ Defendit postquam hastas, ore ut cruor umida nescio: ubi miratur!
 
 static bool LinguaSelezionabile(size_t i);
 
-static void CallbackApriCollegamentoMarkdown(ImGui::MarkdownLinkCallbackData data);
-static void CallbackSuggerimentoMarkdown(ImGui::MarkdownTooltipCallbackData data);
-static void CallbackFormattazioneMarkdown(const ImGui::MarkdownFormatInfo &infoFormattazione, bool inizio);
+static void FinestraMarkDown();
 
 // ----- -----
 
@@ -96,18 +92,6 @@ void InizializzaGUI()
     ScalaGUIPercentuale = static_cast<int>(Impostazioni.scalaGUI * 100); // [%]
 
     ImGui::GetPlatformIO().Platform_LocaleDecimalPoint = '.';
-
-    configurazioneMarkdown = { .linkCallback    = CallbackApriCollegamentoMarkdown,
-                               .tooltipCallback = CallbackSuggerimentoMarkdown, // opzionale
-                               .imageCallback   = nullptr,
-                               .linkIcon        = reinterpret_cast<const char *>(u8"🔗"),
-                               .headingFormats  = { { .font = FontGrassettoH1, .separator = true },
-                                                    { .font = FontGrassettoH2, .separator = true },
-                                                    { .font = FontGrassettoH3, .separator = false } },
-                               .userData        = nullptr,
-                               .formatCallback  = CallbackFormattazioneMarkdown,
-                               .formatFlags     = ImGuiMarkdownFormatFlags_DiscardExtraNewLines
-                                                | ImGuiMarkdownFormatFlags_SeparatorDoesNotAdvance };
 }
 
 void GUI()
@@ -275,31 +259,7 @@ void GUI()
 
     if (finestraDemoPlotAperta) ImPlot::ShowDemoWindow(&finestraDemoPlotAperta);
 
-    if (finestraMarkdownAperta)
-    {
-        if (ImGui::Begin("Markdown", &finestraMarkdownAperta))
-        {
-            constexpr bool OrientamentoVerticale = true;
-
-            ImVec2 dimensioneInputTesto = { -1, -1 };
-            if constexpr (OrientamentoVerticale) dimensioneInputTesto.x = ImGui::GetContentRegionAvail().x * 0.5f;
-            else dimensioneInputTesto.y = ImGui::GetContentRegionAvail().y * 0.4f;
-
-            ImGui::InputTextMultiline(
-                "###TestoMarkdown",
-                &testoMarkdown,
-                dimensioneInputTesto,
-                ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_WordWrap);
-
-            if constexpr (OrientamentoVerticale) ImGui::SameLine();
-            else ImGui::Spacing();
-
-            ImGui::BeginChild("###Anteprima", ImVec2(0, 0), ImGuiChildFlags_Borders);
-            ImGui::Markdown(testoMarkdown.data(), testoMarkdown.size(), configurazioneMarkdown);
-            ImGui::EndChild();
-        }
-        ImGui::End();
-    }
+    if (finestraMarkdownAperta) FinestraMarkDown();
 }
 
 void AggiornaScalaGUI()
@@ -331,82 +291,334 @@ static bool LinguaSelezionabile(const size_t i)
 
 // ----- Markdown -----
 
-static void CallbackApriCollegamentoMarkdown(ImGui::MarkdownLinkCallbackData data)
-{
-    const std::string url(data.link, data.linkLength);
-    if (!SDL_OpenURL(url.data()))
-        std::cout << "[Errore] Impossibile aprire il URL '" << url << "': " << SDL_GetError() << '\n';
-}
+static std::string testTestoMarkdown = (char *)u8R"(
+## Unicode
+⏏ ⏳🌟  
 
-/// @brief Invocata da ImGui Markdown quando è necessario mostrare un suggerimento (tooltip).
-/// Al momento è invocata quando il mouse si trova sopra un collegamento.
-static void CallbackSuggerimentoMarkdown(ImGui::MarkdownTooltipCallbackData data)
-{
-    if (data.linkData.isImage) ImGui::SetTooltip("%.*s", data.linkData.linkLength, data.linkData.link);
-    else ImGui::SetTooltip("%s %.*s", data.linkIcon, data.linkData.linkLength, data.linkData.link);
-}
+# Intestazione H1 [Link: Duck Duck Go](https://duckduckgo.com)
+Testo normale.
 
-/// @brief Invocata da ImGui Markdown subito prima e subito dopo il rendering di un elemento così da poter
-/// personalizzare l'aspetto di quest'ultimo.
-/// @param infoFormattazione informazioni sull'elemento disegnato e sulla configurazione di ImGui Markdown.
-/// @param inizio value True prima del disegno dell'elemento e False dopo.
-static void CallbackFormattazioneMarkdown(const ImGui::MarkdownFormatInfo &infoFormattazione, const bool inizio)
+## Intestazione H2 *italico* **grassetto** __sottolineato__ ***italico e grassetto*** __***sottolineato, italico e grassetto***__
+Testo normale.
+
+### Intestazione H3
+Testo normale.
+
+#### Intestazione H4
+Testo normale.
+
+##### Intestazione H5
+Testo normale.
+
+##### Intestazione H6
+Testo normale.
+
+###### Intestazione H7
+Testo normale.
+
+## Enfasi
+
+***Testo italico e grassetto***.
+
+*Testo italico*.
+
+**Testo grassetto**.
+
+__Testo sottolineato__.
+
+**__Testo sottolineato e grassetto__**.
+
+*__Testo sottolineato ed italico__*.
+
+***__Testo sottolineato, grassetto ed italico__***.
+
+~~Testo barrato~~
+
+~~*Testo barrato ed italico*~~
+
+~~**Testo barrato in grassetto**~~
+
+~~***Testo barrato, italico ed in grassetto***~~
+
+~~__Testo barrato e sottolineato__~~
+
+~~*__Testo barrato, italico e sottolineato__*~~
+
+~~***__Testo barrato, italico, sottolineato ed in grassetto__***~~
+
+## Collegamenti
+
+[Collegamento normale](https://example.com)
+
+*[Collegamento in italico](https://example.com)*
+
+**[Collegamento in grassetto](https://example.com)**
+
+***[Collegamento in italico e grassetto](https://example.com)***
+
+[Collegamento con titolo](https://example.com "Collegamento al dominio di esempio") non funziona.
+
+## Collegamenti veloci
+
+<https://www.markdownguide.org>
+
+<fake@example.com>
+
+## Collegamenti con riferimenti
+
+In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends
+of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to
+eat: it was a [hobbit-hole][1], and that means comfort.
+
+[1]: <https://en.wikipedia.org/wiki/Hobbit#Lifestyle> "Hobbit lifestyles"
+
+## Linee orizzontali
+
+---
+ABC
+***
+ABC
+___
+
+## Interruzioni di linea
+
+In a hole<br>in the ground<br>there<br>lived a hobbit.
+
+## Escape
+
+\*\*\*Testo italico e grassetto\*\*\*.
+
+\*Testo italico\*.
+
+\*\*Testo grassetto\*\*.
+
+\_\_Testo sottolineato\_\_.
+
+\[Collegamento normale\]\(https://example.com\)
+
+\<fake@example.com\>
+
+\# Intestazione H1
+
+\- elemento lista<br>
+\- elemento lista
+
+\* elemento lista<br>
+\* elemento lista
+
+\+ elemento lista<br>
+\+ elemento lista
+
+1\. elemento lista<br>
+2\. elemento lista
+
+\<br\>
+
+\| Syntax      \| Description \|<br>
+\| ----------- \| ----------- \|<br>
+\| Header      \| Title       \|<br>
+\| Paragraph   \| Text        \|
+
+
+## Liste - numerate
+
+Lista con numeri sequenziali:
+1. abc
+2. elemento 2
+    1. elemento 2.1
+    2. elemento 2.2
+3. elemento 3
+
+Lista con singolo numero ripetuto:
+1. abc
+1. elemento 2
+   1. elemento 2.1
+   1. elemento 2.2
+1. elemento 3
+
+Lista con numeri fuori ordine:
+1. abc
+8. elemento 2
+    1. elemento 2.1
+    1. elemento 2.2
+3. elemento 3
+
+## Liste - non numerate
+
+Lista non numerata col trattino:
+- abc
+- elemento 2
+   - elemento 2.1
+   - elemento 2.2
+- elemento 3
+
+Lista non numerata con l'asterisco:
+* abc
+* elemento 2
+    * elemento 2.1
+    * elemento 2.2
+* elemento 3
+
+Lista non numerata col più:
++ abc
++ elemento 2
+    + elemento 2.1
+    + elemento 2.2
++ elemento 3
+
+## Tabelle
+
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |
+
+| Syntax | Description |
+| --- | ----------- |
+| Header | Title |
+| Paragraph | Text |
+
+### Allineamento
+| Sinistra  | Centro  | Destra |
+| :---        |    :----:   |          ---: |
+| Header      | Title       | Here's this   |
+| Paragraph   | Text        | And more      |
+
+## Tabelle con enfasi
+
+| Syntax  | Description  |
+| ----------- | ----------- |
+| Header      | Title       |
+| *italico*   | normale        |
+| normale   | **grassetto**        |
+| normale   | __sottolineato__        |
+| ***italico e grassetto***   | normale        |
+| __***italico, grassetto e sottolineato***__   | normale        |
+
+## Tabelle con collegamenti
+
+| Syntax  | Description  |
+| ----------- | ----------- |
+| [normale](http://example.com)   | normale        |
+| *[italico](http://example.com)*   | normale        |
+| normale   | **[grassetto](http://example.com)**        |
+| ***[italico e grassetto](http://example.com)***   | normale        |
+)";
+
+static std::string tabella = R"(
+### Allineamento
+
+| Sinistra  | Centro  | Destra |
+| :---        |    :----:   |          ---: |
+| Header      | Title       | Here's this   |
+| Paragraph   | Text        | And more      |
+
+## Tabelle con enfasi
+
+| Syntax  | Description  |
+| ----------- | ----------- |
+| Header      | Title       |
+| *italico*   | normale        |
+| normale   | **grassetto**        |
+| normale   | __sottolineato__        |
+| ***italico e grassetto***   | normale        |
+| __***italico, grassetto e sottolineato***__   | normale        |
+
+## Tabelle con collegamenti
+
+| Syntax  | Description  |
+| ----------- | ----------- |
+| [normale](http://example.com)   | normale        |
+| *[italico](http://example.com)*   | normale        |
+| normale   | **[grassetto](http://example.com)**        |
+| ***[italico e grassetto](http://example.com)***   | normale        |
+
+## Tabella
+
+| Syntax | Description |
+| ----------- | ----------- |
+| Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph   | Text        |
+| *italico*   | normale        |
+| normale   | **grassetto**        |
+| normale   | __sottolineato__        |
+| ***italico e grassetto***   | normale        |
+| __***italico, grassetto e sottolineato***__   | normale        |
+| [normale](http://example.com)   | normale        |
+| *[italico](http://example.com)*   | normale        |
+| normale   | **[grassetto](http://example.com)**        |
+| ***[italico e grassetto](http://example.com)***   | normale        |
+)";
+
+struct Markdown: public imgui_md
 {
-    switch (infoFormattazione.type)
+    void get_font(font_info &info) const override
     {
-        case ImGui::MarkdownFormatType::NORMAL_TEXT:
-            break;
-        case ImGui::MarkdownFormatType::EMPHASIS:
-            // Italico (enfasi normale)
-            if (infoFormattazione.level == 1)
-                if (inizio) ImGui::PushFont(FontItalico, 0.0f);
-                else ImGui::PopFont();
-            // Grassetto (enfasi forte)
-            else if (inizio) ImGui::PushFont(FontGrassetto, 0.0f);
-            else ImGui::PopFont();
-
-            break;
-        case ImGui::MarkdownFormatType::HEADING:
+        if (m_is_table_header)
         {
-            const ImGui::MarkdownHeadingFormat &formatoIntestazione =
-                infoFormattazione.level > ImGui::MarkdownConfig::NUMHEADINGS
-                    ? infoFormattazione.config->headingFormats[ImGui::MarkdownConfig::NUMHEADINGS - 1]
-                    : infoFormattazione.config->headingFormats[infoFormattazione.level - 1];
-
-            if (inizio)
-            {
-                if (!(infoFormattazione.config->formatFlags & ImGuiMarkdownFormatFlags_NoNewLineBeforeHeading))
-                    ImGui::NewLine();
-                if (formatoIntestazione.font)
-                    ImGui::PushFont(
-                        formatoIntestazione.font,
-                        formatoIntestazione.fontSize > 0.0f ? formatoIntestazione.fontSize
-                                                            : formatoIntestazione.font->LegacySize);
-            }
-            else
-            {
-                if (formatoIntestazione.separator)
-                {
-                    const ImVec2 cursor = ImGui::GetCursorPos();
-                    ImGui::Separator();
-                    if (infoFormattazione.config->formatFlags & ImGuiMarkdownFormatFlags_SeparatorDoesNotAdvance)
-                        ImGui::SetCursorPos(cursor);
-                }
-                if (formatoIntestazione.font) ImGui::PopFont();
-                ImGui::NewLine();
-            }
-            break;
+            info.font = FontGrassetto;
+            info.size = DimensioneDefaultFont;
+            return;
         }
-        case ImGui::MarkdownFormatType::UNORDERED_LIST:
-            break;
-        case ImGui::MarkdownFormatType::LINK:
-            if (inizio) ImGui::PushStyleColor(ImGuiCol_Text, ImGui::GetStyle().Colors[ImGuiCol_ButtonHovered]);
-            else
-            {
-                ImGui::PopStyleColor();
-                if (infoFormattazione.itemHovered) ImGui::UnderLine(ImGui::GetStyle().Colors[ImGuiCol_ButtonHovered]);
-                else ImGui::UnderLine(ImGui::GetStyle().Colors[ImGuiCol_Button]);
-            }
-            break;
+
+        // Tipo di font
+
+        // Grassetto ed italico
+        if (m_is_strong && m_is_em) info.font = FontItalicoGrassetto;
+        // Grassetto
+        else if (m_is_strong) info.font = FontGrassetto;
+        // Italico
+        else if (m_is_em) info.font = FontItalico;
+        // Testo normale
+        else if (m_hlevel == 0) info.font = FontNormale;
+        else info.font = FontGrassetto;
+
+        // Dimensione font - scala la dimensione in base al livello dell'intestazione.
+
+        // I valori di scala corrispondono alle dimensioni del testo definite nel HTML.
+        float scalaPerLivello[] = {
+            1.0f,  // Testo normale, nessuna intestazione
+            2.0f,  // H1 [em]
+            1.5f,  // H2 [em]
+            1.17f, // H3 [em]
+            1.0f,  // H4 [em]
+            0.83f, // H5 [em]
+            0.67f  // H6 [em]
+        };
+
+        if (m_hlevel < std::size(scalaPerLivello)) info.size = DimensioneDefaultFont * scalaPerLivello[m_hlevel];
     }
+
+    void open_url() const override
+    {
+        if (!SDL_OpenURL(m_href.data()))
+            std::cout << "[Errore] Impossibile aprire il URL '" << m_href << "': " << SDL_GetError() << '\n';
+    }
+};
+
+static Markdown md;
+
+static void FinestraMarkDown()
+{
+    if (ImGui::Begin("Markdown", &finestraMarkdownAperta))
+    {
+        constexpr bool OrientamentoVerticale = true;
+
+        ImVec2 dimensioneInputTesto = { -1, -1 };
+        if constexpr (OrientamentoVerticale) dimensioneInputTesto.x = ImGui::GetContentRegionAvail().x * 0.5f;
+        else dimensioneInputTesto.y = ImGui::GetContentRegionAvail().y * 0.4f;
+
+        ImGui::InputTextMultiline(
+            "###TestoMarkdown",
+            &testTestoMarkdown,
+            dimensioneInputTesto,
+            ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_WordWrap);
+
+        if constexpr (OrientamentoVerticale) ImGui::SameLine();
+        else ImGui::Spacing();
+
+        ImGui::BeginChild("###Anteprima", ImVec2(0, 0), ImGuiChildFlags_Borders);
+        md.print(testTestoMarkdown.data(), testTestoMarkdown.data() + testTestoMarkdown.size());
+        ImGui::EndChild();
+    }
+    ImGui::End();
 }
