@@ -226,23 +226,12 @@ make_source_group(TARGET MD4C ADDITIONAL_SOURCE_DIR ${MD4C_SOURCE_DIR})
 
 # ----- ImGui MD -----
 
-option(BUILD_IMGUI_MD_DEV "Includi la copia locale in sviluppo della libreria" OFF)
-
-if(${BUILD_IMGUI_MD_DEV})
-    CPMAddPackage(
-        NAME ImGui-MD
-        GIT_TAG main
-        GIT_REPOSITORY "${CMAKE_SOURCE_DIR}/../imgui_md"
-        DOWNLOAD_ONLY ON
-    )
-else()
-    CPMAddPackage(
-        NAME ImGui-MD
-        GIT_TAG 600c140fc99972ba5df1398e23aaff4bed5d8268
-        GITHUB_REPOSITORY DPD85/imgui_md
-        DOWNLOAD_ONLY ON
-    )
-endif()
+CPMAddPackage(
+    NAME ImGui-MD
+    GIT_TAG 600c140fc99972ba5df1398e23aaff4bed5d8268
+    GITHUB_REPOSITORY DPD85/imgui_md
+    DOWNLOAD_ONLY ON
+)
 
 add_library(ImGui-MD STATIC)
 
