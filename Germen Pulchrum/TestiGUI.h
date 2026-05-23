@@ -11,3 +11,4 @@ TESTO_GUI(tema, "Tema");
 TESTO_GUI(zoomIU, "Zoom IU");
 TESTO_GUI(default_, "Default");
 TESTO_GUI(annulla, "Annulla");
+TESTO_GUI(testoDimostrativo, "Testo dimostrativo");

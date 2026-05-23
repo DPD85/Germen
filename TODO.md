@@ -1,0 +1,57 @@
+### Generale
+ - [x] ImGui può disegnare un font ad una dimensione diversa rispetto a quella con cui è stato creato (il secondo
+       parametro della PushFont()); quindi togliere i font per gli stili H1, H2 ed H3 ed utilizzare invece sempre
+       il font di grassetto di base cambiandogli la dimensione.
+
+### Markdown
+- [x] caratteri Unicode e non ASCII;
+- [ ] Disegno elementi del markdown:
+    - [x] intestazioni:
+        - [x] con enfasi italico;
+        - [x] con enfasi grassetto;
+        - [x] con enfasi italico e grassetto;
+        - [x] con enfasi sottolineato e grassetto;
+        - [x] con enfasi sottolineato, grassetto ed italico;
+    - [x] paragrafi;
+    - [x] interruzioni di linea;
+    - [x] enfasi:
+        - [x] italico;
+        - [x] grassetto;
+        - [x] grassetto ed italico;
+        - [x] sottolineato;
+        - [x] sottolineato ed italico;
+        - [x] sottolineato e grassetto;
+        - [x] sottolineato, grassetto ed italico;
+    - [ ] blocchi delle citazioni;
+    - [x] collegamenti:
+        - [x] con enfasi italico;
+        - [x] con enfasi grassetto;
+        - [x] con enfasi italico e grassetto;
+    - [ ] codice;
+    - [x] linee orizzontali;
+    - [ ] immagini;
+    - [x] escape;
+    - [ ] lista attività;
+    - [ ] tabelle:
+        - [x] bug: dimensione colonna tiene in considerazione solo il titolo;
+        - [x] bug: se direttamente sotto l'intestazione H3 allora vine indentata verso destro;
+        - [ ] colonne ridimensionabili?
+        - [x] text wrap: solo nel corpo della tabella;
+        - [x] allineamento colonna a sinistra;
+        - [ ] allineamento colonna al centro;
+        - [ ] allineamento colonna a destra;
+        - [ ] personalizzare il font nel titolo, se possibile;
+        - [x] enfasi nelle celle:
+            - [x] italico;
+            - [x] grassetto;
+            - [x] grassetto ed italico;
+            - [x] sottolineato;
+            - [x] sottolineato ed italico;
+            - [x] sottolineato e grassetto;
+            - [x] sottolineato, grassetto ed italico;
+        - [x] collegamenti:
+            - [x] sottolineato;
+            - [x] sottolineato ed italico;
+            - [x] sottolineato e grassetto;
+            - [x] sottolineato, grassetto ed italico;
+    - [ ] codice

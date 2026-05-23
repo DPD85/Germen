@@ -132,6 +132,25 @@ target_include_directories(ImGui-FreeType PUBLIC ${ImGui_SOURCE_DIR}/misc/freety
 
 make_source_group(TARGET ImGui-FreeType ADDITIONAL_SOURCE_DIR ${ImGui_SOURCE_DIR}/misc/freetype)
 
+# ----- ImGui - StdLib
+
+add_library(ImGui-StdLib STATIC)
+
+target_sources(ImGui-StdLib
+    PRIVATE
+    ${ImGui_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp
+    ${ImGui_SOURCE_DIR}/misc/cpp/imgui_stdlib.h
+)
+
+target_link_libraries(ImGui-StdLib
+    PUBLIC
+    ImGui
+)
+
+target_include_directories(ImGui-StdLib PUBLIC ${ImGui_SOURCE_DIR}/misc/cpp)
+
+make_source_group(TARGET ImGui-StdLib ADDITIONAL_SOURCE_DIR ${ImGui_SOURCE_DIR}/misc/cpp)
+
 # ----- ImGui - Aiuti debuggers
 
 if(MSVC)
@@ -176,3 +195,62 @@ endif()
 target_link_libraries(ImPlot PUBLIC ImGui)
 
 make_source_group(TARGET ImPlot ADDITIONAL_SOURCE_DIR ${ImPlot_SOURCE_DIR})
+
+# ----- MD4C -----
+
+CPMAddPackage(
+    NAME MD4C
+    VERSION 0.5.3
+    GIT_TAG release-0.5.3
+    GITHUB_REPOSITORY mity/md4c
+    DOWNLOAD_ONLY ON
+)
+
+add_library(MD4C STATIC)
+
+target_sources(MD4C
+    PRIVATE
+        ${MD4C_SOURCE_DIR}/src/md4c.c
+        ${MD4C_SOURCE_DIR}/src/md4c.h
+)
+
+target_include_directories(MD4C PUBLIC ${MD4C_SOURCE_DIR}/src)
+
+if(MSVC)
+    target_compile_options(MD4C PRIVATE "/utf-8")
+endif()
+
+target_link_libraries(MD4C PUBLIC ImGui)
+
+make_source_group(TARGET MD4C ADDITIONAL_SOURCE_DIR ${MD4C_SOURCE_DIR})
+
+# ----- ImGui MD -----
+
+CPMAddPackage(
+    NAME ImGui-MD
+    GIT_TAG 600c140fc99972ba5df1398e23aaff4bed5d8268
+    GITHUB_REPOSITORY DPD85/imgui_md
+    DOWNLOAD_ONLY ON
+)
+
+add_library(ImGui-MD STATIC)
+
+target_sources(ImGui-MD
+    PRIVATE
+        ${ImGui-MD_SOURCE_DIR}/imgui_md.cpp
+        ${ImGui-MD_SOURCE_DIR}/imgui_md.h
+)
+
+target_include_directories(ImGui-MD PUBLIC ${ImGui-MD_SOURCE_DIR})
+
+if(MSVC)
+    target_compile_options(ImGui-MD PRIVATE "/utf-8")
+endif()
+
+target_link_libraries(ImGui-MD
+    PUBLIC
+        MD4C
+        ImGui
+)
+
+make_source_group(TARGET ImGui-MD ADDITIONAL_SOURCE_DIR ${ImGui-MD_SOURCE_DIR})

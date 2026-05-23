@@ -73,6 +73,8 @@ target_sources(Germen
         "Internazionalizzazione.h"
         "IntestazionePrecompilata.h"
         "Main.cpp"
+        "Markdown.cpp"
+        "Markdown.h"
         "Temi.cpp"
         "TestiGUI.h"
 
@@ -108,7 +110,9 @@ target_link_libraries(Germen
         Boost::locale
         ImGui
         ImGui-FreeType
+        ImGui-MD
         ImGui-SDL3
+        ImGui-StdLib
         ImGui-Vulkan
         ImPlot
         nlohmann_json::nlohmann_json

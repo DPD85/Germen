@@ -42,6 +42,9 @@ ImFont *FontNormale          = nullptr;
 ImFont *FontGrassetto        = nullptr;
 ImFont *FontItalico          = nullptr;
 ImFont *FontItalicoGrassetto = nullptr;
+const float DimensioneFontH1 = 30.0f;
+const float DimensioneFontH2 = 22.5f;
+const float DimensioneFontH3 = 17.55f;
 
 static void CheckVkResultFn(VkResult err);
 static bool CreaCatenaScambio();
@@ -251,7 +254,7 @@ int Disegnatore()
             vkb::CustomQueueDescription(0, 1, &priorità)  // presentazione
         };
 
-        size_t numeroCode;
+        size_t numeroDescrizioniCode;
 
         // Seleziono la prima famiglia di code di tipo grafico che trovo in modo da creare una sola coda di tale tipo.
         {
@@ -298,11 +301,12 @@ int Disegnatore()
 
             // Evito di duplicare le informazioni se la stessa famiglia di code supporta sia la grafica che la
             // presentazione.
-            numeroCode = descrizioneCode[0].index == descrizioneCode[1].index ? 1 : 2;
+            numeroDescrizioniCode = descrizioneCode[0].index == descrizioneCode[1].index ? 1 : 2;
         }
 
         vkb::DeviceBuilder costruttore(dispositivoFisico);
-        const vkb::Result<vkb::Device> risultato = costruttore.custom_queue_setup(numeroCode, descrizioneCode).build();
+        const vkb::Result<vkb::Device> risultato =
+            costruttore.custom_queue_setup(numeroDescrizioniCode, descrizioneCode).build();
         if (!risultato)
         {
             std::cout << "Creazione dispositivo di rendering fallita: " << risultato.error().message() << '\n';
@@ -449,7 +453,6 @@ int Disegnatore()
         {
             ImFontConfig configFont;
 
-            configFont.Name[0] = '\0';
             snprintf(configFont.Name, std::size(configFont.Name), "%s %s", Fonts::IBMPlexSans::Name, "grassetto");
             configFont.Flags           = ImFontFlags_NoLoadError;
             configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_Bold;
@@ -1000,7 +1003,8 @@ int Disegnatore()
         // configurazione ma poi non lo onorano (per esempio llvmpipe), per tanto utilizzo un clock per assicurarmi di
         // non superare la frequenza massima di disegno.
         if (AbilitàVSync) DurataFotogramma = clock.AspettaTicchettioSuccessivo() * 1000.0;
-        else {
+        else
+        {
             high_resolution_clock::time_point tempoFine = high_resolution_clock::now();
             DurataFotogramma = duration_cast<DurataMillisecondi>(tempoFine - tempoInizio).count();
             tempoInizio      = tempoFine;

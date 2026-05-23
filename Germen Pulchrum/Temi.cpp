@@ -7,8 +7,6 @@ using namespace boost::locale;
 
 std::array<Tema, 5> Temi;
 
-static constexpr float DimensioneDefaultFont = 15.0f;
-
 static ImGuiStyle TemaScuro();
 static ImGuiStyle TemaChiaro();
 static ImGuiStyle TemaClassico();
