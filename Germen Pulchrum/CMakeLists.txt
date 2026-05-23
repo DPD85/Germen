@@ -73,6 +73,8 @@ target_sources(Germen
         "Internazionalizzazione.h"
         "IntestazionePrecompilata.h"
         "Main.cpp"
+        "Markdown.cpp"
+        "Markdown.h"
         "Temi.cpp"
         "TestiGUI.h"
 

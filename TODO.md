@@ -3,7 +3,8 @@
        parametro della PushFont()); quindi togliere i font per gli stili H1, H2 ed H3 ed utilizzare invece sempre
        il font di grassetto di base cambiandogli la dimensione.
 
-### ImGui MD
+### Markdown
+- [x] caratteri Unicode e non ASCII;
 - [ ] Disegno elementi del markdown:
     - [x] intestazioni:
         - [x] con enfasi italico;
@@ -39,7 +40,8 @@
         - [x] allineamento colonna a sinistra;
         - [ ] allineamento colonna al centro;
         - [ ] allineamento colonna a destra;
-        - [x] enfasi:
+        - [ ] personalizzare il font nel titolo, se possibile;
+        - [x] enfasi nelle celle:
             - [x] italico;
             - [x] grassetto;
             - [x] grassetto ed italico;
@@ -53,4 +55,3 @@
             - [x] sottolineato e grassetto;
             - [x] sottolineato, grassetto ed italico;
     - [ ] codice
-- [x] caratteri Unicode e non ASCII;

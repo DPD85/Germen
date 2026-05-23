@@ -238,7 +238,7 @@ if(${BUILD_IMGUI_MD_DEV})
 else()
     CPMAddPackage(
         NAME ImGui-MD
-        GIT_TAG main
+        GIT_TAG 600c140fc99972ba5df1398e23aaff4bed5d8268
         GITHUB_REPOSITORY DPD85/imgui_md
         DOWNLOAD_ONLY ON
     )

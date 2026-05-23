@@ -14,9 +14,16 @@ struct TestiGUI
 #undef TESTO_GUI
 };
 
+struct TestoDemoMarkdown
+{
+    std::string name;
+    std::string testo;
+};
+
 extern std::array<Lingua, 3> Lingue;
 extern boost::locale::generator GeneratoreMultiLingua;
 extern TestiGUI TestiGUI;
+extern std::array<TestoDemoMarkdown, 3> TestiDemoMarkdown;
 
 void InizializzaInternazionalizzazione();
 void ImpostaLingua(size_t indice);
