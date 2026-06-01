@@ -107,6 +107,8 @@ target_include_directories(Germen
 
 target_link_libraries(Germen
     PRIVATE
+        ImpostazioniCompilatore
+    PRIVATE
         Boost::locale
         ImGui
         ImGui-FreeType
