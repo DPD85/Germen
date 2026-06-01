@@ -27,7 +27,8 @@ int main(int, char **)
             std::cout << "  " << name << '\n';
         std::cout << '\n';
 
-        const auto &proprietà = std::use_facet<info>(std::locale());
+        const std::locale localeCorrente = std::locale();
+        const auto &proprietà = std::use_facet<info>(localeCorrente);
         std::cout << "Internazionalizzazione utilizzata:\n";
         std::cout << "  Lingua  : " << proprietà.language() << '\n'
                   << "  Stato   : " << proprietà.country() << '\n'
