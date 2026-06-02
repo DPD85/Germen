@@ -13,7 +13,7 @@
       "name": "linux-gcc-12",
       "hidden": true,
       "inherits": [
-        "linux-base-preset"
+        "linux"
       ],
       "cacheVariables": {
         "CMAKE_C_COMPILER": "gcc-12",
@@ -42,7 +42,7 @@
       "name": "linux-gcc-13",
       "hidden": true,
       "inherits": [
-        "linux-base-preset"
+        "linux"
       ],
       "cacheVariables": {
         "CMAKE_C_COMPILER": "gcc-13",
@@ -71,7 +71,7 @@
       "name": "linux-gcc-14",
       "hidden": true,
       "inherits": [
-        "linux-base-preset"
+        "linux"
       ],
       "cacheVariables": {
         "CMAKE_C_COMPILER": "gcc-14",
@@ -85,12 +85,7 @@
         "linux-gcc-14",
         "linux-x64",
         "linux-debug"
-      ],
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "intelliSenseMode": "linux-gcc-x64"
-        }
-      }
+      ]
     },
     {
       "name": "linux-gcc-14-x64-release",
@@ -104,35 +99,43 @@
   ],
   "buildPresets": [
     {
-      "name": "base-build-makefiles",
-      "hidden": true
-    },
-    {
       "name": "linux-gcc-12-x64-debug",
       "displayName": "Linux GCC 12 x64 debug",
-      "configurePreset": "linux-gcc-12-x64-debug"
+      "configurePreset": "linux-gcc-12-x64-debug",
+      "inherits": [
+        "linux"
+      ]
     },
     {
       "name": "linux-gcc-12-x64-release",
       "displayName": "Linux GCC 12 x64 release",
-      "configurePreset": "linux-gcc-12-x64-release"
+      "configurePreset": "linux-gcc-12-x64-release",
+      "inherits": [
+        "linux"
+      ]
     },
     {
       "name": "linux-gcc-13-x64-debug",
       "displayName": "Linux GCC 13 x64 debug",
-      "configurePreset": "linux-gcc-13-x64-debug"
+      "configurePreset": "linux-gcc-13-x64-debug",
+      "inherits": [
+        "linux"
+      ]
     },
     {
       "name": "linux-gcc-13-x64-release",
       "displayName": "Linux GCC 13 x64 release",
-      "configurePreset": "linux-gcc-13-x64-release"
+      "configurePreset": "linux-gcc-13-x64-release",
+      "inherits": [
+        "linux"
+      ]
     },
     {
       "name": "linux-gcc-14-x64-debug",
       "displayName": "Linux GCC 14 x64 debug",
       "configurePreset": "linux-gcc-14-x64-debug",
       "inherits": [
-        "base-build-makefiles"
+        "linux"
       ]
     },
     {
@@ -140,7 +143,7 @@
       "displayName": "Linux GCC 14 x64 release",
       "configurePreset": "linux-gcc-14-x64-release",
       "inherits": [
-        "base-build-makefiles"
+        "linux"
       ]
     }
   ]

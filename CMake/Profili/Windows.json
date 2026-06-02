@@ -10,8 +10,13 @@
   ],
   "configurePresets": [
     {
-      "name": "windows-base-preset",
+      "name": "windows",
       "hidden": true,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
       "inherits": [
         "base-preset"
       ],
@@ -20,24 +25,30 @@
       "cacheVariables": {
         "CPM_SOURCE_CACHE": "${sourceDir}/build/cpm-cache",
         "CPM_USE_NAMED_CACHE_DIRECTORIES": "ON"
-      },
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Windows"
       }
     },
     {
       "name": "windows-x64",
       "hidden": true,
       "inherits": [
-        "windows-base-preset"
+        "windows"
       ],
       "architecture": "x64",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
           "intelliSenseMode": "windows-msvc-x64"
         }
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows",
+      "hidden": true,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
       }
     }
   ]
