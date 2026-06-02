@@ -2,20 +2,23 @@
 
 set(CMAKE_CONFIGURATION_TYPES Debug Release)
 
-message(STATUS "MSVC: abilito avvisi di livello 3")
-add_compile_options("/W3")
-
-message(STATUS "MSVC: abilito compilazione multi processore")
+message(STATUS "MSVC: abilitata compilazione multi processore.")
 add_compile_options("/MP")
 
-message(STATUS "MSVC: abilito modalità di conformità")
-add_compile_options("/permissive-")
+message(STATUS "MSVC: abilitati gli avvisi di livello 3.")
+message(STATUS "MSVC: abilitata modalità di conformità.")
+message(STATUS "MSVC: abilitate le funzioni intrinsic.")
+message(STATUS "MSVC: il linker genera informazioni di debug in configurazione release.")
 
-message(STATUS "MSVC: abilito le funzioni intrinsic")
-add_compile_options("/Oi")
+add_library(ImpostazioniCompilatore INTERFACE)
 
-message(STATUS "MSVC: linker genera informazioni di debug in configurazione release")
-add_link_options("/DEBUG")
+target_compile_options(ImpostazioniCompilatore
+    INTERFACE
+        /W3
+        /permissive-
+        /Oi
+        /DEBUG
+)
 
 # Configurazione globale di MSBuild:
 #   * disabilita l'analisi statica del codice

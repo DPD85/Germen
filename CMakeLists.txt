@@ -1,4 +1,4 @@
-﻿CMAKE_MINIMUM_REQUIRED(VERSION 4.0)
+﻿cmake_minimum_required(VERSION 4.0)
 
 # ----- Set-up progetto e linguaggi -----
 
@@ -12,32 +12,34 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 # Disabilito la scansione dei sorgenti per trovare dipendenze dai moduli (i moduli sono una funzionalità presente dal
 # C++20 in poi), poiché il generatore Ninja ha un bug relativo alle cartelle contenenti spazi.
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 
-# ----- Versione del tool set MSVC -----
+# ----- Versione degli strumenti di compilazione di MSVC -----
 
 if(MSVC)
     if(NOT CMAKE_GENERATOR_TOOLSET)
-        message(FATAL_ERROR "La versione del tool set di MSVC deve essere indicata esplicitamente")
+        message(FATAL_ERROR "La versione degli strumenti di compilazione di MSVC deve essere indicata esplicitamente.")
     endif()
-    message(STATUS "MSVC: tool set ${CMAKE_GENERATOR_TOOLSET}")
+    message(STATUS "MSVC: strumenti di compilazione versione ${CMAKE_GENERATOR_TOOLSET}")
 endif()
 
-# ----- Inclusion of modules -----
+# ----- Inclusione dei moduli -----
 
 include(CMake/Piattaforma.cmake)
 include(CMake/Conan.cmake)
 include(CMake/Funzioni.cmake)
 include(CMake/CPM.cmake)
 
-# ----- IDE configuration -----
+# ----- Configurazione IDE -----
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Germen)
 
-# ----- Source code -----
+# ----- Codice sorgente -----
 
 add_subdirectory("Terze parti")
 add_subdirectory("Strumenti")

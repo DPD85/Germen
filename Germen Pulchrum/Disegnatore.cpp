@@ -38,13 +38,13 @@ bool Esci               = false;
 double DurataFotogramma = 0.0; // [ms]
 float ScalaDPI          = 1.0f;
 
-ImFont *FontNormale          = nullptr;
-ImFont *FontGrassetto        = nullptr;
-ImFont *FontItalico          = nullptr;
-ImFont *FontItalicoGrassetto = nullptr;
-const float DimensioneFontH1 = 30.0f;
-const float DimensioneFontH2 = 22.5f;
-const float DimensioneFontH3 = 17.55f;
+ImFont *FontNormale              = nullptr;
+ImFont *FontGrassetto            = nullptr;
+ImFont *FontItalico              = nullptr;
+ImFont *FontItalicoGrassetto     = nullptr;
+constexpr float DimensioneFontH1 = 30.0f;
+constexpr float DimensioneFontH2 = 22.5f;
+constexpr float DimensioneFontH3 = 17.55f;
 
 static void CheckVkResultFn(VkResult err);
 static bool CreaCatenaScambio();

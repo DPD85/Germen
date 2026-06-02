@@ -40,12 +40,13 @@ constexpr std::string da_u8string(const std::u8string &stringa)
 /// @param [in] dimensioneDestinazione Lunghezza massima della stringa di destinazione.
 inline void CopiaStringa(char *destinazione, const char *sorgente, const size_t dimensioneDestinazione)
 {
-    strncpy(destinazione, sorgente, dimensioneDestinazione);
+    strncpy(destinazione, sorgente, dimensioneDestinazione - 1);
     destinazione[dimensioneDestinazione - 1] = '\0';
 }
 
 /// @brief Copia una stringa dentro un altra, la lunghezza della stringa sorgente sia maggiore della lunghezza massima
 /// della stringa di destinazione allora essa verrà troncata alla lunghezza massima della destinazione.
+/// @tparam Dimensione Lunghezza massima della stringa di destinazione.
 /// @param [out] destinazione Puntatore alla stringa dentro cui copiare.
 /// @param [in] sorgente Puntatore alla stringa da copiare.
 template<int Dimensione>
