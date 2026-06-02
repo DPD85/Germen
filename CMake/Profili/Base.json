@@ -1,0 +1,17 @@
+﻿{
+  "version": 9,
+  "cmakeMinimumRequired": {
+    "major": 4,
+    "minor": 0,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base-preset",
+      "hidden": true,
+      "cacheVariables": {
+        "CPM_USE_NAMED_CACHE_DIRECTORIES": "ON"
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+﻿{
+  "version": 9,
+  "cmakeMinimumRequired": {
+    "major": 4,
+    "minor": 0,
+    "patch": 0
+  },
+  "include": [
+    "Base.json"
+  ],
+  "configurePresets": [
+    {
+      "name": "windows-base-preset",
+      "hidden": true,
+      "inherits": [
+        "base-preset"
+      ],
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cmakeExecutable": "C:\\Program Files\\CMake\\bin\\cmake.exe",
+      "cacheVariables": {
+        "CPM_SOURCE_CACHE": "${sourceDir}/build/cpm-cache",
+        "CPM_USE_NAMED_CACHE_DIRECTORIES": "ON"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "windows-x64",
+      "hidden": true,
+      "inherits": [
+        "windows-base-preset"
+      ],
+      "architecture": "x64",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "intelliSenseMode": "windows-msvc-x64"
+        }
+      }
+    }
+  ]
+}
