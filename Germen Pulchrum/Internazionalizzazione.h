@@ -9,7 +9,7 @@ struct Lingua
 
 struct TestiGUI
 {
-#define TESTO_GUI(var, testo) std::string var;
+#define TESTO_GUI(var, testo) std::string var
 #include "TestiGUI.h"
 #undef TESTO_GUI
 };
