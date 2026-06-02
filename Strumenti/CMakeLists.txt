@@ -1,12 +1,12 @@
 ﻿set(CMAKE_FOLDER "Strumenti")
 
-# ----- BinaryToCompressedC -----
+# ----- IncorporaFile -----
 
-add_executable(BinaryToCompressedC)
+add_executable(IncorporaFile)
 
-target_sources(BinaryToCompressedC
+target_sources(IncorporaFile
     PRIVATE
-        BinaryToCompressedC.cpp
+        IncorporaFile.cpp
 )
 
-make_source_group(TARGET BinaryToCompressedC)
+make_source_group(TARGET IncorporaFile)

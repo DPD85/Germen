@@ -428,11 +428,11 @@ int Disegnatore()
         {
             ImFontConfig configFont;
 
-            CopiaStringa(configFont.Name, Fonts::IBMPlexSans::Name);
+            CopiaStringa(configFont.Name, Fonts::IBMPlexSans::Nome);
             configFont.Flags = ImFontFlags_NoLoadError;
 
             FontNormale = io.Fonts->AddFontFromMemoryCompressedTTF(
-                Fonts::IBMPlexSans::CompressedData, std::size(Fonts::IBMPlexSans::CompressedData), 0.0f, &configFont);
+                Fonts::IBMPlexSans::DatiCompressi, std::size(Fonts::IBMPlexSans::DatiCompressi), 0.0f, &configFont);
             if (FontNormale == nullptr)
             {
                 std::cout << "Impossible caricare il font per lo stile normale.\n";
@@ -453,12 +453,12 @@ int Disegnatore()
         {
             ImFontConfig configFont;
 
-            snprintf(configFont.Name, std::size(configFont.Name), "%s %s", Fonts::IBMPlexSans::Name, "grassetto");
+            snprintf(configFont.Name, std::size(configFont.Name), "%s %s", Fonts::IBMPlexSans::Nome, "grassetto");
             configFont.Flags           = ImFontFlags_NoLoadError;
             configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_Bold;
 
             FontGrassetto = io.Fonts->AddFontFromMemoryCompressedTTF(
-                Fonts::IBMPlexSans::CompressedData, std::size(Fonts::IBMPlexSans::CompressedData), 0.0f, &configFont);
+                Fonts::IBMPlexSans::DatiCompressi, std::size(Fonts::IBMPlexSans::DatiCompressi), 0.0f, &configFont);
             if (FontGrassetto == nullptr)
             {
                 std::cout << "Impossible caricare il font per lo stile grassetto.\n";
@@ -479,12 +479,12 @@ int Disegnatore()
         {
             ImFontConfig configFont;
 
-            CopiaStringa(configFont.Name, Fonts::IBMPlexSansItalic::Name);
+            CopiaStringa(configFont.Name, Fonts::IBMPlexSansItalic::Nome);
             configFont.Flags = ImFontFlags_NoLoadError;
 
             FontItalico = io.Fonts->AddFontFromMemoryCompressedTTF(
-                Fonts::IBMPlexSansItalic::CompressedData,
-                std::size(Fonts::IBMPlexSansItalic::CompressedData),
+                Fonts::IBMPlexSansItalic::DatiCompressi,
+                std::size(Fonts::IBMPlexSansItalic::DatiCompressi),
                 0.0f,
                 &configFont);
             if (FontItalico == nullptr)
@@ -507,13 +507,13 @@ int Disegnatore()
         {
             ImFontConfig configFont;
 
-            snprintf(configFont.Name, std::size(configFont.Name), "%s %s", Fonts::IBMPlexSansItalic::Name, "grassetto");
+            snprintf(configFont.Name, std::size(configFont.Name), "%s %s", Fonts::IBMPlexSansItalic::Nome, "grassetto");
             configFont.Flags           = ImFontFlags_NoLoadError;
             configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_Bold;
 
             FontItalicoGrassetto = io.Fonts->AddFontFromMemoryCompressedTTF(
-                Fonts::IBMPlexSansItalic::CompressedData,
-                std::size(Fonts::IBMPlexSansItalic::CompressedData),
+                Fonts::IBMPlexSansItalic::DatiCompressi,
+                std::size(Fonts::IBMPlexSansItalic::DatiCompressi),
                 0.0f,
                 &configFont);
             if (FontItalicoGrassetto == nullptr)
@@ -1275,14 +1275,14 @@ static bool AggiungiEmojiAlFont()
     {
         ImFontConfig configFont;
 
-        CopiaStringa(configFont.Name, Fonts::BabelStoneFlags::Name);
+        CopiaStringa(configFont.Name, Fonts::BabelStoneFlags::Nome);
         configFont.Flags           = ImFontFlags_NoLoadError;
         configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_LoadColor;
         configFont.MergeMode       = true;
 
         const ImFont *font = ImGui::GetIO().Fonts->AddFontFromMemoryCompressedTTF(
-            Fonts::BabelStoneFlags::CompressedData,
-            std::size(Fonts::BabelStoneFlags::CompressedData),
+            Fonts::BabelStoneFlags::DatiCompressi,
+            std::size(Fonts::BabelStoneFlags::DatiCompressi),
             0.0f,
             &configFont);
         if (font == nullptr)
@@ -1297,13 +1297,13 @@ static bool AggiungiEmojiAlFont()
     {
         ImFontConfig configFont;
 
-        CopiaStringa(configFont.Name, Fonts::NotoColorEmoji::Name);
+        CopiaStringa(configFont.Name, Fonts::NotoColorEmoji::Nome);
         configFont.Flags           = ImFontFlags_NoLoadError;
         configFont.FontLoaderFlags = ImGuiFreeTypeLoaderFlags_LoadColor;
         configFont.MergeMode       = true;
 
         const ImFont *font = ImGui::GetIO().Fonts->AddFontFromMemoryCompressedTTF(
-            Fonts::NotoColorEmoji::CompressedData, std::size(Fonts::NotoColorEmoji::CompressedData), 0.0f, &configFont);
+            Fonts::NotoColorEmoji::DatiCompressi, std::size(Fonts::NotoColorEmoji::DatiCompressi), 0.0f, &configFont);
         if (font == nullptr)
         {
             std::cout << "Impossible caricare il font con le emoji colorate.\n";

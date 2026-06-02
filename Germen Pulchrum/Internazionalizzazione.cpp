@@ -110,7 +110,7 @@ std::vector<char> CaricaCatalogoMessaggi(const std::string &nomeFile, const std:
     constexpr char prefisso[] = "/en_GB/";
 
     if (nomeFile.starts_with(prefisso))
-        return { CatalogoLingue::en_GB::Data, CatalogoLingue::en_GB::Data + std::size(CatalogoLingue::en_GB::Data) };
+        return { CatalogoLingue::en_GB::Dati, CatalogoLingue::en_GB::Dati + std::size(CatalogoLingue::en_GB::Dati) };
 
     return {};
 }

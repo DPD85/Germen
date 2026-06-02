@@ -28,7 +28,7 @@ function(IncorporazioneFile)
     endif()
 
     if(ARG_NO_COMPRESS)
-        set(parametriAggiuntivi "-nocompress")
+        set(parametriAggiuntivi "-noncomprimere")
     else()
         set(parametriAggiuntivi "")
     endif()
@@ -37,9 +37,9 @@ function(IncorporazioneFile)
         OUTPUT
         "${ARG_OUTPUT_NAME}.cpp"
         "${ARG_OUTPUT_NAME}.h"
-        COMMAND $<TARGET_FILE:BinaryToCompressedC> ${parametriAggiuntivi} -nostatic "${ARG_INPUT_FILE}" ${ARG_NAMESPACE} ${ARG_SYMBOL_NAME} "${ARG_OUTPUT_NAME}"
+        COMMAND $<TARGET_FILE:IncorporaFile> ${parametriAggiuntivi} ${ARG_NAMESPACE} ${ARG_SYMBOL_NAME} "${ARG_INPUT_FILE}" "${ARG_OUTPUT_NAME}"
         MAIN_DEPENDENCY "${ARG_INPUT_FILE}"
-        DEPENDS BinaryToCompressedC
+        DEPENDS IncorporaFile
         COMMENT "${ARG_COMMENT}"
         VERBATIM
         COMMAND_EXPAND_LISTS
