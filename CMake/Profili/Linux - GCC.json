@@ -1,0 +1,150 @@
+﻿{
+  "version": 9,
+  "cmakeMinimumRequired": {
+    "major": 4,
+    "minor": 0,
+    "patch": 0
+  },
+  "include": [
+    "Linux.json"
+  ],
+  "configurePresets": [
+    {
+      "name": "linux-gcc-12",
+      "hidden": true,
+      "inherits": [
+        "linux"
+      ],
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc-12",
+        "CMAKE_CXX_COMPILER": "g++-12"
+      }
+    },
+    {
+      "name": "linux-gcc-12-x64-debug",
+      "displayName": "Linux GCC 12 x64 debug",
+      "inherits": [
+        "linux-gcc-12",
+        "linux-x64",
+        "linux-debug"
+      ]
+    },
+    {
+      "name": "linux-gcc-12-x64-release",
+      "displayName": "Linux GCC 12 x64 release",
+      "inherits": [
+        "linux-gcc-12",
+        "linux-x64",
+        "linux-release"
+      ]
+    },
+    {
+      "name": "linux-gcc-13",
+      "hidden": true,
+      "inherits": [
+        "linux"
+      ],
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc-13",
+        "CMAKE_CXX_COMPILER": "g++-13"
+      }
+    },
+    {
+      "name": "linux-gcc-13-x64-debug",
+      "displayName": "Linux GCC 13 x64 debug",
+      "inherits": [
+        "linux-gcc-13",
+        "linux-x64",
+        "linux-debug"
+      ]
+    },
+    {
+      "name": "linux-gcc-13-x64-release",
+      "displayName": "Linux GCC 13 x64 release",
+      "inherits": [
+        "linux-gcc-13",
+        "linux-x64",
+        "linux-release"
+      ]
+    },
+    {
+      "name": "linux-gcc-14",
+      "hidden": true,
+      "inherits": [
+        "linux"
+      ],
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc-14",
+        "CMAKE_CXX_COMPILER": "g++-14"
+      }
+    },
+    {
+      "name": "linux-gcc-14-x64-debug",
+      "displayName": "Linux GCC 14 x64 debug",
+      "inherits": [
+        "linux-gcc-14",
+        "linux-x64",
+        "linux-debug"
+      ]
+    },
+    {
+      "name": "linux-gcc-14-x64-release",
+      "displayName": "Linux GCC 14 x64 release",
+      "inherits": [
+        "linux-gcc-14",
+        "linux-x64",
+        "linux-release"
+      ]
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "linux-gcc-12-x64-debug",
+      "displayName": "Linux GCC 12 x64 debug",
+      "configurePreset": "linux-gcc-12-x64-debug",
+      "inherits": [
+        "linux"
+      ]
+    },
+    {
+      "name": "linux-gcc-12-x64-release",
+      "displayName": "Linux GCC 12 x64 release",
+      "configurePreset": "linux-gcc-12-x64-release",
+      "inherits": [
+        "linux"
+      ]
+    },
+    {
+      "name": "linux-gcc-13-x64-debug",
+      "displayName": "Linux GCC 13 x64 debug",
+      "configurePreset": "linux-gcc-13-x64-debug",
+      "inherits": [
+        "linux"
+      ]
+    },
+    {
+      "name": "linux-gcc-13-x64-release",
+      "displayName": "Linux GCC 13 x64 release",
+      "configurePreset": "linux-gcc-13-x64-release",
+      "inherits": [
+        "linux"
+      ]
+    },
+    {
+      "name": "linux-gcc-14-x64-debug",
+      "displayName": "Linux GCC 14 x64 debug",
+      "configurePreset": "linux-gcc-14-x64-debug",
+      "inherits": [
+        "linux"
+      ]
+    },
+    {
+      "name": "linux-gcc-14-x64-release",
+      "displayName": "Linux GCC 14 x64 release",
+      "configurePreset": "linux-gcc-14-x64-release",
+      "inherits": [
+        "linux"
+      ]
+    }
+  ]
+}

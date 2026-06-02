@@ -1,0 +1,72 @@
+﻿{
+  "version": 9,
+  "cmakeMinimumRequired": {
+    "major": 4,
+    "minor": 0,
+    "patch": 0
+  },
+  "include": [
+    "Windows.json"
+  ],
+  "configurePresets": [
+    {
+      "name": "windows-v143",
+      "hidden": true,
+      "inherits": [
+        "windows"
+      ],
+      "generator": "Visual Studio 17 2022",
+      "toolset": "v143"
+    },
+    {
+      "name": "windows-v143-x64",
+      "displayName": "Windows v143 x64",
+      "inherits": [
+        "windows-x64",
+        "windows-v143"
+      ]
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "msvc-x64-debug",
+      "hidden": true,
+      "inherits": [
+        "windows"
+      ],
+      "nativeToolOptions": [
+        "/p:Platform=x64",
+        "/p:Configuration=Debug",
+        "/maxcpucount"
+      ]
+    },
+    {
+      "name": "msvc-x64-release",
+      "hidden": true,
+      "inherits": [
+        "windows"
+      ],
+      "nativeToolOptions": [
+        "/p:Platform=x64",
+        "/p:Configuration=Release",
+        "/maxcpucount"
+      ]
+    },
+    {
+      "name": "windows-v143-x64-debug",
+      "displayName": "Windows v143 x64 debug",
+      "configurePreset": "windows-v143-x64",
+      "inherits": [
+        "msvc-x64-debug"
+      ]
+    },
+    {
+      "name": "windows-v143-x64-release",
+      "displayName": "Windows v143 x64 release",
+      "configurePreset": "windows-v143-x64",
+      "inherits": [
+        "msvc-x64-release"
+      ]
+    }
+  ]
+}

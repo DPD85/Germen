@@ -1,0 +1,88 @@
+﻿{
+  "version": 9,
+  "cmakeMinimumRequired": {
+    "major": 4,
+    "minor": 0,
+    "patch": 0
+  },
+  "include": [
+    "Base.json"
+  ],
+  "configurePresets": [
+    {
+      "name": "linux",
+      "hidden": true,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "inherits": [
+        "base-preset"
+      ],
+      "binaryDir": "${sourceParentDir}/build/${presetName}",
+      "cacheVariables": {
+        "CPM_SOURCE_CACHE": "${sourceParentDir}/build/cpm-cache"
+      },
+      "generator": "Ninja",
+      "environment": {
+        "NINJA_STATUS": "[%f/%t] (%e) "
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": "Linux"
+        },
+        "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+          "sourceDir": "$env{HOME}/VSCMakeProjects/$ms{projectDirName}/source",
+          "copySources": true,
+          "rsyncCommandArgs": [
+            "-t"
+          ],
+          "copySourcesOptions": {
+            "exclusionList": [
+              "/.vs/",
+              "/.git/",
+              "/out/",
+              "/.build-*/",
+              "/.package_*/",
+              "/bin/",
+              "/packages/",
+              "obj",
+              "/build/",
+              "/install/"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "linux-x64",
+      "hidden": true
+    },
+    {
+      "name": "linux-debug",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "linux-release",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "linux",
+      "hidden": true,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    }
+  ]
+}
