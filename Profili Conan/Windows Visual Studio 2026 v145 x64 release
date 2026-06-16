@@ -1,0 +1,19 @@
+﻿[settings]
+arch=x86_64
+build_type=Release
+compiler=msvc
+compiler.cstd=17
+compiler.cppstd=20
+compiler.runtime=dynamic
+compiler.runtime_type=Release
+compiler.version=195
+os=Windows
+
+[conf]
+tools.microsoft.msbuild:vs_version=18
+
+[replace_tool_requires]
+# B2 è il sistema di compilazione usato dalla libreria Boost, dalla versione 5.4.2 esso supporta gli strumenti di compilazione v145.
+b2/*: b2/[>=5.4.2 <6]
+# CMake è utilizato dalla libreria SDL, dalla versione 4.2.0 esso supporta Visual Studio 2026.
+cmake/*: cmake/[>=4.2]

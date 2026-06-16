@@ -18,7 +18,7 @@ endif()
 set(CONAN_PROFILE_DIR "${CMAKE_SOURCE_DIR}/Profili Conan")
 
 if(WIN32)
-    set(CONAN_PROFILE_NAME              "Windows ${CMAKE_GENERATOR_TOOLSET} x64")
+    set(CONAN_PROFILE_NAME              "Windows Visual Studio ${VS_YEAR} ${CMAKE_GENERATOR_TOOLSET} x64")
     set(CONAN_PROFILE_DEBUG             "${CONAN_PROFILE_DIR}/${CONAN_PROFILE_NAME} debug")
     set(CONAN_PROFILE_RELEASE           "${CONAN_PROFILE_DIR}/${CONAN_PROFILE_NAME} release")
     set(CONAN_PROFILE_DEBUG_TIMESTAMP   "${CMAKE_BINARY_DIR}/${CONAN_PROFILE_NAME} debug.timestamp")
@@ -127,5 +127,5 @@ endif()
 
 # ----- Configurazione percorsi di ricerca usati per trovare i pacchetti -----
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CONAN_OUTPUT_DIR}/conan")
-set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${CONAN_OUTPUT_DIR}/conan")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CONAN_OUTPUT_DIR}/Conan")
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${CONAN_OUTPUT_DIR}/Conan")
