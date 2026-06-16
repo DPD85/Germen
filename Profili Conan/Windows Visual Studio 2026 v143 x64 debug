@@ -8,5 +8,10 @@ compiler.runtime=dynamic
 compiler.runtime_type=Debug
 compiler.version=194
 os=Windows
+
 [conf]
 tools.microsoft.msbuild:vs_version=18
+
+[replace_tool_requires]
+# CMake è utilizato dalla libreria SDL, dalla versione 4.2.0 esso supporta Visual Studio 2026.
+cmake/*: cmake/[>=4.2]
