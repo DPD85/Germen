@@ -1,8 +1,13 @@
 ﻿set(CMAKE_FOLDER "Terze parti")
 
-# Nessuno dei target definiti in questa cartelle o nelle sotto cartelle verrà compilato di defaut ma solamente se
-# impostato come dipendenza di un altro target. In questo modo si compilano solo le librerie effettivamente usate.
-set_directory_properties(PROPERTIES EXCLUDE_FROM_ALL ON)
+set_directory_properties(PROPERTIES
+    # Nessuno dei target definiti in questa cartelle o nelle sotto cartelle verrà compilato di defaut ma solamente se
+    # impostato come dipendenza di un altro target. In questo modo si compilano solo le librerie effettivamente usate.
+    EXCLUDE_FROM_ALL ON
+    # Tutti target, non importati, definiti in questa cartelle o nelle sotto cartelle saranno impostati come target di
+    # sistema, questo fa si che tutti i loro file di inclusione vengano considerati file di sistema.
+    SYSTEM ON
+)
 
 # ----- vk-bootstrap -----
 
