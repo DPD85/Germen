@@ -5,6 +5,7 @@ set(CMAKE_CONFIGURATION_TYPES Debug Release)
 message(STATUS "MSVC: abilitata compilazione multi processore.")
 add_compile_options("/MP")
 
+message(STATUS "MSVC: codifica sempre le stringhe in UTF-8.")
 message(STATUS "MSVC: abilitati gli avvisi di livello 3.")
 message(STATUS "MSVC: abilitata modalità di conformità.")
 message(STATUS "MSVC: abilitate le funzioni intrinsic.")
@@ -14,6 +15,7 @@ add_library(ImpostazioniCompilatore INTERFACE)
 
 target_compile_options(ImpostazioniCompilatore
     INTERFACE
+        /utf-8
         /W3
         /permissive-
         /Oi

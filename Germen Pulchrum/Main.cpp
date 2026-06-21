@@ -61,3 +61,23 @@ int main(int, char **)
 
     return Disegnatore();
 }
+
+static constexpr bool ByteUguali(const char *a, const char8_t *b)
+{
+    while (*a || *b)
+    {
+        if (static_cast<unsigned char>(*a) != static_cast<unsigned char>(*b)) return false;
+        ++a;
+        ++b;
+    }
+    return true;
+}
+
+// ----- Verifica codifica stringhe in UTF-8 -----
+// I programmi in C++ hanno due codifiche per i caratteri, una per i file sorgenti ed una per le stringhe del programma.
+// La prima codifica è valida durante la compilazione mentre la seconda durante l'esecuzione.
+
+static_assert(
+    ByteUguali("Riga con caratteri UTF-8: à è ì", u8"Riga con caratteri UTF-8: à è ì"),
+    "Il programma non e' compilato con in UTF-8 (execution charset), le stringhe al suo interno sono codificate "
+    "diversamente, di conseguenza potrebbe non funzionare correttamente.");
