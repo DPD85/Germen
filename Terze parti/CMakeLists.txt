@@ -1,5 +1,9 @@
 ﻿set(CMAKE_FOLDER "Terze parti")
 
+# Nessuno dei target definiti in questa cartelle o nelle sotto cartelle verrà compilato di defaut ma solamente se
+# impostato come dipendenza di un altro target. In questo modo si compilano solo le librerie effettivamente usate.
+set_directory_properties(PROPERTIES EXCLUDE_FROM_ALL ON)
+
 # ----- vk-bootstrap -----
 
 CPMAddPackage(
@@ -266,7 +270,7 @@ CPMAddPackage(
     GITLAB_REPOSITORY graphviz/graphviz
     PATCHES Graphviz-FlexBison.patch
     OPTIONS
-        # Graphviz, su Linux, necessità delle estensioni GNU del linguaggi C per compilare.
+        # Graphviz, su Linux, necessità delle estensioni GNU del linguaggio C per compilare.
         "CMAKE_C_EXTENSIONS ON"
         "BUILD_SHARED_LIBS 0"
         "BUILD_TESTING 0"
