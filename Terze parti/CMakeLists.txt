@@ -266,6 +266,8 @@ CPMAddPackage(
     GITLAB_REPOSITORY graphviz/graphviz
     PATCHES Graphviz-FlexBison.patch
     OPTIONS
+        # Graphviz, su Linux, necessità delle estensioni GNU del linguaggi C per compilare.
+        "CMAKE_C_EXTENSIONS ON"
         "BUILD_SHARED_LIBS 0"
         "BUILD_TESTING 0"
         "ENABLE_D OFF"
@@ -295,7 +297,12 @@ CPMAddPackage(
         "WITH_WEBP OFF"
         "WITH_X OFF"
         "WITH_ZLIB OFF"
+        "CMAKE_DISABLE_FIND_PACKAGE_AA ON"
+        "CMAKE_DISABLE_FIND_PACKAGE_ANN ON"
         "CMAKE_DISABLE_FIND_PACKAGE_CAIRO ON"
+        "CMAKE_DISABLE_FIND_PACKAGE_DevIL ON"
+        "CMAKE_DISABLE_FIND_PACKAGE_GD ON"
+        "CMAKE_DISABLE_FIND_PACKAGE_GTS ON"
         "CMAKE_DISABLE_FIND_PACKAGE_PANGOCAIRO ON"
         "install_win_dependency_dlls 0"
 )

@@ -20,7 +20,11 @@ class ConanApplication(ConanFile):
             "libsdl3-dev", # Su Linux uso SDL3 dai pacchetti di sistema poiché il pacchetto Conan non funziona con Wayland.
             # Vulkan
             "libvulkan-dev",
-            "vulkan-utility-libraries-dev"
+            "vulkan-utility-libraries-dev",
+            # Graphviz
+            "bison",
+            "flex",
+            "python3"
         ]
         apt = Apt(self)
         result = apt.install(packages)
