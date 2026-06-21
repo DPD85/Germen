@@ -273,7 +273,7 @@ CPMAddPackage(
         "ENABLE_GUILE OFF"
         "ENABLE_JAVA OFF"
         "ENABLE_JAVASCRIPT OFF"
-        "ENABLE_LTDL AUTO"
+        "ENABLE_LTDL OFF"
         "ENABLE_LUA OFF"
         "ENABLE_PERL OFF"
         "ENABLE_PHP OFF"
