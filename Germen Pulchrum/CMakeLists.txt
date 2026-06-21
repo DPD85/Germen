@@ -122,6 +122,10 @@ target_link_libraries(Germen
         SDL3::SDL3
         vk-bootstrap::vk-bootstrap
         Vulkan::Vulkan
+        gvc
+        cgraph
+        gvplugin_core
+        gvplugin_dot_layout
 )
 
 if(MSVC)

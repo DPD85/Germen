@@ -6,6 +6,7 @@
 | Boost                               |    1.88.0 | https://conan.io/center/recipes/boost?version=1.88.0          |
 | CPM                                 |    0.42.0 | https://github.com/cpm-cmake/CPM.cmake                        |
 | FreeType                            |    2.14.1 | https://conan.io/center/recipes/freetype?version=2.14.1       |
+| Graphviz                            |    15.1.0 | https://graphviz.org/                                         |
 | IBM Plex Sans font                  |   nessuna | https://fonts.google.com/specimen/IBM+Plex+Sans               |
 | ImGui (docking)                     |    1.92.6 | https://github.com/ocornut/imgui.git                          |
 | ImGui MD                            |     1.0.0 | https://github.com/DPD85/imgui_md                             |

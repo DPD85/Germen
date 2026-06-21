@@ -254,3 +254,50 @@ target_link_libraries(ImGui-MD
 )
 
 make_source_group(TARGET ImGui-MD ADDITIONAL_SOURCE_DIR ${ImGui-MD_SOURCE_DIR})
+
+# ----- Graphviz -----
+
+set(CMAKE_FOLDER "Terze parti/Graphviz")
+
+CPMAddPackage(
+    NAME Graphviz
+    VERSION 15.1.0
+    GIT_TAG 15.1.0
+    GITLAB_REPOSITORY graphviz/graphviz
+    PATCHES Graphviz-FlexBison.patch
+    OPTIONS
+        "BUILD_SHARED_LIBS 0"
+        "BUILD_TESTING 0"
+        "ENABLE_D OFF"
+        "ENABLE_GO OFF"
+        "ENABLE_GUILE OFF"
+        "ENABLE_JAVA OFF"
+        "ENABLE_JAVASCRIPT OFF"
+        "ENABLE_LTDL AUTO"
+        "ENABLE_LUA OFF"
+        "ENABLE_PERL OFF"
+        "ENABLE_PHP OFF"
+        "ENABLE_PYTHON OFF"
+        "ENABLE_R OFF"
+        "ENABLE_RUBY OFF"
+        "ENABLE_SHARP OFF"
+        "ENABLE_SWIG OFF"
+        "ENABLE_TCL OFF"
+        "WITH_EXPAT OFF"
+        "WITH_GDK OFF"
+        "WITH_GHOSTSCRIPT OFF"
+        "WITH_GTK OFF"
+        "WITH_GVEDIT OFF"
+        "WITH_POPPLER OFF"
+        "WITH_QUARTZ OFF"
+        "WITH_RSVG OFF"
+        "WITH_SMYRNA OFF"
+        "WITH_WEBP OFF"
+        "WITH_X OFF"
+        "WITH_ZLIB OFF"
+        "CMAKE_DISABLE_FIND_PACKAGE_CAIRO ON"
+        "CMAKE_DISABLE_FIND_PACKAGE_PANGOCAIRO ON"
+        "install_win_dependency_dlls 0"
+)
+
+set(CMAKE_FOLDER "Terze parti")

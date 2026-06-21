@@ -1,5 +1,6 @@
 ﻿#include "IntestazionePrecompilata.h"
 
+#include "CodaCancellazione.h"
 #include "CostantiEdAltro.h"
 #include "Disegnatore.h"
 #include "Estensioni ImGui/Estensioni.h"
@@ -22,6 +23,7 @@ static void FinestraImpostazioni();
 static bool LinguaSelezionabile(size_t i);
 
 static void FinestraMarkDown();
+static void FinestraDiagramma();
 
 // ----- -----
 
@@ -108,6 +110,8 @@ void GUI()
     if (finestraDemoPlotAperta) ImPlot::ShowDemoWindow(&finestraDemoPlotAperta);
 
     if (finestraMarkdownAperta) FinestraMarkDown();
+
+    FinestraDiagramma();
 }
 
 void AggiornaScalaGUI()
@@ -274,4 +278,75 @@ static void FinestraMarkDown()
         ImGui::EndChild();
     }
     ImGui::End();
+}
+
+// ----- Graphviz -----
+
+const std::string dotText = R"(digraph Flusso {
+    node [fontname="Helvetica"]
+
+    start  [shape=ellipse,  fillcolor="#4CAF50", color="#388E3C", label="Inizio"]
+    check  [shape=diamond,  fillcolor="#FFC107", color="#F57F17", label="Condizione?"]
+    action [shape=box,      fillcolor="#2196F3", color="#1565C0", label="Esegui\nAzione"]
+    end    [shape=ellipse,  fillcolor="#F44336", color="#B71C1C", label="Fine"]
+
+    start  -> check  [label="avvia"]
+    check  -> action [label="sì", color="#4CAF50"]
+    check  -> end    [label="no", color="#F44336"]
+    action -> end
+})";
+
+#include <gvc.h>
+#include <gvplugin.h>
+
+extern "C"
+{
+    extern gvplugin_library_t gvplugin_core_LTX_library;
+    extern gvplugin_library_t gvplugin_dot_layout_LTX_library;
+    // aggiungi neato_layout, ecc. se ti servono altri engine
+}
+
+static constexpr lt_symlist_t gvPlugins[] = { { "gvplugin_core_LTX_library", &gvplugin_core_LTX_library },
+                                              { "gvplugin_dot_layout_LTX_library", &gvplugin_dot_layout_LTX_library },
+                                              { 0, 0 } };
+
+static Agraph_t *currentGraph = nullptr;
+
+static void FinestraDiagramma()
+{
+    CodaCancellazione eliminatore;
+
+    // -----
+
+    GVC_t *gvc = gvContextPlugins(gvPlugins, 0);
+    if (gvc == nullptr) return;
+
+    eliminatore.Aggiungi(
+        [gvc]
+        {
+            gvFreeContext(gvc);
+        });
+
+    // -----
+
+    Agraph_t *newGraph = agmemread(dotText.c_str());
+
+    if (!newGraph)
+    {
+        // sintassi non valida: mantenere a video l'ultimo layout valido,
+        // mostrare l'errore catturato (vedi 4.3)
+    }
+    else
+    {
+        if (currentGraph)
+        {
+            gvFreeLayout(gvc, currentGraph);
+            agclose(currentGraph);
+        }
+        gvLayout(gvc, newGraph, "dot");
+        currentGraph = newGraph;
+        // estrazione coordinate (vedi 4.4)
+    }
+
+    double altezzaGrafo = GD_bb(currentGraph).UR.y;
 }
