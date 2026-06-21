@@ -73,6 +73,10 @@ if(WIN32)
         "Profili Conan/Windows Visual Studio 2026 v145 x64 debug"
         "Profili Conan/Windows Visual Studio 2026 v145 x64 release"
 
+        "Spell Checker/en-GB_User.dic"
+        "Spell Checker/it-IT_User.dic"
+        "Spell Checker/Parole ignorate.dic"
+
         "Terze parti/CMakeLists.txt"
         "Terze parti/ImGui-Config.patch"
         "Terze parti/Readme.en.md"
@@ -82,6 +86,7 @@ if(WIN32)
 
         .clang-format
         .clang-tidy
+        .editorconfig
         .gitattributes
         .gitignore
         CMakeLists.txt
