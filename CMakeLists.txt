@@ -85,6 +85,7 @@ if(WIN32)
         "Spell Checker/Parole ignorate.dic"
 
         "Terze parti/CMakeLists.txt"
+        "Terze parti/Graphviz-FlexBison.patch"
         "Terze parti/ImGui-Config.patch"
         "Terze parti/Readme.en.md"
         "Terze parti/Readme.md"
