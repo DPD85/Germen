@@ -49,16 +49,23 @@ add_subdirectory("Germen Pulchrum")
 
 if(WIN32)
     add_custom_target(SolutionItems SOURCES
-        CMake/Compilatori/GCC/Funzioni.cmake
-        CMake/Compilatori/GCC/Impostazioni.cmake
-        CMake/Compilatori/MSVC/Funzioni.cmake
-        CMake/Compilatori/MSVC/Impostazioni.cmake
-        CMake/Conan.cmake
-        CMake/Funzioni.cmake
-        CMake/CPM.cmake
-        CMake/Piattaforma.cmake
-        CMake/Piattaforme/Linux/Impostazioni.cmake
-        CMake/Piattaforme/Windows/Impostazioni.cmake
+        "CMake/Compilatori/GCC/Funzioni.cmake"
+        "CMake/Compilatori/GCC/Impostazioni.cmake"
+        "CMake/Compilatori/MSVC/Funzioni.cmake"
+        "CMake/Compilatori/MSVC/Impostazioni.cmake"
+        "CMake/Conan.cmake"
+        "CMake/CPM.cmake"
+        "CMake/Funzioni.cmake"
+        "CMake/Piattaforma.cmake"
+        "CMake/Piattaforme/Linux/Impostazioni.cmake"
+        "CMake/Piattaforme/Windows/Impostazioni.cmake"
+        "CMake/Profili/Base.json"
+        "CMake/Profili/Linux - GCC.json"
+        "CMake/Profili/Linux.json"
+        "CMake/Profili/Windows - MSVC.json"
+        "CMake/Profili/Windows.json"
+
+        "Germen Pulchrum/Lingue/en_GB/LC_MESSAGES/Lingua.po"
 
         "Profili Conan/Linux GCC 12 x64 debug"
         "Profili Conan/Linux GCC 12 x64 release"
@@ -82,22 +89,20 @@ if(WIN32)
         "Terze parti/Readme.en.md"
         "Terze parti/Readme.md"
 
-        "Germen Pulchrum/Lingue/en_GB/LC_MESSAGES/Lingua.po"
-
-        .clang-format
-        .clang-tidy
-        .editorconfig
-        .gitattributes
-        .gitignore
-        CMakeLists.txt
-        CMakePresets.json
-        conanfile.py
-        Descrizione.md
-        Directory.Build.props.in
-        LICENSE
-        Readme.en.md
-        Readme.md
-        TODO.md
+        ".clang-format"
+        ".clang-tidy"
+        ".editorconfig"
+        ".gitattributes"
+        ".gitignore"
+        "CMakeLists.txt"
+        "CMakePresets.json"
+        "conanfile.py"
+        "Descrizione.md"
+        "Directory.Build.props.in"
+        "LICENSE"
+        "Readme.en.md"
+        "Readme.md"
+        "TODO.md"
     )
 
     make_source_group(TARGET SolutionItems)
