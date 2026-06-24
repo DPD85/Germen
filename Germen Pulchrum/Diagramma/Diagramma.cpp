@@ -5,11 +5,18 @@
 #include "Vec2.h"
 
 #include <cgraph.h>
+#include <colorprocs.h>
 #include <gvc.h>
 #include <gvplugin.h>
 
 namespace Diagramma
 {
+    struct Colore
+    {
+        ImColor colore;
+        bool valido;
+    };
+
     // Numero di punti tipografici per pollice.
     static const constexpr float PUNTI_PER_POLLICE = 72.0f;
 
@@ -36,33 +43,18 @@ namespace Diagramma
     static GVC_t *contestoGV      = nullptr;
     static Agraph_t *currentGraph = nullptr;
 
+    static void DisegnaNodi(ImDrawList *const draw, const Vec2 &cursorPos);
     static void DisegnaArchi(ImDrawList *const draw, const Vec2 &cursorPos, Agnode_t *const n);
     static void DisegnaPuntaFreccia(ImDrawList *const lista, const Vec2 &apice, const Vec2 &da, ImU32 colore);
     static void DisegnaScritta(
         ImDrawList *const draw,
         const Vec2 &cursorPos,
         const textlabel_t *const label,
-        ImU32 colore,
+        ImU32 colorePredefinito,
         const pointf *const posizione = nullptr);
-
-    /// @brief Converte un punto dal sistema di coordinate usato da Graphviz a pixel.
-    /// @param punto Il punto da convertire in punti per pollice.
-    /// @param altezzaDiagramma L'altezza totale del diagramma in punti per pollice.
-    /// @param origine L'origine del diagramma in pixel.
-    /// @return Le coordinate del punto convertite in pixel e ribaltate sull'asse x (sotto-sopra).
-    static Vec2 ConvertiPunto(const Vec2 &punto, const float altezzaDiagramma, const Vec2 &origine)
-    {
-        // Ribalto il diagramma in orizzontale (intorno all'asse x).
-        Vec2 p(punto.x, altezzaDiagramma - punto.y);
-
-        // Conversione da punti tipografici a pixel.
-        p *= PIXEL_PER_PUNTO;
-
-        // Traslazione del punto rispetto alla posizione del diagramma sullo schermo.
-        p += origine;
-
-        return p;
-    }
+    static Colore EstraiColore(void *oggetto, const char *nome, ImColor colorePredefinito);
+    static Colore EstraiColore(const char *nome, ImColor colorePredefinito);
+    static Vec2 ConvertiPunto(const Vec2 &punto, const float altezzaDiagramma, const Vec2 &origine);
 
     bool Inizializza()
     {
@@ -79,25 +71,27 @@ namespace Diagramma
     {
         // ----- Costruzione e disposizione diagramma
 
-        Agraph_t *newGraph = agmemread(codice.c_str());
+        {
+            Agraph_t *newGraph = agmemread(codice.c_str());
 
-        if (!newGraph)
-        {
-            // sintassi non valida: mantenere a video l'ultimo layout valido,
-            // mostrare l'errore catturato (vedi 4.3)
-        }
-        else
-        {
-            if (currentGraph)
+            if (!newGraph)
             {
-                gvFreeLayout(contestoGV, currentGraph);
-                agclose(currentGraph);
+                // sintassi non valida: mantenere a video l'ultimo layout valido,
+                // mostrare l'errore catturato (vedi 4.3)
             }
-            gvLayout(contestoGV, newGraph, "dot");
-            currentGraph = newGraph;
-        }
+            else
+            {
+                if (currentGraph)
+                {
+                    gvFreeLayout(contestoGV, currentGraph);
+                    agclose(currentGraph);
+                }
+                gvLayout(contestoGV, newGraph, "dot");
+                currentGraph = newGraph;
+            }
 
-        if (!currentGraph) return;
+            if (!currentGraph) return;
+        }
 
         // Da qui in vanti currentGraph contiene il diagramma da disegnare.
 
@@ -106,26 +100,35 @@ namespace Diagramma
         ImDrawList *draw     = ImGui::GetWindowDrawList();
         const Vec2 cursorPos = ImGui::GetCursorScreenPos();
 
-        // -----
-
-        const float altezzaDiagramma = static_cast<float>(GD_bb(currentGraph).UR.y);
-
         // ----- Disegna lo sfondo del diagramma
 
         {
-            // GD_bb(currentGraph) = bounding box del diagramma.
-            //   .LL = vertice min della bounding box.
-            //   .UR = vertice max della bounding box.
+            const Colore colore = EstraiColore(currentGraph, "bgcolor", IM_COL32(255, 255, 255, 255));
+            if (colore.valido)
+            {
+                // GD_bb(currentGraph) = bounding box del diagramma.
+                //   .LL = vertice min della bounding box.
+                //   .UR = vertice max della bounding box.
 
-            // Coordinate punto max della bounding box del diagramma.
-            Vec2 posizione = Vec2(GD_bb(currentGraph).UR) * PIXEL_PER_PUNTO;
+                // Coordinate punto max della bounding box del diagramma.
+                const Vec2 posizione = Vec2(GD_bb(currentGraph).UR) * PIXEL_PER_PUNTO;
 
-            Vec2 pmin(cursorPos.x, cursorPos.y);
-            Vec2 pmax = cursorPos + posizione;
-            draw->AddRectFilled(pmin, pmax, IM_COL32(255, 255, 255, 255));
+                const Vec2 min(cursorPos.x, cursorPos.y);
+                const Vec2 max = cursorPos + posizione;
+                draw->AddRectFilled(min, max, colore.colore);
+            }
         }
 
-        // ----- Disegna i nodi
+        // -----
+
+        DisegnaNodi(draw, cursorPos);
+    }
+
+    static void DisegnaNodi(ImDrawList *const draw, const Vec2 &cursorPos)
+    {
+        const float altezzaDiagramma = static_cast<float>(GD_bb(currentGraph).UR.y);
+
+        // -----
 
         for (Agnode_t *nodo = agfstnode(currentGraph); nodo; nodo = agnxtnode(currentGraph, nodo))
         {
@@ -136,6 +139,9 @@ namespace Diagramma
 
             // Coordinate del centro del nodo.
             const pointf &centro = ND_coord(nodo);
+
+            const Colore coloreBordo       = EstraiColore(nodo, "color", IM_COL32(0, 0, 0, 255));
+            const Colore coloreRiempimento = EstraiColore(nodo, "fillcolor", IM_COL32(255, 255, 255, 255));
 
             const shape_desc *shape = ND_shape(nodo);
             if (std::strcmp(shape->name, "diamond") == 0)
@@ -148,16 +154,17 @@ namespace Diagramma
                 const Vec2 destra =
                     ConvertiPunto({ centro.x + metàDimensione.x, centro.y }, altezzaDiagramma, cursorPos);
 
-                draw->AddQuadFilled(cima, destra, fondo, sinistra, IM_COL32(255, 255, 255, 255));
-                draw->AddQuad(cima, destra, fondo, sinistra, IM_COL32(0, 0, 0, 255));
+                if (coloreRiempimento.valido)
+                    draw->AddQuadFilled(cima, destra, fondo, sinistra, coloreRiempimento.colore);
+                draw->AddQuad(cima, destra, fondo, sinistra, coloreBordo.colore);
             }
             else if (std::strcmp(shape->name, "ellipse") == 0 || std::strcmp(shape->name, "oval") == 0)
             {
                 const Vec2 raggio        = metàDimensione * PIXEL_PER_PUNTO;
                 const Vec2 centroInPixel = ConvertiPunto(centro, altezzaDiagramma, cursorPos);
 
-                draw->AddEllipseFilled(centroInPixel, raggio, IM_COL32(255, 255, 255, 255));
-                draw->AddEllipse(centroInPixel, raggio, IM_COL32(0, 0, 0, 255));
+                if (coloreRiempimento.valido) draw->AddEllipseFilled(centroInPixel, raggio, coloreRiempimento.colore);
+                draw->AddEllipse(centroInPixel, raggio, coloreBordo.colore);
             }
             else if (std::strcmp(shape->name, "circle") == 0)
             {
@@ -165,8 +172,8 @@ namespace Diagramma
                 const float raggio       = metàDimensione.x * PIXEL_PER_PUNTO;
                 const Vec2 centroInPixel = ConvertiPunto(centro, altezzaDiagramma, cursorPos);
 
-                draw->AddCircleFilled(centroInPixel, raggio, IM_COL32(255, 255, 255, 255));
-                draw->AddCircle(centroInPixel, raggio, IM_COL32(0, 0, 0, 255));
+                if (coloreRiempimento.valido) draw->AddCircleFilled(centroInPixel, raggio, coloreRiempimento.colore);
+                draw->AddCircle(centroInPixel, raggio, coloreBordo.colore);
             }
             // Default è box, rect oppure rectangle.
             else
@@ -174,8 +181,8 @@ namespace Diagramma
                 const Vec2 min = ConvertiPunto(centro - metàDimensione, altezzaDiagramma, cursorPos);
                 const Vec2 max = ConvertiPunto(centro + metàDimensione, altezzaDiagramma, cursorPos);
 
-                draw->AddRectFilled(min, max, IM_COL32(255, 255, 255, 255));
-                draw->AddRect(min, max, IM_COL32(0, 0, 0, 255));
+                if (coloreRiempimento.valido) draw->AddRectFilled(min, max, coloreRiempimento.colore);
+                draw->AddRect(min, max, coloreBordo.colore);
             }
 
             // ----- Disegno etichette
@@ -189,7 +196,7 @@ namespace Diagramma
         }
     }
 
-    static void Diagramma::DisegnaArchi(ImDrawList *const draw, const Vec2 &cursorPos, Agnode_t *const nodo)
+    static void DisegnaArchi(ImDrawList *const draw, const Vec2 &cursorPos, Agnode_t *const nodo)
     {
         const float altezzaDiagramma = static_cast<float>(GD_bb(currentGraph).UR.y);
 
@@ -197,6 +204,8 @@ namespace Diagramma
         {
             const splines *spline = ED_spl(arco);
             if (!spline) continue;
+
+            const Colore colore = EstraiColore(arco, "color", IM_COL32(0, 0, 0, 255));
 
             for (size_t i = 0; i < spline->size; ++i)
             {
@@ -212,7 +221,7 @@ namespace Diagramma
                     const Vec2 c2 = ConvertiPunto(bezier.list[j + 2], altezzaDiagramma, cursorPos);
                     const Vec2 p1 = ConvertiPunto(bezier.list[j + 3], altezzaDiagramma, cursorPos);
 
-                    draw->AddBezierCubic(p0, c1, c2, p1, IM_COL32(0, 0, 0, 255), 1.0f);
+                    draw->AddBezierCubic(p0, c1, c2, p1, colore.colore, 1.0f);
                 }
 
                 // Punta della freccia all'inizio dell'arco.
@@ -220,7 +229,7 @@ namespace Diagramma
                 {
                     const Vec2 apice = ConvertiPunto(bezier.sp, altezzaDiagramma, cursorPos);
                     const Vec2 da    = ConvertiPunto(bezier.list[1], altezzaDiagramma, cursorPos);
-                    DisegnaPuntaFreccia(draw, apice, da, IM_COL32(0, 0, 0, 255));
+                    DisegnaPuntaFreccia(draw, apice, da, colore.colore);
                 }
 
                 // Punta della freccia alla fine dell'arco.
@@ -228,7 +237,7 @@ namespace Diagramma
                 {
                     const Vec2 apice = ConvertiPunto(bezier.ep, altezzaDiagramma, cursorPos);
                     const Vec2 da    = ConvertiPunto(bezier.list[bezier.size - 1], altezzaDiagramma, cursorPos);
-                    DisegnaPuntaFreccia(draw, apice, da, IM_COL32(0, 0, 0, 255));
+                    DisegnaPuntaFreccia(draw, apice, da, colore.colore);
                 }
             }
 
@@ -265,7 +274,7 @@ namespace Diagramma
         ImDrawList *const draw,
         const Vec2 &cursorPos,
         const textlabel_t *const label,
-        ImU32 colore,
+        ImU32 colorePredefinito,
         const pointf *const posizione)
     {
         if (!label || !label->text || label->text[0] == '\0') return;
@@ -273,6 +282,7 @@ namespace Diagramma
 
         const float altezzaDiagramma = static_cast<float>(GD_bb(currentGraph).UR.y);
         const Vec2 dimensioneTesto   = ImGui::CalcTextSize(label->text);
+        const Colore colore          = EstraiColore(label->fontcolor, colorePredefinito);
 
         Vec2 pos;
 
@@ -281,6 +291,53 @@ namespace Diagramma
 
         pos -= dimensioneTesto / 2.0f;
 
-        draw->AddText(pos, colore, label->text);
+        draw->AddText(pos, colore.colore, label->text);
+    }
+
+    /// @brief Recupera ed estrae un colore in formato Graphviz da una proprietà di un oggetto di Graphviz e lo converte
+    /// in formato ImGui.
+    /// @param oggetto L'oggetto di Graphviz.
+    /// @param nome Il nome della proprietà dell'oggetto.
+    /// @param colorePredefinito Il colore in formato ImGui da restituire se l'estrazione fallisce.
+    /// @return Il colore estratto con validità a True in caso di successo, il colore predefinito e la validità a False
+    ///         in caso di fallimento.
+    static Colore EstraiColore(void *oggetto, const char *nome, ImColor colorePredefinito)
+    {
+        const char *colore = agget(oggetto, const_cast<char *>(nome));
+        return EstraiColore(colore, colorePredefinito);
+    }
+
+    /// @brief Data una stringa con un colore in formato Graphviz, ne estrae il colore e lo converte in formato ImGui.
+    /// @param colore Il colore in formato Graphviz.
+    /// @param colorePredefinito Il colore in formato ImGui da restituire se l'estrazione fallisce.
+    /// @return Il colore estratto con validità a True in caso di successo, il colore predefinito e la validità a False
+    ///         in caso di fallimento.
+    static Colore EstraiColore(const char *colore, ImColor colorePredefinito)
+    {
+        if (!colore || colore[0] == '\0') return { colorePredefinito, false };
+
+        gvcolor_t coloreGV;
+        if (colorxlate(colore, &coloreGV, RGBA_BYTE) == COLOR_OK)
+            return { IM_COL32(coloreGV.u.rgba[0], coloreGV.u.rgba[1], coloreGV.u.rgba[2], coloreGV.u.rgba[3]), true };
+        else return { colorePredefinito, false };
+    }
+
+    /// @brief Converte un punto dal sistema di coordinate usato da Graphviz a pixel (sistema di riferimento di ImGui).
+    /// @param punto Il punto da convertire in punti per pollice.
+    /// @param altezzaDiagramma L'altezza totale del diagramma in punti per pollice.
+    /// @param origine L'origine del diagramma in pixel.
+    /// @return Le coordinate del punto convertite in pixel e ribaltate sull'asse x (sotto-sopra).
+    static Vec2 ConvertiPunto(const Vec2 &punto, const float altezzaDiagramma, const Vec2 &origine)
+    {
+        // Ribalto il diagramma in orizzontale (intorno all'asse x).
+        Vec2 p(punto.x, altezzaDiagramma - punto.y);
+
+        // Conversione da punti tipografici a pixel.
+        p *= PIXEL_PER_PUNTO;
+
+        // Traslazione del punto rispetto alla posizione del diagramma sullo schermo.
+        p += origine;
+
+        return p;
     }
 }

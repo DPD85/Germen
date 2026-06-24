@@ -1,7 +1,7 @@
 ﻿#include "IntestazionePrecompilata.h"
 
 #include "CodaCancellazione.h"
-#include "Diagramma.h"
+#include "Diagramma/Diagramma.h"
 #include "Disegnatore.h"
 #include "Impostazioni.h"
 #include "Internazionalizzazione.h"

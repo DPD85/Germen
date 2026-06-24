@@ -1,6 +1,5 @@
 ﻿#include "IntestazionePrecompilata.h"
 
-#include "CodaCancellazione.h"
 #include "CostantiEdAltro.h"
 #include "Diagramma/Diagramma.h"
 #include "Disegnatore.h"
@@ -284,16 +283,18 @@ static void FinestraMarkDown()
 // ----- Graphviz -----
 
 const std::string dotText = reinterpret_cast<const char *>(u8R"(digraph Flusso {
+    bgcolor="#DFFDFF"
+
     node []
 
     start  [shape=ellipse,  fillcolor="#4CAF50", color="#388E3C", label="Inizio"]
-    check  [shape=diamond,  fillcolor="#FFC107", color="#F57F17", label="Condizione?"]
+    check  [shape=diamond,  fillcolor="#FFC107", color="#F57F17", label="Condizione?", fontcolor="blue"]
     action [shape=box,      fillcolor="#2196F3", color="#1565C0", label="Azione"]
     end    [shape=ellipse,  fillcolor="#F44336", color="#B71C1C", label="Fine"]
 
     start  -> check  [label="avvia", dir="both"]
-    check  -> action [label="sì", color="#4CAF50"]
-    check  -> end    [label="no", color="#F44336"]
+    check  -> action [label="sì", color="#4CAF50", fontcolor="#4CAF50"]
+    check  -> end    [label="no", color="#F44336", fontcolor="#F44336"]
     action -> end
 })");
 

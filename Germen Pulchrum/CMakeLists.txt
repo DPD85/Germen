@@ -106,6 +106,8 @@ target_include_directories(Germen
     PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}"
         "${CMAKE_CURRENT_BINARY_DIR}/Generated"
+        # Così da poter usare i file di intestazione privati di Graphviz.
+        "${Graphviz_BINARY_DIR}"
 )
 
 target_link_libraries(Germen
