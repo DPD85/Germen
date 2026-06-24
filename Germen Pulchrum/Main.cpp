@@ -1,5 +1,7 @@
 ﻿#include "IntestazionePrecompilata.h"
 
+#include "CodaCancellazione.h"
+#include "Diagramma.h"
 #include "Disegnatore.h"
 #include "Impostazioni.h"
 #include "Internazionalizzazione.h"
@@ -8,6 +10,8 @@ using namespace boost::locale;
 
 int main(int, char **)
 {
+    CodaCancellazione eliminatori;
+
     // ----- -----
 
     CaricaImpostazioni();
@@ -28,7 +32,7 @@ int main(int, char **)
         std::cout << '\n';
 
         const std::locale localeCorrente = std::locale();
-        const auto &proprietà = std::use_facet<info>(localeCorrente);
+        const auto &proprietà            = std::use_facet<info>(localeCorrente);
         std::cout << "Internazionalizzazione utilizzata:\n";
         std::cout << "  Lingua  : " << proprietà.language() << '\n'
                   << "  Stato   : " << proprietà.country() << '\n'
@@ -56,6 +60,20 @@ int main(int, char **)
             }
         }
     }
+
+    // ----- -----
+
+    if (!Diagramma::Inizializza())
+    {
+        std::cout << "[Errore] Impossibile inizializzare il disegno dei diagrammi.\n";
+        return EXIT_FAILURE;
+    }
+
+    eliminatori.Aggiungi(
+        []
+        {
+            Diagramma::Rilascia();
+        });
 
     // ----- -----
 
