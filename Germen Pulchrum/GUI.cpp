@@ -300,6 +300,11 @@ const std::string dotText = reinterpret_cast<const char *>(u8R"(digraph Flusso {
 
 static void FinestraDiagramma()
 {
-    if (ImGui::Begin("Diagramma")) Diagramma::Disegna(dotText);
+    if (ImGui::Begin("Diagramma"))
+    {
+        ImGui::SliderFloat("Scala", &Diagramma::Scala, 0.1f, 2.0f);
+        ImGui::Spacing();
+        Diagramma::Disegna(dotText);
+    }
     ImGui::End();
 }

@@ -11,12 +11,6 @@
 
 namespace Diagramma
 {
-    struct Colore
-    {
-        ImColor colore;
-        bool valido;
-    };
-
     // Numero di punti tipografici per pollice.
     static const constexpr float PUNTI_PER_POLLICE = 72.0f;
 
@@ -28,6 +22,12 @@ namespace Diagramma
     // allora
     //  numero pixel = (punto tipografico) * (DPI / 72)
     static const constexpr float PIXEL_PER_PUNTO = 96.0f / PUNTI_PER_POLLICE;
+
+    struct Colore
+    {
+        ImColor colore;
+        bool valido;
+    };
 
     extern "C"
     {
@@ -42,6 +42,7 @@ namespace Diagramma
 
     static GVC_t *contestoGV      = nullptr;
     static Agraph_t *currentGraph = nullptr;
+    float Scala                   = 1.5f;
 
     static void DisegnaNodi(ImDrawList *const draw, const Vec2 &cursorPos);
     static void DisegnaArchi(ImDrawList *const draw, const Vec2 &cursorPos, Agnode_t *const n);
@@ -111,10 +112,10 @@ namespace Diagramma
                 //   .UR = vertice max della bounding box.
 
                 // Coordinate punto max della bounding box del diagramma.
-                const Vec2 posizione = Vec2(GD_bb(currentGraph).UR) * PIXEL_PER_PUNTO;
+                const Vec2 dimensione = Vec2(GD_bb(currentGraph).UR) * PIXEL_PER_PUNTO * Scala;
 
                 const Vec2 min(cursorPos.x, cursorPos.y);
-                const Vec2 max = cursorPos + posizione;
+                const Vec2 max = cursorPos + dimensione;
                 draw->AddRectFilled(min, max, colore.colore);
             }
         }
@@ -160,7 +161,7 @@ namespace Diagramma
             }
             else if (std::strcmp(shape->name, "ellipse") == 0 || std::strcmp(shape->name, "oval") == 0)
             {
-                const Vec2 raggio        = metàDimensione * PIXEL_PER_PUNTO;
+                const Vec2 raggio        = metàDimensione * PIXEL_PER_PUNTO * Scala;
                 const Vec2 centroInPixel = ConvertiPunto(centro, altezzaDiagramma, cursorPos);
 
                 if (coloreRiempimento.valido) draw->AddEllipseFilled(centroInPixel, raggio, coloreRiempimento.colore);
@@ -169,7 +170,7 @@ namespace Diagramma
             else if (std::strcmp(shape->name, "circle") == 0)
             {
                 // Graphviz garantisce larghezza == altezza per circle.
-                const float raggio       = metàDimensione.x * PIXEL_PER_PUNTO;
+                const float raggio       = metàDimensione.x * PIXEL_PER_PUNTO * Scala;
                 const Vec2 centroInPixel = ConvertiPunto(centro, altezzaDiagramma, cursorPos);
 
                 if (coloreRiempimento.valido) draw->AddCircleFilled(centroInPixel, raggio, coloreRiempimento.colore);
@@ -187,8 +188,10 @@ namespace Diagramma
 
             // ----- Disegno etichette
 
-            const textlabel_t *const label = ND_label(nodo);
-            DisegnaScritta(draw, cursorPos, label, IM_COL32(0, 0, 0, 255), &centro);
+            {
+                 const textlabel_t *const label = ND_label(nodo);
+                 DisegnaScritta(draw, cursorPos, label, IM_COL32(0, 0, 0, 255), &centro);
+            }
 
             // -----
 
@@ -243,8 +246,10 @@ namespace Diagramma
 
             // ----- Disegno etichetta
 
-            const textlabel_t *const label = ED_label(arco);
-            DisegnaScritta(draw, cursorPos, label, IM_COL32(0, 0, 0, 255));
+            {
+                const textlabel_t *const label = ED_label(arco);
+                DisegnaScritta(draw, cursorPos, label, IM_COL32(0, 0, 0, 255));
+            }
         }
     }
 
@@ -261,11 +266,11 @@ namespace Diagramma
         static constexpr float LARGHEZZA_FRECCIA = LUNGHEZZA_FRECCIA * 0.5f; // pixel
 
         // Punto centrale della base del triangolo, arretrata rispetto alla punta
-        const Vec2 base = apice - direzione * LUNGHEZZA_FRECCIA;
+        const Vec2 base = apice - direzione * LUNGHEZZA_FRECCIA * Scala;
 
         const Vec2 v0 = apice;
-        const Vec2 v1 = base + n * LARGHEZZA_FRECCIA;
-        const Vec2 v2 = base - n * LARGHEZZA_FRECCIA;
+        const Vec2 v1 = base + n * LARGHEZZA_FRECCIA * Scala;
+        const Vec2 v2 = base - n * LARGHEZZA_FRECCIA * Scala;
 
         draw->AddTriangleFilled(v0, v1, v2, colore);
     }
@@ -334,6 +339,9 @@ namespace Diagramma
 
         // Conversione da punti tipografici a pixel.
         p *= PIXEL_PER_PUNTO;
+
+        // Cambio di scala del diagramma.
+        p *= Scala;
 
         // Traslazione del punto rispetto alla posizione del diagramma sullo schermo.
         p += origine;
