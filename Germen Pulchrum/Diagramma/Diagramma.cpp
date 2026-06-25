@@ -2,6 +2,8 @@
 
 #include "Diagramma.h"
 
+#include "Disegnatore.h"
+#include "Impostazioni.h"
 #include "Vec2.h"
 
 #include <cgraph.h>
@@ -42,7 +44,8 @@ namespace Diagramma
 
     static GVC_t *contestoGV      = nullptr;
     static Agraph_t *currentGraph = nullptr;
-    float Scala                   = 1.5f;
+    static float Scala            = 1.0f;
+    float ScalaDiagramma          = 1.5f;
 
     static void DisegnaNodi(ImDrawList *const draw, const Vec2 &cursorPos);
     static void DisegnaArchi(ImDrawList *const draw, const Vec2 &cursorPos, Agnode_t *const n);
@@ -100,6 +103,10 @@ namespace Diagramma
 
         ImDrawList *draw     = ImGui::GetWindowDrawList();
         const Vec2 cursorPos = ImGui::GetCursorScreenPos();
+
+        // ----- Fattore di scala del diagramma
+
+        Scala = ScalaDPI * Impostazioni.scalaGUI * ScalaDiagramma;
 
         // ----- Disegna lo sfondo del diagramma
 
@@ -189,8 +196,8 @@ namespace Diagramma
             // ----- Disegno etichette
 
             {
-                 const textlabel_t *const label = ND_label(nodo);
-                 DisegnaScritta(draw, cursorPos, label, IM_COL32(0, 0, 0, 255), &centro);
+                const textlabel_t *const label = ND_label(nodo);
+                DisegnaScritta(draw, cursorPos, label, IM_COL32(0, 0, 0, 255), &centro);
             }
 
             // -----
@@ -286,8 +293,13 @@ namespace Diagramma
         if (!posizione && !label->set) return;
 
         const float altezzaDiagramma = static_cast<float>(GD_bb(currentGraph).UR.y);
-        const Vec2 dimensioneTesto   = ImGui::CalcTextSize(label->text);
-        const Colore colore          = EstraiColore(label->fontcolor, colorePredefinito);
+
+        ImFont *const font         = ImGui::GetIO().Fonts->Fonts[0];
+        const float dimensioneFont = static_cast<float>(label->fontsize) * Scala;
+        const Vec2 dimensioneTesto =
+            font->CalcTextSizeA(dimensioneFont, std::numeric_limits<float>::max(), -1.0f, label->text);
+
+        const Colore colore = EstraiColore(label->fontcolor, colorePredefinito);
 
         Vec2 pos;
 
@@ -296,7 +308,7 @@ namespace Diagramma
 
         pos -= dimensioneTesto / 2.0f;
 
-        draw->AddText(pos, colore.colore, label->text);
+        draw->AddText(font, dimensioneFont, pos, colore.colore, label->text);
     }
 
     /// @brief Recupera ed estrae un colore in formato Graphviz da una proprietà di un oggetto di Graphviz e lo converte
@@ -340,7 +352,7 @@ namespace Diagramma
         // Conversione da punti tipografici a pixel.
         p *= PIXEL_PER_PUNTO;
 
-        // Cambio di scala del diagramma.
+        // Fattore di scala del diagramma.
         p *= Scala;
 
         // Traslazione del punto rispetto alla posizione del diagramma sullo schermo.

@@ -2,7 +2,7 @@
 
 namespace Diagramma
 {
-    extern float Scala;
+    extern float ScalaDiagramma;
 
     bool Inizializza();
     void Rilascia();

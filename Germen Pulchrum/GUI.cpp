@@ -302,7 +302,7 @@ static void FinestraDiagramma()
 {
     if (ImGui::Begin("Diagramma"))
     {
-        ImGui::SliderFloat("Scala", &Diagramma::Scala, 0.1f, 2.0f);
+        ImGui::SliderFloat("Scala", &Diagramma::ScalaDiagramma, 0.1f, 2.0f);
         ImGui::Spacing();
         Diagramma::Disegna(dotText);
     }
