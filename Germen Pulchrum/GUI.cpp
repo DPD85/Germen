@@ -28,8 +28,6 @@ static void FinestraMarkDown();
 void InizializzaGUI()
 {
     ScalaGUIPercentuale = static_cast<int>(Impostazioni.scalaGUI * 100); // [%]
-
-    ImGui::GetPlatformIO().Platform_LocaleDecimalPoint = '.';
 }
 
 void GUI()
