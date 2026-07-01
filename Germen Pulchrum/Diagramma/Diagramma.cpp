@@ -47,12 +47,12 @@ namespace Diagramma
     static float Scala            = 1.0f;
     float ScalaDiagramma          = 1.5f;
 
-    static void DisegnaNodi(ImDrawList *const draw, const Vec2 &cursorPos);
-    static void DisegnaArchi(ImDrawList *const draw, const Vec2 &cursorPos, Agnode_t *const n);
+    static void DisegnaNodi(ImDrawList *const draw, const Vec2 &posDiagramma);
+    static void DisegnaArchi(ImDrawList *const draw, const Vec2 &posDiagramma, Agnode_t *const n);
     static void DisegnaPuntaFreccia(ImDrawList *const lista, const Vec2 &apice, const Vec2 &da, ImU32 colore);
     static void DisegnaScritta(
         ImDrawList *const draw,
-        const Vec2 &cursorPos,
+        const Vec2 &posDiagramma,
         const textlabel_t *const label,
         ImU32 colorePredefinito,
         const pointf *const posizione = nullptr);
@@ -101,8 +101,27 @@ namespace Diagramma
 
         // -----
 
-        ImDrawList *draw     = ImGui::GetWindowDrawList();
-        const Vec2 cursorPos = ImGui::GetCursorScreenPos();
+        ImDrawList *draw      = ImGui::GetWindowDrawList();
+        const Vec2 cursorPos  = ImGui::GetCursorScreenPos();
+        const Vec2 spaceAvail = ImGui::GetContentRegionAvail();
+
+        // GD_bb(currentGraph) = bounding box del diagramma:
+        // .LL = coordinate vertice min della bounding box.
+        // .UR = coordinate vertice max della bounding box.
+
+        // Coordinate punto max della bounding box del diagramma.
+        const Vec2 dimensione = Vec2(GD_bb(currentGraph).UR) * PIXEL_PER_PUNTO * Scala;
+
+        // ----- Allineamento diagramma
+
+        // Allinea al centro.
+        // const Vec2 posDiagramma(cursorPos.x + (spaceAvail.x - dimensione.x) / 2.0f, cursorPos.y);
+
+        // Allinea a destra.
+        // const Vec2 posDiagramma(cursorPos.x + (spaceAvail.x - dimensione.x), cursorPos.y);
+
+        // Allinea a sinistra.
+        const Vec2 posDiagramma(cursorPos);
 
         // ----- Fattore di scala del diagramma
 
@@ -114,25 +133,18 @@ namespace Diagramma
             const Colore colore = EstraiColore(currentGraph, "bgcolor", IM_COL32(255, 255, 255, 255));
             if (colore.valido)
             {
-                // GD_bb(currentGraph) = bounding box del diagramma.
-                //   .LL = vertice min della bounding box.
-                //   .UR = vertice max della bounding box.
-
-                // Coordinate punto max della bounding box del diagramma.
-                const Vec2 dimensione = Vec2(GD_bb(currentGraph).UR) * PIXEL_PER_PUNTO * Scala;
-
-                const Vec2 min(cursorPos.x, cursorPos.y);
-                const Vec2 max = cursorPos + dimensione;
+                const Vec2 min = posDiagramma;
+                const Vec2 max = posDiagramma + dimensione;
                 draw->AddRectFilled(min, max, colore.colore);
             }
         }
 
         // -----
 
-        DisegnaNodi(draw, cursorPos);
+        DisegnaNodi(draw, posDiagramma);
     }
 
-    static void DisegnaNodi(ImDrawList *const draw, const Vec2 &cursorPos)
+    static void DisegnaNodi(ImDrawList *const draw, const Vec2 &posDiagramma)
     {
         const float altezzaDiagramma = static_cast<float>(GD_bb(currentGraph).UR.y);
 
@@ -154,13 +166,14 @@ namespace Diagramma
             const shape_desc *shape = ND_shape(nodo);
             if (std::strcmp(shape->name, "diamond") == 0)
             {
-                const Vec2 cima = ConvertiPunto({ centro.x, centro.y + metàDimensione.y }, altezzaDiagramma, cursorPos);
+                const Vec2 cima =
+                    ConvertiPunto({ centro.x, centro.y + metàDimensione.y }, altezzaDiagramma, posDiagramma);
                 const Vec2 fondo =
-                    ConvertiPunto({ centro.x, centro.y - metàDimensione.y }, altezzaDiagramma, cursorPos);
+                    ConvertiPunto({ centro.x, centro.y - metàDimensione.y }, altezzaDiagramma, posDiagramma);
                 const Vec2 sinistra =
-                    ConvertiPunto({ centro.x - metàDimensione.x, centro.y }, altezzaDiagramma, cursorPos);
+                    ConvertiPunto({ centro.x - metàDimensione.x, centro.y }, altezzaDiagramma, posDiagramma);
                 const Vec2 destra =
-                    ConvertiPunto({ centro.x + metàDimensione.x, centro.y }, altezzaDiagramma, cursorPos);
+                    ConvertiPunto({ centro.x + metàDimensione.x, centro.y }, altezzaDiagramma, posDiagramma);
 
                 if (coloreRiempimento.valido)
                     draw->AddQuadFilled(cima, destra, fondo, sinistra, coloreRiempimento.colore);
@@ -169,7 +182,7 @@ namespace Diagramma
             else if (std::strcmp(shape->name, "ellipse") == 0 || std::strcmp(shape->name, "oval") == 0)
             {
                 const Vec2 raggio        = metàDimensione * PIXEL_PER_PUNTO * Scala;
-                const Vec2 centroInPixel = ConvertiPunto(centro, altezzaDiagramma, cursorPos);
+                const Vec2 centroInPixel = ConvertiPunto(centro, altezzaDiagramma, posDiagramma);
 
                 if (coloreRiempimento.valido) draw->AddEllipseFilled(centroInPixel, raggio, coloreRiempimento.colore);
                 draw->AddEllipse(centroInPixel, raggio, coloreBordo.colore);
@@ -178,7 +191,7 @@ namespace Diagramma
             {
                 // Graphviz garantisce larghezza == altezza per circle.
                 const float raggio       = metàDimensione.x * PIXEL_PER_PUNTO * Scala;
-                const Vec2 centroInPixel = ConvertiPunto(centro, altezzaDiagramma, cursorPos);
+                const Vec2 centroInPixel = ConvertiPunto(centro, altezzaDiagramma, posDiagramma);
 
                 if (coloreRiempimento.valido) draw->AddCircleFilled(centroInPixel, raggio, coloreRiempimento.colore);
                 draw->AddCircle(centroInPixel, raggio, coloreBordo.colore);
@@ -186,8 +199,8 @@ namespace Diagramma
             // Default è box, rect oppure rectangle.
             else
             {
-                const Vec2 min = ConvertiPunto(centro - metàDimensione, altezzaDiagramma, cursorPos);
-                const Vec2 max = ConvertiPunto(centro + metàDimensione, altezzaDiagramma, cursorPos);
+                const Vec2 min = ConvertiPunto(centro - metàDimensione, altezzaDiagramma, posDiagramma);
+                const Vec2 max = ConvertiPunto(centro + metàDimensione, altezzaDiagramma, posDiagramma);
 
                 if (coloreRiempimento.valido) draw->AddRectFilled(min, max, coloreRiempimento.colore);
                 draw->AddRect(min, max, coloreBordo.colore);
@@ -197,16 +210,16 @@ namespace Diagramma
 
             {
                 const textlabel_t *const label = ND_label(nodo);
-                DisegnaScritta(draw, cursorPos, label, IM_COL32(0, 0, 0, 255), &centro);
+                DisegnaScritta(draw, posDiagramma, label, IM_COL32(0, 0, 0, 255), &centro);
             }
 
             // -----
 
-            DisegnaArchi(draw, cursorPos, nodo);
+            DisegnaArchi(draw, posDiagramma, nodo);
         }
     }
 
-    static void DisegnaArchi(ImDrawList *const draw, const Vec2 &cursorPos, Agnode_t *const nodo)
+    static void DisegnaArchi(ImDrawList *const draw, const Vec2 &posDiagramma, Agnode_t *const nodo)
     {
         const float altezzaDiagramma = static_cast<float>(GD_bb(currentGraph).UR.y);
 
@@ -226,10 +239,10 @@ namespace Diagramma
                 // bezier.list[0] è il punto di partenza della prima bezier.
                 for (size_t j = 0; j + 3 < bezier.size; j += 3)
                 {
-                    const Vec2 p0 = ConvertiPunto(bezier.list[j + 0], altezzaDiagramma, cursorPos);
-                    const Vec2 c1 = ConvertiPunto(bezier.list[j + 1], altezzaDiagramma, cursorPos);
-                    const Vec2 c2 = ConvertiPunto(bezier.list[j + 2], altezzaDiagramma, cursorPos);
-                    const Vec2 p1 = ConvertiPunto(bezier.list[j + 3], altezzaDiagramma, cursorPos);
+                    const Vec2 p0 = ConvertiPunto(bezier.list[j + 0], altezzaDiagramma, posDiagramma);
+                    const Vec2 c1 = ConvertiPunto(bezier.list[j + 1], altezzaDiagramma, posDiagramma);
+                    const Vec2 c2 = ConvertiPunto(bezier.list[j + 2], altezzaDiagramma, posDiagramma);
+                    const Vec2 p1 = ConvertiPunto(bezier.list[j + 3], altezzaDiagramma, posDiagramma);
 
                     draw->AddBezierCubic(p0, c1, c2, p1, colore.colore, 1.0f);
                 }
@@ -237,16 +250,16 @@ namespace Diagramma
                 // Punta della freccia all'inizio dell'arco.
                 if (bezier.sflag)
                 {
-                    const Vec2 apice = ConvertiPunto(bezier.sp, altezzaDiagramma, cursorPos);
-                    const Vec2 da    = ConvertiPunto(bezier.list[1], altezzaDiagramma, cursorPos);
+                    const Vec2 apice = ConvertiPunto(bezier.sp, altezzaDiagramma, posDiagramma);
+                    const Vec2 da    = ConvertiPunto(bezier.list[1], altezzaDiagramma, posDiagramma);
                     DisegnaPuntaFreccia(draw, apice, da, colore.colore);
                 }
 
                 // Punta della freccia alla fine dell'arco.
                 if (bezier.eflag)
                 {
-                    const Vec2 apice = ConvertiPunto(bezier.ep, altezzaDiagramma, cursorPos);
-                    const Vec2 da    = ConvertiPunto(bezier.list[bezier.size - 1], altezzaDiagramma, cursorPos);
+                    const Vec2 apice = ConvertiPunto(bezier.ep, altezzaDiagramma, posDiagramma);
+                    const Vec2 da    = ConvertiPunto(bezier.list[bezier.size - 1], altezzaDiagramma, posDiagramma);
                     DisegnaPuntaFreccia(draw, apice, da, colore.colore);
                 }
             }
@@ -255,7 +268,7 @@ namespace Diagramma
 
             {
                 const textlabel_t *const label = ED_label(arco);
-                DisegnaScritta(draw, cursorPos, label, IM_COL32(0, 0, 0, 255));
+                DisegnaScritta(draw, posDiagramma, label, IM_COL32(0, 0, 0, 255));
             }
         }
     }
@@ -284,7 +297,7 @@ namespace Diagramma
 
     static void DisegnaScritta(
         ImDrawList *const draw,
-        const Vec2 &cursorPos,
+        const Vec2 &posDiagramma,
         const textlabel_t *const label,
         ImU32 colorePredefinito,
         const pointf *const posizione)
@@ -303,8 +316,8 @@ namespace Diagramma
 
         Vec2 pos;
 
-        if (label->set) pos = ConvertiPunto(label->pos, altezzaDiagramma, cursorPos);
-        else pos = ConvertiPunto(*posizione, altezzaDiagramma, cursorPos);
+        if (label->set) pos = ConvertiPunto(label->pos, altezzaDiagramma, posDiagramma);
+        else pos = ConvertiPunto(*posizione, altezzaDiagramma, posDiagramma);
 
         pos -= dimensioneTesto / 2.0f;
 
